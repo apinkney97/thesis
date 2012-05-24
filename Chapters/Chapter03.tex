@@ -1,0 +1,112 @@
+\chapter{A Simple Implemenation}\label{ch:paper}
+
+
+\marginpar{Mention paper here \cite{Pinkney2011}\ed appendix. Give brief overview of current
+system.}
+The majority of the work to date on this project is described in the paper \emph{Reflowable
+Documents Composed from Pre-rendered Atomic Components}\cite{Pinkney2011}, which was published and
+presented at the 2011 ACM Symposium on Document Engineering. It is also attached to this document as
+an appendix.
+
+The paper outlines a very simple approach towards a malleable document format: the source document
+is simply rendered into `galleys' of text (see \cite{Pinkney2011}, section 3) multiple times, using
+a high-quality typesetting algorithm, with each rendering using a different galley width. The
+document is thus now displayable on multiple screen sizes (each width rendering may additionally be
+scaled by the display device to simulate point-size changes) without the need for the document to be
+expensively retypeset. The `best fit' rendering is chosen at display time, based on the available
+screen width and zoom level. The current implementation of this system is built around pre-existing
+tools for the \emph{ditroff} typesetting system\cite{Kernighan1982} and Component Object Graphic
+PDF\cite{Bagley2003}.
+
+\section{Efficiency}
+\marginpar{Computational\cite{Knuth1981} \& space.}
+It is clear that computational efficiency must be maximised in order to minimise processor usage and
+battery drain. In order to do this, it will almost certainly be necessary to sacrifice storage
+efficiency; that is, filesizes are likely to be bigger. This is not necessarily a problem. Storage
+is cheap and plentiful; currently it is far more practical and cost effective to increase storage
+space than battery life. For this reason, we shall not concern ourselves too much with producing
+documents with small filesizes, and shall instead concentrate on pre-computing as much of the
+typesetting as possible, whilst retaining flexibility.
+
+\section{Handling of edge cases}
+\label{edgecases}
+\marginpar{Corner cutting? Adjusting spacing\ldots word/letter spacing, glyph reshaping.
+\cite{Bringhurst2008}}
+The work described in \cite{Pinkney2011} and outlined above does not contain any special handling
+for edge cases, although this will not be difficult to implement. In particular, the system is
+currently restricted to displaying text only in the exact manner in which it was rendered. As an
+example, let us assume that a particular point size has been selected (i.e.\ the zoom level has been
+fixed); the best fit galley is then chosen for the page width. It may be the case that this
+particular galley rendering, at this zoom level, on a page of this width results in large margins.
+Perhaps the next galley size up is too wide to display. Currently, the penalty is simply to have to
+put up with these large margins. However, there are some simple tweaks which can be used to reduce
+how noticeable this effect is. As stated in section~\ref{goodtypesetting}, whilst performing
+justification, it is occasionally appropriate to adjust letter spacing and glyph widths, in addition
+to word spacing. Whilst readjusting these three 
+parameters \emph{after} justification has taken place may reduce the typesetting quality (by making
+any of them larger or smaller than allowed by the justification rules) in certain cases it may be
+acceptable to do so, to fit the pre-rendered galley lines to a different width. Using the current
+implementation, it is particularly simple to adjust the word spacing\ed in the PDFs produced, each
+word is stored distinctly, and so can be repositioned as necessary. It is also very simple to
+reshape the glyphs, to either stretch or shrink them laterally. All PDF drawing operators are
+executed in accordance with the current \emph{transformation matrix}, which alters the coordinate
+system\cite{Adobe2001}. Glyph reshaping can thus easily be performed on any word or line by altering
+this before calling the requisite drawing operator. It is more difficult to alter the letter
+spacing, particularly in the current implementation, as this will involve looking up font metrics,
+and will be comparatively inefficient.
+
+
+\section{Examples of these principles in practice}
+Of particular interest and relevance to this thesis, is Amazon's recently announced Silk web browser
+for their new Kindle Fire platform. Silk uses a similar paradigm to that outlined in
+\cite{Pinkney2011} in order to serve web pages to the Kindle Fire, in a manner that requires less
+processing by the device itself. Amazon makes use of its extensive computing power in its Cloud
+service to prerender any webpage requested through Silk. The output is tailored specifically to the
+device, enabling, for instance, layout of tables, or image scaling, to be performed on the Cloud
+servers rather than locally on the device. Amazon has produced a five minute technical overview
+video, available at \verb+http://www.youtube.com/watch?v=_u7F_56WhHk+
+
+
+\section{Anticipated extensions}
+\marginpar{Newspaper galley creation guidelines? look into\ldots}
+Since the current work relies heavily on the setting of text into galleys, it would probably be
+pertinent to research newspaper galley creation guidelines. These may be difficult to come by, since
+newspapers have been electronically typeset for much of the last three decades. Nevertheless, the
+information must be available somewhere, and could prove invaluable.
+
+\marginpar{Device profiles\ldots what is appropriate? Image resolution? Page width renderings for
+specific screen size?}
+At some point, it will probably prove necessary to tailor the output document to the specific device
+for which it is intended. Accordingly, profiles for these devices must be devised, which contain all
+the necessary attributes to produce a document to fit. For example, image resolution must be
+considered. Is there a necessity to use hi-resolution images for a document which is to be displayed
+on a mobile phone screen? Perhaps not. Whilst a large image may be scaled down to fit, unless the
+image is required to be zoomable, it seems sensible to precompute this scaling, and remove the need
+for the device to perform it each time the image is displayed. Similarly, it may be sensible to
+generate galleys only in sizes appropriate to the device. A mobile phone is clearly going to require
+narrower renderings than a tablet, for example. Whilst each document \emph{could} include many
+resolutions of each image, and a vast range of galley width renderings suitable for many devices, it
+seems rather wasteful to do so when 
+these tailored versions can easily be produced. It is envisaged that such a system would run on a
+user's desktop or laptop PC, which would store the canonical, high-level representation of the
+document, and that the apparent copying of that document to a display device would in fact create a
+bespoke version of the document, specifically to fit the device, yet still with enough flexibility
+to allow the font size to be changed within sensible limits.
+
+\marginpar{Perhaps suggest using vector images where possible?}
+
+
+\section{Conclusions}
+\marginpar{Need to balance time/complexity against appearance. Comparable to eg Plass/Knuth? thus
+need some way to quantify appearance\ed some form of metrics needed for this. Needs
+investigation\ldots}
+Computational efficiency is easily quantifiable, both on a theoretical level, and experimentally.
+Typesetting quality, however, is harder to quantify. In order to show whether this system can
+produce consistently better results than a standard eBook layout engine, some method must be derived
+in order to compare them. This may be based on a point-scoring system, in a similar manner to
+\TeX{}\cite{Knuth1984}, or perhaps by more qualitative means, such as human judgement. In either
+case, both these factors must be balanced against one another, striving to reduce computational
+efficiency whilst maintaining typesetting quality.
+
+
+80
