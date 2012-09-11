@@ -1,4 +1,5 @@
-\documentclass[ twoside,openright,titlepage,numbers=noenddot,headinclude,%1headlines,% letterpaper a4paper
+\documentclass[ oneside,openright,titlepage,numbers=noenddot,headinclude,%1headlines,% letterpaper
+                a4paper,
                 footinclude=true,cleardoublepage=empty,abstractoff, % <--- obsolete, remove (todo)
                 BCOR=5mm,paper=a4,fontsize=11pt,%11pt,a4paper,%
                 british,%
@@ -8,6 +9,7 @@
 % Note: Make all your adjustments in here
 %*******************************************************
 \input{classicthesis-config}
+\usepackage{setspace}
 
 %********************************************************************
 % Hyphenation
@@ -19,8 +21,8 @@
 %*******************************************************
 
 \includeonly{
-FrontBackmatter/Abstract,
-FrontBackmatter/Contents,
+%FrontBackmatter/Abstract,
+%FrontBackmatter/Contents,
 %Chapters/Chapter01,
 Chapters/Chapter02,
 %Chapters/Chapter03,
@@ -28,7 +30,7 @@ Chapters/Chapter02,
 %Chapters/Chapter05,
 %Chapters/Chapter06,
 %Chapters/Chapter07,
-FrontBackmatter/Bibliography
+%FrontBackmatter/Bibliography
 }
 
 \begin{document}
@@ -63,7 +65,7 @@ FrontBackmatter/Bibliography
 \pagenumbering{arabic}
 % use \cleardoublepage here to avoid problems with pdfbookmark
 
-
+\doublespacing
 \include{Chapters/Chapter01}
 \include{Chapters/Chapter02}
 \include{Chapters/Chapter03}
@@ -71,6 +73,7 @@ FrontBackmatter/Bibliography
 \include{Chapters/Chapter05}
 \include{Chapters/Chapter06}
 \include{Chapters/Chapter07}
+\singlespacing
 
 % ********************************************************************
 % Backmatter
