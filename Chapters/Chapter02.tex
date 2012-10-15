@@ -3,102 +3,53 @@
 %The real aim of this project is to produce documents that are adaptable to multiple viewing
 %apertures, but do not require total reprocessing to do so.
 
-Chapter~\ref{ch:intro} goes into considerable detail
-about precisely which elements of a typeset document must be considered
-computation-heavy (and thus should be avoided if possible at view-time).
-This chapter goes some way towards defining exactly which portions of the
-typesetting process can be pre-computed and which cannot. It also analyses where shortcuts
-can be taken, and their effects on the final document.
+%Chapter~\ref{ch:intro} goes into considerable detail
+%about precisely which elements of a typeset document must be considered
+%computation-heavy (and thus should be avoided if possible at view-time).
+%This chapter goes some way towards defining exactly which portions of the
+%typesetting process can be pre-computed and which cannot. It also analyses where shortcuts
+%can be taken, and their effects on the final document.
 
 \section{The use of Galleys in Typesetting}
-The invention of movable type in China in the 11th Century, and independently
-in Europe in the 15th Century, led to an enormous increase in the availability of
-printed material. Movable type, in various incarnations, formed an enormously
-important part of the newspaper industry, from its advent in the 17th century
-until digitisation in the mid-1980s. The inherently volatile nature of
-newspaper layout (caused, for example, by important stories breaking shortly
-before going to press) coupled with the expense and time-consuming nature
-of physical typesetting, led to the development of newspapers' familiar columnar
-appearance.
+The invention of movable type in China in the 11th Century, and independently in Europe in the 15th Century, led to an enormous increase in the availability of printed material. Movable type, in various incarnations, formed an enormously important part of the newspaper industry, from its advent in the 17th century until digitisation in the mid-1980s. The inherently volatile nature of newspaper layout (caused, for example, by important stories breaking shortly before going to press) coupled with the expense and time-consuming nature of physical typesetting, led to the development of newspapers' familiar columnar appearance.
 
-In a traditional newspaper layout, each page is divided into columns of equal \emph{measure}, that
-is of equal horizontal width. Once an article has been typeset to fit this measure, it can be
-slotted anywhere into the final layout of the newspaper, simply by breaking the text between lines
-where necessary. The article never requires retypesetting as long as its content remains
-unchanged\ed{}an advantage only available when all text is rendered to the same width.
+In a traditional newspaper layout, each page is divided into columns of equal \emph{measure}, that is of equal horizontal width. Once an article has been typeset to fit this measure, it can be slotted anywhere into the final layout of the newspaper, simply by breaking the text between lines where necessary. The article never requires retypesetting as long as its content remains unchanged\ed{}an advantage only available when all text is rendered to the same width.
 
 
-The metal trays used to contain typeset lines of physical type are known as \emph{galleys}.
-Newspapers use reasonably narrow galleys;\marginpar{A very unscientific survey of various items of
-print around my desk suggests that newspapers use approximately 2'' galleys, paperback books around
-4'', and hardback books around 5''.}  paperback books tend to use wider galleys, and hardback books
-wider still. Narrower galleys offer the advantage that less space is wasted if the
-final line in a paragraph does not span the full width: this is more important in newspaper layout
-than in most other typesetting situations, as space is at a premium. Wider galleys aid readability,
-up to a certain point, after which it becomes difficult for the eyes to 
+The metal trays used to contain typeset lines of physical type are known as \emph{galleys}. Newspapers use reasonably narrow galleys;\marginpar{A very unscientific survey of various items of print around my desk suggests that newspapers use approximately 2'' galleys, paperback books around 4'', and hardback books around 5''.}  paperback books tend to use wider galleys, and hardback books wider still. Narrower galleys offer the advantage that less space is wasted if the final line in a paragraph does not span the full width: this is more important in newspaper layout than in most other typesetting situations, as space is at a premium. Wider galleys aid readability, up to a certain point, after which it becomes difficult for the eyes to keep track between lines.
 
 
-Typesetting text into physical galleys is directly analogous to precomputing many of the `hard'
-parts of typesetting. In particular, all hyphenation, line breaking, justification, kerning,
-glyph substitution etc.\ed{}in fact all horizontal layout\ed{}has been `compiled out'. No matter the
-height of the page nor the number of columns, only vertical layout problems remain, such as
-attempting to avoid widowed or orphaned lines, and choosing optimal placements of floating bodies,
-such as pictures or figures.
+Typesetting text into physical galleys is directly analogous to precomputing many of the `hard' parts of typesetting. In particular, all hyphenation, line breaking, justification, kerning, glyph substitution etc.\ed{}in fact all horizontal layout\ed{}has been `compiled out'. No matter the height of the page nor the number of columns, only vertical layout problems remain, such as attempting to avoid widowed or orphaned lines, and choosing optimal placements of floating bodies, such as pictures or figures.
 
 \section{Galleys as a Reflow Tool}
-If an electronic, primarily text-based document can be partially pre-rendered into the analogue of a
-galley, the document is then provided with some limited flowability. Specifically, the document can
-be rendered for any page size at least as wide as the galley, and of arbitrary height. Wider pages
-may be able to accommodate multiple columns, but unless the page size is chosen carefully based
-on the galley's width, there is likely to be noticeable extra horizontal whitespace if the page
-width is not close to a multiple of the galley width.
+If an electronic, primarily text-based document can be partially pre-rendered into the analogue of a galley, the document is then provided with some limited flowability. Specifically, the document can be rendered for any page size at least as wide as the galley, and of arbitrary height. Wider pages may be able to accommodate multiple columns, but unless the page size is chosen carefully based on the galley's width, there is likely to be noticeable extra horizontal whitespace if the page width is not close to a multiple of the galley width.
 
 \begin{figure}
  \includegraphics[width=\textwidth]{gnuplot/1col}
- \caption[Extra whitespace in a single-galley document]{As more columns fit on a page, the extra
-whitespace required per column decreases}
+ \caption[Extra whitespace in a single-galley document]{As more columns fit on a page, the extra whitespace required per column decreases}
  \label{fig:sawtooth}
 \end{figure}
 
 
-Figure~\ref{fig:sawtooth} shows how the extra horizontal whitespace on a page varies with page
-width. The peaks are at the point where an extra column can be added, and the amount of extra
-whitespace required drops to a minimum. The green dashed line divides this extra whitespace by the
-number of columns on the page, which gives a more useful metric to work with: if we physically
-divide the extra whitespace and insert it between the columns to increase their spacing (as opposed
-to leaving it on the right- or left-hand margins) then the wider the page, the less detriment is
-caused by the extra fraction of galley width.
+Figure~\ref{fig:sawtooth} shows how the extra horizontal whitespace on a page varies with page width. The peaks are at the point where an extra column can be added, and the amount of extra whitespace required drops to a minimum. The green dashed line divides this extra whitespace by the number of columns on the page, which gives a more useful metric to work with: if we physically divide the extra whitespace and insert it between the columns to increase their spacing (as opposed to leaving it on the right- or left-hand margins) then the wider the page, the less detriment is caused by the extra fraction of galley width.
 
 \section{Multiple Galley Renderings}
-The problem of extra whitespace can be overcome in several ways. Firstly, and most simply, the size
-of the galley can be increased or decreased, effectively simulating the point size of the font being
-changed. This is probably undesirable: type set at 12 points should remain at 12 points unless a
-size change has been explicitly requested. A second way in which columns can be better fitted to the
-page width is to typeset the source document into several galleys of varying width. When the
-document is rendered at view-time, the most appropriate width (according to some metric) can be
-chosen to be displayed. One very simplistic metric is to choose whichever galley rendering would
-result in the least extra added whitespace. By overlaying the Figure~\ref{fig:sawtooth}-like graphs
-for each galley, we are able to obtain a graph like Figure~\ref{fig:overlay}, which features all
-available galleys. If we use our simple metric of minimum whitespace, we can simply choose whichever
-galley requires the smallest amount of extra whitespace for a given page width.
+The problem of extra whitespace can be overcome in several ways. Firstly, and most simply, the size of the galley can be increased or decreased, effectively simulating the point size of the font being changed. This is probably undesirable: type set at 12 points should remain at 12 points unless a size change has been explicitly requested. A second way in which columns can be better fitted to the page width is to typeset the source document into several galleys of varying width. When the document is rendered at view-time, the most appropriate width (according to some metric) can be chosen to be displayed. One very simplistic metric is to choose whichever galley rendering would result in the least extra added whitespace. By overlaying the Figure~\ref{fig:sawtooth}-like graphs for each galley, we are able to obtain a graph like Figure~\ref{fig:overlay}, which features all available galleys. If we use our simple metric of minimum whitespace, we can simply choose whichever galley requires the smallest amount of extra whitespace for a given page width.
 
 \begin{figure}
  \includegraphics[width=\textwidth]{gnuplot/overlay}
- \caption[Extra whitespace in a multiple galley document]{Overlaying the sawtooth graphs for
-several galleys of differing widths allows us to minimise the extra added whitespace}
+ \caption[Extra whitespace in a multiple galley document]{Overlaying the sawtooth graphs for several galleys of differing widths allows us to minimise the extra added whitespace}
  \label{fig:overlay}
 \end{figure}
 
 \section{A Simple Implementation}
-explain stuff here, keeping COG-light
+At an early stage it was decided that the simplest available method of imple
 
 \section{Layout Considerations}
-eg what sort of layouts are we constricted to, and are they any good... cite
-Plass/Bringhurst
+eg what sort of layouts are we constricted to, and are they any good... cite Plass/Bringhurst
 
 \section{Efficiency}
-theoretically, how does it compare? Shove in lots of speculative Big Oh
-notation and try to sound authoritative. Or look at the algorithms used and
+theoretically, how does it compare? Shove in lots of speculative Big Oh notation and try to sound authoritative. Or look at the algorithms used and
 actually be authoritative :)
 
 
