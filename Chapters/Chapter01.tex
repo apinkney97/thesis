@@ -36,9 +36,9 @@ format is derived from Mobipocket; \pdf{} and \epub{} are open standards.
 
 \subsection{PDF}
 \pdf{} was originally designed as a way of faithfully reproducing documents both on screen and in
-print. For this reason, \pdf{} is almost entirely pre\-s\-en\-ta\-tion-oriented and will therefore
-often include no information on the semantic structure of a given document. The archetypal \pdf{}
-file will consist solely of drawing operators which describe the document pages. There is no
+print. For this reason, it is almost entirely pre\-s\-en\-ta\-tion-oriented and will not necessarily
+include any information on the semantic structure of a given document. The archetypal \pdf{}
+file consists solely of drawing operators which describe the document pages. There is no
 compulsion for these drawing operators to render the page in an order that might be considered
 sensible: for example, if a \pdf{} generator program decided to render every character on a page in
 alphabetical order, or radially outwards from the centre, the resulting file would still be
@@ -61,15 +61,15 @@ to unpick, but still need to re-typeset... no better off than html)}
 Both \epub{} and Mobipocket are largely based on \html{}. Whilst the use of \xml{}-like formats
 allows the semantic structure of documents to be very well defined, in general their presentation
 can only be specified in a very loose manner. The user is often presented with a choice of typefaces
-and point sizes, allowing the reader software to render the document in essentially any arbitrary
+and point sizes, essentially allowing the reader software to render the document in any arbitrary
 way it chooses. Since an \html{}-derived format has no concrete presentation associated with it,
-each time the document is displayed its layout must be recalculated, in a similar manner to the way
+each time the document is displayed its layout must be recalculated, just as
 an interpreted programming language needs to be interpreted each time it runs. (We can therefore
 compare \pdf{} to a compiled program: it is the result of an optimisation process performed upon
 some semantically higher-level representation.) For an \ebook{} reader to maximise its battery life,
 this `interpretation' needs to be as simple as possible, \ie{} the algorithm used must not be too
 complex, since the more \textsc{cpu} cycles spent executing it, the
-less time the \textsc{cpu} can spend idle, and thus the greater the drain on the battery.
+less time the \textsc{cpu} can spend idle, and thus the greater the drain on the device's battery.
 Furthermore, the longer that is spent formatting the output, the longer the delay between page turns
 on the device, and with the speed of \textsc{cpu}s used in these devices ($<$ 500 \textsc{MHz}) it
 does not take too large an increase in computation for the page-turn time to become noticeable.
@@ -88,19 +88,18 @@ well typset \pdf{} file looks good wherever it is displayed, but, stemming from 
 of paper' paradigm, page sizes in a \pdf{} document are necessarily fixed at creation-time. An
 overwhelming majority of \pdf{} documents are rendered for  US letter or A4 size paper. This is fine
 if the document is to be printed and read. On a reasonably large screen, the document remains
-perfectly readable; a 10'' netbook or tablet screen may provide acceptable reading. Anything much
-smaller (notably mobile phones, and e-readers, such as the (non-DX) Kindle and the Sony Reader) and
-a combination of zooming and panning is required 
+perfectly readable, and a 10'' netbook or tablet screen may provide acceptable reading. Anything much
+smaller (notably mobile phones, and e-readers, such as the Kindle and the Sony Reader) requires
+a combination of zooming and panning 
 in order to read the document. Documents may, of course, be rendered to a smaller page size, however
 the problem still remains\ed it is unlikely that any one page size will be suited to \emph{all}
-reading platforms. Most e-readers, using their native (i.e.\ non-\pdf{}) formats allow text to be
+reading platforms. Most e-readers, using their native (i.e.\ non-\pdf{}) formats, allow text to be
 resized according to user preference. Indeed, it seems unnecessarily restrictive to force one size
 of type upon the user. Of course, paper books suffer from this affliction; digital books need not.
 Selling \ebook{}s separately in standard and large-print versions seems perverse when, for virtually
 no difference in cost to the publisher/distributor, both can be included in one file. In fact,
-storing the document at a higher, more abstract level than \pdf{} can allow the text to be rendered
-at any desired size, but at the cost of the retention of high-quality typesetting afforded by
-\pdf{}.
+if the document is stored at a higher, more abstract level than \pdf{}, the text can be rendered
+at any desired size, at the cost of the retention of high-quality typesetting afforded by \pdf{}.
 
 \marginpar{The rendering engines generally used in e-readers take a \emph{greedy} approach. That is,
 they place as many words onto the current line as will fit, and then break, start a new line, and
@@ -110,7 +109,7 @@ repeat.}
 documents. This allows a font size to be specified, and the text to be rendered to closely fit the
 screen. Line breaks and page breaks can then be calculated and inserted as necessary, in order to
 wrap the text to fit the screen, and to paginate the content. The rendering engines used for
-reflowable formats on e-reader devices are simplistic\ed but necessarily so. The battery life of
+reflowable formats on, e-reader devices, are simplistic\ed but necessarily so. The battery life of
 portable devices is lamentably low. Manufacturers of e-readers may claim their products have
 batteries which can last for months, but this is principally due to the many shortcuts used when
 laying out flowable content. As noted in section~\ref{html-format}, were these devices to use more
@@ -118,8 +117,8 @@ complex layout algorithms, which can produce far higher quality typeset output, 
 than any savings made by using a low-power electronic paper screen would quickly disappear. In
 addition to increasing battery usage, the higher computational complexity of these algorithms may
 cause page turns to take longer, as each subsequent page is only rendered when a page turn is
-requested. The time delay could be fixed reasonably easily by buffering between page turns, although
-this does not solve the battery drain problem.
+requested. This time delay could be fixed reasonably easily by buffering between page turns, but
+this would not solve the battery drain problem.
 
 
 
@@ -183,8 +182,8 @@ The paper \emph{Reflowable Documents Composed From Pre-rendered Atomic Component
 of properties to expect from good-quality typesetting.
 
 Knuth and Plass's line breaking algorithm\cite{Knuth1981}, in conjunction with Liang's hyphenation
-algorithm\cite{Liang1983}, breaks paragraphs into lines of text to fit a page, into what can be
-considered to be an optimal configuration. \TeX 's default behaviour is then to alter the spacing
+algorithm\cite{Liang1983}, breaks paragraphs into lines of text to fit a page, resulting in what can be
+considered an optimal configuration. \TeX 's default behaviour is then to alter the spacing
 between words in order to justify the line to fit the measure of the page. More advanced methods
 than simply stretching or shrinking the word spacing do exist, however. Robert Bringhurst, in
 \emph{The Elements of Typographic Style}\cite{Bringhurst2008}, suggests that in addition to altering
