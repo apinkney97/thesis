@@ -19,8 +19,8 @@
 % 
 % \end{itemize}
 
-The system described in Chapter~\ref{ch:malleable} supports only simple documents that are composed solely from text. Many (if not most) real-world documents contain figures, diagrams, illustrations, tables etc., so consideration must be given towards how these should be handled.
-This chapter extends the work of the previous chapter to allow floatable graphical blocks, whose absolute position within a document's text may vary with the layout.
+The system described in Chapter~\ref{ch:malleable} supports only simple documents that are composed solely from text. Many (perhaps most) real-world documents contain figures, diagrams, illustrations, tables etc., so consideration must be given towards how these should be handled.
+This chapter extends the work of the previous chapter to allow floatable graphical blocks, whose absolute position within a document's text may vary, depending upon the layout.
 
 \section{Implementation}
 
@@ -36,7 +36,9 @@ Almost all \ebook{} readers support the \epub{} format,\marginpar{Amazon's Kindl
 
 
 
-Previously, the generation of malleable documents was a rather labour-intensive process, involving running the source document through \troff{} and \pdfdit{}. In the case of documents with galleys of more than one width, modifications needed to be made to the document structure tree of the resultant \pdf{}s, by hand. Adding or removing characters to the source of a \pdf{} file is no trivial matter, since the \textsc{xref} table, which stores the byte offsets of all \textsc{cos} objects within the file, is no longer correct. (Acrobat does kindly offer to fix this problem if it detects it, but it has the side effect of discarding any data it does not recognise. Clearly losing the document structure tree is undesirable.) The \textsc{xref} table can either be fixed programatically, or by a painstaking process involving a hex editor and a lot of patience. Significant lack of patience meant that there was only ever one multiple galley-width test document produced for the previous system.
+In the system described in the previous chapter, the generation of malleable documents was a rather labour-intensive process, involving running the source document through \troff{} and \pdfdit{}. In the case of documents with galleys of more than one width, modifications needed to be made, by hand, to the document structure tree of the resultant \pdf{} files.
+
+Adding or removing characters to the source of a \pdf{} file is no trivial matter, since the \textsc{xref} table, which stores the byte offsets of all \glspl{COSObject} within the file, is no longer correct. (Acrobat does kindly offer to fix this problem if it detects it, but it has the side effect of discarding any data it does not recognise. Clearly losing the document structure tree is undesirable.) The \textsc{xref} table can either be fixed programatically, or by a painstaking process involving a hex editor and a lot of patience. Significant lack of patience meant that there was only ever one multiple galley-width test document produced for the previous system.
 
 Since the new system no longer relies on \COG{}-\pdf{}, the reliance on \troff{} and \pdfdit{} is also abated. Consequently, a sensible approach is to produce a completely bespoke typesetting tool, allowing unneeded features to be removed, and some finer-grained controls (for example the line-breaking and hyphenation algorithms) to be added.
 

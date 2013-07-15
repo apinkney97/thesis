@@ -11,11 +11,12 @@
 \input{classicthesis-config}
 \usepackage{setspace}
 \usepackage[toc]{glossaries}
+\input{glossaries}
 \makeglossaries
 
 
-\newcommand{\Ebook}{E-book}
-\newcommand{\ebook}{e-book}
+\newcommand{\Ebook}{Ebook}
+\newcommand{\ebook}{ebook}
 \newcommand{\pdf}{\textsc{pdf}}
 \newcommand{\epub}{\textsc{epub}}
 \newcommand{\html}{\textsc{html}}
@@ -39,18 +40,18 @@
 % GO!GO!GO! MOVE IT!
 %*******************************************************
 
-\includeonly{
+% \includeonly{
 % FrontBackmatter/Abstract,
 % FrontBackmatter/Contents,
 % Chapters/Chapter01,
 % Chapters/Chapter02,
-Chapters/Chapter03,
+% Chapters/Chapter03,
 % Chapters/Chapter04,
 % Chapters/Chapter05,
 % Chapters/Chapter06,
 % Chapters/Chapter07,
-FrontBackmatter/Bibliography
-}
+% FrontBackmatter/Bibliography
+% }
 
 \begin{document}
 \frenchspacing
@@ -105,6 +106,8 @@ FrontBackmatter/Bibliography
 %********************************************************************
 % Other Stuff in the Back
 %*******************************************************
+\printglossaries
+\newpage
 \include{FrontBackmatter/Bibliography}
 \include{FrontBackmatter/Colophon}
 \include{FrontBackmatter/Declaration}
