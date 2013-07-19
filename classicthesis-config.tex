@@ -101,6 +101,8 @@
 	\usepackage{acronym} % nice macros for handling all acronyms in the thesis
 %\renewcommand*{\acsfont}[1]{\textssc{#1}} % for MinionPro
 \renewcommand{\bflabel}[1]{{#1}\hfill} % fix the list of acronyms
+\usepackage{framed}
+\usepackage{setspace}
 % **************************************************************************************************
 
 
@@ -251,6 +253,12 @@
 %	\usepackage{nag}
 %\PassOptionsToPackage{warning, all}{onlyamsmath}
 %	\usepackage{onlyamsmath}
+
+
+\usepackage[style=long,nolist,toc]{glossaries}
+\input{glossaries}
+\makeglossaries
+
 
 % ********************************************************************
 % Last, but not least...

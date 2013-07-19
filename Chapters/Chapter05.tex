@@ -1,3 +1,6 @@
 \chapter{Technical Analysis}\label{ch:techanalysis}
 
 
+The layout system described herein works in a similar manner to a first-fit line-breaking algorithm, in that it places elements on the page in order, in the first place they will fit. Items that are the same size as a single grid cell, such as lines of text set in the main point size, can simply be placed in the first empty slot in the current column, or the first empty slot in the next column, should there be no empty spaces.  For the placement of items that are larger than a single grid cell, there is some overhead required to step through the grid until a suitable position can be found. Once a position has been found, each grid cell that it overlaps must be marked as being reserved.
+
+Whilst this algorithm does have a greater-than-linear time complexity, the problem size is actually reduced in comparison to a first-fit text layout algorithm, since the system uses lines of text as its atomic units, rather than individual words. For this reason, it is believed that this algorithm should still be efficient enough to merit its use on portable \ebook{} readers.

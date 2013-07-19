@@ -45,21 +45,21 @@ A second way in which columns can be better fitted to the page width is to types
 \end{figure}
 
 \section{A Simple Implementation}
-At an early stage it was decided that the simplest available method of implementing the above-mentioned layout algorithm was to use some existing tools from the University of Nottingham Document Engineering Laboratory: in particular the Component Object Graphic (\COG{}) model\cite{Bagley2003} for creating and managing modularised \pdf{} documents. This was chosen specifically to avoid the need to write a typesetter or layout engine from scratch; typesetting is performed by the \troff{} suite, and layout by Adobe Acrobat, though there is no reason why this algorithm could not be implemented with any other system capable of tightly specifying page imaging operations. Indeed, for this to be implemented in any non-prototypal form, \ie{} to be used on any portable device, it is likely that a specific, new rendering engine will need to be written for each device (or class of device).
+At an early stage it was decided that the simplest available method of implementing the above-mentioned layout algorithm was to use some existing tools from the University of Nottingham Document Engineering Laboratory: in particular the \gls{cog} model\cite{Bagley2003} for creating and managing modularised \gls{pdf} documents. This was chosen specifically to avoid the need to write a typesetter or layout engine from scratch; typesetting is performed by the \troff{} suite, and layout by Adobe Acrobat, though there is no reason why this algorithm could not be implemented with any other system capable of tightly specifying page imaging operations. Indeed, for this to be implemented in any non-prototypal form, \ie{} to be used on any portable device, it is likely that a specific, new rendering engine will need to be written for each device (or class of device).
 
 \subsection{The Source Document}\label{sec:srcdoc}
-Since the majority of available tools for producing \COG{}ged \pdf{}s rely on the typesetting package \ditroff{}, it was decided to use this as the basis for the source document. \Ditroff{} is particularly amenable to many of the features required here\ed{}it is quite happy to have its page length set to large values\ed{}one sample document used a page length of 2000 inches (approximately 50 metres) with no complaints from \ditroff{}. The line length was set to a small value (approximately two inches) in order to produce a narrow column of text. Following this, the actual document content was inserted several times, incrementing the line length on each iteration, producing one document effectively containing multiple galley-width renderings of the same content.
+Since the majority of available tools for producing \gls{cog}ged \gls{pdf}s rely on the typesetting package \ditroff{}, it was decided to use this as the basis for the source document. \Ditroff{} is particularly amenable to many of the features required here\ed{}it is quite happy to have its page length set to large values\ed{}one sample document used a page length of 2000 inches (approximately 50 metres) with no complaints from \ditroff{}. The line length was set to a small value (approximately two inches) in order to produce a narrow column of text. Following this, the actual document content was inserted several times, incrementing the line length on each iteration, producing one document effectively containing multiple galley-width renderings of the same content.
 
 \subsection{pdfdit}
 Having generated the source document, it was processed with ditroff to generate the intermediate code used to feed each typesetter post-pro\-cessor. This output is very expressive, and, unlike \TeX's DVI, contains enough information that post-processors are easily able to locate the start and end of lines and paragraphs within the document. This meant that only minimal changes were needed to be made to the \emph{pdfdit} package described in \cite{Bagley2003} to implement the design.
 
-The first change necessary was to decrease the granularity of the output COGs, producing them at the line level, rather than at the paragraph level. Secondly, some method of generating the requisite tree representing the document structure was required. This was solved by simply using the point at which the original version of pdfdit would have started a new paragraph-level COG, and, instead, starting a new paragraph-level block entry in the document structure tree. Each subsequent line-level COG produced can then be added as a child of this block.
+The first change necessary was to decrease the granularity of the output \gls{cog}s, producing them at the line level, rather than at the paragraph level. Secondly, some method of generating the requisite tree representing the document structure was required. This was solved by simply using the point at which the original version of pdfdit would have started a new paragraph-level \gls{cog}, and, instead, starting a new paragraph-level block entry in the document structure tree. Each subsequent line-level \gls{cog} produced can then be added as a child of this block.
 
-Once the entire output file has been parsed, the tree representations of the various width galleys are amalgamated per-paragraph, as indicated in figure~\ref{fig:tree}, and finally the PDF file is serialised, replete with COGs and content tree.
+Once the entire output file has been parsed, the tree representations of the various width galleys are amalgamated per-paragraph, as indicated in figure~\ref{fig:tree}, and finally the PDF file is serialised, replete with \gls{cog}s and content tree.
 
 \begin{figure}
  \includegraphics[width=\textwidth]{gfx/tree}
- \caption[A simple document structure tree]{A simple document structure tree. The first level below the root represents all paragraph-level items: headings, paragraphs, figures etc. These items have one child for each galley rendering of the document. These in turn have one child for each \COG{} comprising their content\ed{}in the case of a paragraph or heading its lines; in the case of a figure, the figure itself and any associated caption.}
+ \caption[A simple document structure tree]{A simple document structure tree. The first level below the root represents all paragraph-level items: headings, paragraphs, figures etc. These items have one child for each galley rendering of the document. These in turn have one child for each \gls{cog} comprising their content\ed{}in the case of a paragraph or heading its lines; in the case of a figure, the figure itself and any associated caption.}
  \label{fig:tree}
 \end{figure}
 
@@ -70,7 +70,7 @@ Once the entire output file has been parsed, the tree representations of the var
  \label{fig:renderings}
 \end{figure}
 
-The decision to use Acrobat as an eBook `emulator' stemmed once again from the available existing COG-based tools (see section \ref{sec:srcdoc}, as well as the extensive API and developer support available for Acrobat.
+The decision to use Acrobat as an eBook `emulator' stemmed once again from the available existing \gls{cog}-based tools (see section \ref{sec:srcdoc}, as well as the extensive API and developer support available for Acrobat.
 
 Since, by the point the document is to be displayed in Acrobat, most of the computationally expensive typesetting has already been carried out, the algorithm used to lay out the lines of the galleys can be very simple. The plugin chooses the most appropriate galley width to lay out, based on the current page width, and according to some measure of aesthetics, and then simply lays the document out line by line, with appropriate vertical spacing, until no more lines will fit in the current column. Any subsequent columns which will fit on the same page are then laid out in the same manner.
 
@@ -121,7 +121,7 @@ actually be authoritative :)
 % device-specific derivatives can be produced?
 % \end{itemize}
 %   
-% The desire is to develop some document format which is neither as `solid' as a \pdf{} nor as
+% The desire is to develop some document format which is neither as `solid' as a \gls{pdf} nor as
 % `liquid' as \html{}, but somewhere in between (perhaps termed a \emph{malleable document}).
 % Something which is mostly formed, but can be gently massaged to fit the display as necessary.
 % 
@@ -388,40 +388,40 @@ actually be authoritative :)
 % 
 % \subsection{A Sample Implementation}
 % Our sample implementation is built around our existing work in PDF and Component-Object Graphics
-% (COGs)\cite{Bagley2003}, but there is no reason why it could not be implemented in any other format
+% (\gls{cog}s)\cite{Bagley2003}, but there is no reason why it could not be implemented in any other format
 % capable of tightly specifying page imaging operations. It builds on existing software, principally
-% \emph{pdfdit}, in conjunction with \emph{COG Manipulator}, as these tools are already capable of
+% \emph{pdfdit}, in conjunction with \emph{\gls{cog} Manipulator}, as these tools are already capable of
 % producing modular documents with tightly specified rendering.
 % 
 % 
-% \subsubsection{The COG Model}
+% \subsubsection{The \gls{cog} Model}
 % %summary of cogs, what I've changed, ie line-level rather than default paragraph level. Put in tree
 % to retain par details
-% The Component Object Graphic (COG) model was developed to enable the reuse of semantic components
+% The Component Object Graphic (\gls{cog}) model was developed to enable the reuse of semantic components
 % within PDF documents, by breaking the traditional graphically-monolithic PDF page into a series of
-% distinct, encapsulated graphical blocks, termed COGs. In its original incarnation, the COG model did
-% not account for any relationship between individual COGs\,---\,it was simply designed as a method by
-% which document components could be easily reused or reordered. The COGs it generates are largely at
+% distinct, encapsulated graphical blocks, termed \gls{cog}s. In its original incarnation, the \gls{cog} model did
+% not account for any relationship between individual \gls{cog}s\,---\,it was simply designed as a method by
+% which document components could be easily reused or reordered. The \gls{cog}s it generates are largely at
 % the granularity of a paragraph, and can still be imaged onto the page in any arbitrary order,
 % independent of reading order.
 % 
 % In order to implement our galley-based design, it is necessary to decrease this granularity, such
-% that each line of text is represented by a separate COG. However, it is also important that the
+% that each line of text is represented by a separate \gls{cog}. However, it is also important that the
 % semantic structure of the document is explicitly stored. This is principally so that the reading
-% order of the COGs is maintained, and also so that the reader software can identify paragraphs,
+% order of the \gls{cog}s is maintained, and also so that the reader software can identify paragraphs,
 % headings etc.~to enable them to be laid out correctly.
 % 
-% The COG model takes advantage of the fact that the PDF specification allows the content of a page to
+% The \gls{cog} model takes advantage of the fact that the PDF specification allows the content of a page to
 % be described by an array of streams of imaging operators, rather than the more commonly encountered
 % single, monolithic stream. Unfortunately, this array can only be one-di\-men\-sional, meaning that
 % while it can enforce the reading order, it cannot be used to, say, group lines into paragraphs.
 % Since the PDF specification allows essentially arbitrary insertion of data structures into a
 % document (PDF readers which do not recognise these will simply ignore them), this flexibility was
-% used to embed a simple tree structure representing the paragraphs, in parallel to the COGs
+% used to embed a simple tree structure representing the paragraphs, in parallel to the \gls{cog}s
 % themselves (an example of which is shown in figure~\ref{tree}). At the level of its leaves, this
-% tree simply contains pointers to the COGs which make up the content of the document. In the simplest
+% tree simply contains pointers to the \gls{cog}s which make up the content of the document. In the simplest
 % case, where the document contains only one rendering (and thus the pa\-ra\-graph-level items have
-% only one child) the COGs pointed at by the leaves can simply be rendered in order, adding vertical
+% only one child) the \gls{cog}s pointed at by the leaves can simply be rendered in order, adding vertical
 % space as appropriate.
 % 
 % 
@@ -431,14 +431,14 @@ actually be authoritative :)
 %     \caption[A simple document structure tree]{A simple document structure tree. The first level
 % below the root represents all
 % paragraph-level items: headings, paragraphs, figures etc. These items have one child for each galley
-% rendering of the document. These in turn have one child for each COG comprising their
+% rendering of the document. These in turn have one child for each \gls{cog} comprising their
 % content\,---\,in the case of a paragraph or heading: its lines; in the case of a figure: the figure
 % itself and any associated caption.}\vspace{-3pt}
 %     \label{tree}
 % \end{figure}
 % 
 % \subsubsection{The Source Document}
-% Since the majority of available tools for producing COGged PDFs rely on the typesetting package
+% Since the majority of available tools for producing \gls{cog}ged PDFs rely on the typesetting package
 % \emph{ditroff}, it was decided to use this as the basis for the source document. Ditroff is
 % particularly amenable to many of the features required here\,---\,it is quite happy to have its page
 % length set to large numbers\,---\,one sample document used a page length of 2000 inches
@@ -457,16 +457,16 @@ actually be authoritative :)
 % end of lines and paragraphs within the document. This meant that only minimal changes were needed to
 % be made to the \emph{pdfdit} package described in \cite{Bagley2003} to implement our design.
 % 
-% The first change necessary was to decrease the granularity of the output COGs, producing them at the
+% The first change necessary was to decrease the granularity of the output \gls{cog}s, producing them at the
 % line level, rather than at the paragraph level. Secondly, some method of generating the requisite
 % tree representing the document structure was required. This was solved by simply using the point at
-% which the original version of pdfdit would have started a new paragraph-level COG, and, instead,
+% which the original version of pdfdit would have started a new paragraph-level \gls{cog}, and, instead,
 % starting a new paragraph-level block entry in the document structure tree. Each subsequent
-% line-level COG produced can then be added as a child of this block.
+% line-level \gls{cog} produced can then be added as a child of this block.
 % 
 % Once the entire output file has been parsed, the tree representations o-f the various width galleys
 % are amalgamated per-paragraph, as indicated in figure~\ref{tree}, and finally the PDF file is
-% serialised, replete with COGs and content tree.
+% serialised, replete with \gls{cog}s and content tree.
 % 
 % 
 % %Note also the inclusion of baseline/indent?
@@ -498,9 +498,9 @@ actually be authoritative :)
 % \end{figure}
 % 
 % The decision to use Acrobat as an eBook `emulator' stemmed once again from the available existing
-% COG-based tools, as well as the extensive API and developer support available for Acrobat. Moving a
-% COG on a PDF page is as simple as deleting its associated spacer object from the content array of
-% the page, creating a new spacer containing the COG's desired new position, and then adding that back
+% \gls{cog}-based tools, as well as the extensive API and developer support available for Acrobat. Moving a
+% \gls{cog} on a PDF page is as simple as deleting its associated spacer object from the content array of
+% the page, creating a new spacer containing the \gls{cog}'s desired new position, and then adding that back
 % to the content array.
 % 
 % Since, by this point, most of the computationally expensive typesetting has already been carried
@@ -580,7 +580,7 @@ actually be authoritative :)
 % %Note that figure placement may still be a problem - optimal positioning will probably involve some
 % %lookahead. See Plass's thesis\cite{Plass1981}.
 % 
-% %The COG-like objects can actually be structured in a tree in non-pdf formats, so we don't need the
+% %The \gls{cog}-like objects can actually be structured in a tree in non-pdf formats, so we don't need the
 % %parallel tree.
 % 
 % %note that this relies on the lines being rendered *precisely* as specified, otherwise we'll only

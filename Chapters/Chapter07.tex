@@ -1,3 +1,10 @@
 \chapter{Conclusions, Evaluation, and Future Work}\label{ch:conclusions}
 
 
+The system described in this chapter has only very basic support for floats. A particular limitation is that unlike paragraphs, each float has only one rendering, which must be scaled up or down as required, to fit across multiples of columns. Whilst for image-based figures or illustrations, this is probably already the desired behaviour, other types of floats, such as tables or code listings, would almost certainly benefit from the inclusion of multiple width renderings, with the choice of which rendering to display to be made at view-time. % Say that these could be differing hand-renderings, or automated from some source? Probably don't need to...
+
+% coordinating breakpoints? might leave this until I have something sensible to say
+
+Since the malleable document and viewer are composed entirely from HTML, CSS, and JavaScript\ed the core technologies behind EPUB\,---\,modifying the system to produce self-contained EPUB files seems an obvious next step.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

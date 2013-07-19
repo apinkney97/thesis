@@ -1,2 +1,13 @@
 \chapter{Dealing with File Bloat}\label{ch:bloat}
 
+\begin{table}
+    \myfloatalign
+  \begin{tabularx}{\textwidth}{lXXXXXX} %\toprule
+    & \multicolumn{2}{l}{\textsc{source text}} & \multicolumn{2}{l}{\textsc{orig. scheme}} & \multicolumn{2}{l}{\textsc{dictionary}} \\
+    & \textsc{plain} & \textsc{gz} & \textsc{plain} & \textsc{gz} & \textsc{plain} & \textsc{gz} \\ \midrule
+    PBB11~\cite{Pinkney2011} & 23\textsc{k} & 9.4\textsc{k} & 627\textsc{k} & 145\textsc{k} & 314\textsc{k} & 111\textsc{k} \\ \midrule
+    Bible & 4.3\textsc{m} & 1.4\textsc{m} & 144\textsc{m} & 32\textsc{m} & 73\textsc{m} & 24\textsc{m} \\ 
+    \bottomrule
+  \end{tabularx}
+  \caption[Comparison of filesizes]{Comparison of filesizes using various encoding methods}  \label{tab:filesize}
+\end{table}

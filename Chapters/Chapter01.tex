@@ -29,31 +29,31 @@ wide range of screen sizes and types.
 
 \section{File formats}
 Three formats currently dominate the \ebook{} market: \epub{} and Mobipocket, which allow the
-document to be formatted to fit the display device, and \pdf{}, which does not. Currently there is
+document to be formatted to fit the display device, and \gls{pdf}, which does not. Currently there is
 no middle ground\ed a document may either be fully rendered to a fixed layout, or completely
 unrendered, to be laid out at the mercy of a display device's decisions. Amazon's proprietary Kindle
-format is derived from Mobipocket; \pdf{} and \epub{} are open standards.
+format is derived from Mobipocket; \gls{pdf} and \epub{} are open standards.
 
 \subsection{PDF}
-\pdf{} was originally designed as a way of faithfully reproducing documents both on screen and in
+\gls{pdf} was originally designed as a way of faithfully reproducing documents both on screen and in
 print. For this reason, it is almost entirely pre\-s\-en\-ta\-tion-oriented and will not necessarily
-include any information on the semantic structure of a given document. The archetypal \pdf{}
+include any information on the semantic structure of a given document. The archetypal \gls{pdf}
 file consists solely of drawing operators which describe the document pages. There is no
 compulsion for these drawing operators to render the page in an order that might be considered
-sensible: for example, if a \pdf{} generator program decided to render every character on a page in
+sensible: for example, if a \gls{pdf} generator program decided to render every character on a page in
 alphabetical order, or radially outwards from the centre, the resulting file would still be
 semantically valid, and the result might well be unnoticeable to the end user. This lack of imposed
-semantic structure can make it difficult to infer the best way to `unpick' \pdf{} files to allow
+semantic structure can make it difficult to infer the best way to `unpick' \gls{pdf} files to allow
 their content to be reflowed into a new layout.
 
-This is not to say that \pdf{} files \emph{cannot} represent the semantic stucture of their
-content\ed indeed as early as 1999, \pdf{}~1.3 introduced \emph{logical structure}
-facilities\cite{Adobe2001}, adding an optional \emph{structure tree} to the \pdf{} specification,
-and \emph{tagged \pdf{}}, introduced in \pdf{}~1.4 in 2001, provides various extensions to this.
-Unfortunately, \pdf{} documents which actually make good use of these facilities are few and far
+This is not to say that \gls{pdf} files \emph{cannot} represent the semantic stucture of their
+content\ed indeed as early as 1999, \gls{pdf}~1.3 introduced \emph{logical structure}
+facilities\cite{Adobe2001}, adding an optional \emph{structure tree} to the \gls{pdf} specification,
+and \emph{tagged \gls{pdf}}, introduced in \gls{pdf}~1.4 in 2001, provides various extensions to this.
+Unfortunately, \gls{pdf} documents which actually make good use of these facilities are few and far
 between, even a decade after their introduction.
 
-\marginpar{Mention why tagged \pdf{}/structure tree aren't particularly useful for reflow (ie helps
+\marginpar{Mention why tagged \gls{pdf}/structure tree aren't particularly useful for reflow (ie helps
 to unpick, but still need to re-typeset... no better off than html)}
 
 \subsection{HTML based}
@@ -65,7 +65,7 @@ and point sizes, essentially allowing the reader software to render the document
 way it chooses. Since an \html{}-derived format has no concrete presentation associated with it,
 each time the document is displayed its layout must be recalculated, just as
 an interpreted programming language needs to be interpreted each time it runs. (We can therefore
-compare \pdf{} to a compiled program: it is the result of an optimisation process performed upon
+compare \gls{pdf} to a compiled program: it is the result of an optimisation process performed upon
 some semantically higher-level representation.) For an \ebook{} reader to maximise its battery life,
 this `interpretation' needs to be as simple as possible, \ie{} the algorithm used must not be too
 complex, since the more \textsc{cpu} cycles spent executing it, the
@@ -80,26 +80,26 @@ does not take too large an increase in computation for the page-turn time to bec
 
 
 
-The design paradigm of \pdf{}, conceived in the early 1990s\cite{Warnock1991}, was to form a perfect
+The design paradigm of \gls{pdf}, conceived in the early 1990s\cite{Warnock1991}, was to form a perfect
 analogue of the printed page, which would be exactly reproducible regardless of the system on which
-the file was rendered. For this reason, it is possible to embed fonts within \pdf{} files, to ensure
+the file was rendered. For this reason, it is possible to embed fonts within \gls{pdf} files, to ensure
 faithful reproduction on any system, regardless of which fonts are actually installed. In general, a
-well typset \pdf{} file looks good wherever it is displayed, but, stemming from the `digital sheet
-of paper' paradigm, page sizes in a \pdf{} document are necessarily fixed at creation-time. An
-overwhelming majority of \pdf{} documents are rendered for  US letter or A4 size paper. This is fine
+well typset \gls{pdf} file looks good wherever it is displayed, but, stemming from the `digital sheet
+of paper' paradigm, page sizes in a \gls{pdf} document are necessarily fixed at creation-time. An
+overwhelming majority of \gls{pdf} documents are rendered for  US letter or A4 size paper. This is fine
 if the document is to be printed and read. On a reasonably large screen, the document remains
 perfectly readable, and a 10'' netbook or tablet screen may provide acceptable reading. Anything much
 smaller (notably mobile phones, and e-readers, such as the Kindle and the Sony Reader) requires
 a combination of zooming and panning 
 in order to read the document. Documents may, of course, be rendered to a smaller page size, however
 the problem still remains\ed it is unlikely that any one page size will be suited to \emph{all}
-reading platforms. Most e-readers, using their native (i.e.\ non-\pdf{}) formats, allow text to be
+reading platforms. Most e-readers, using their native (i.e.\ non-\gls{pdf}) formats, allow text to be
 resized according to user preference. Indeed, it seems unnecessarily restrictive to force one size
 of type upon the user. Of course, paper books suffer from this affliction; digital books need not.
 Selling \ebook{}s separately in standard and large-print versions seems perverse when, for virtually
 no difference in cost to the publisher/distributor, both can be included in one file. In fact,
-if the document is stored at a higher, more abstract level than \pdf{}, the text can be rendered
-at any desired size, at the cost of the retention of high-quality typesetting afforded by \pdf{}.
+if the document is stored at a higher, more abstract level than \gls{pdf}, the text can be rendered
+at any desired size, at the cost of the retention of high-quality typesetting afforded by \gls{pdf}.
 
 \marginpar{The rendering engines generally used in e-readers take a \emph{greedy} approach. That is,
 they place as many words onto the current line as will fit, and then break, start a new line, and
