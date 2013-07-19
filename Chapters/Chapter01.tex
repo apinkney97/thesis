@@ -1,8 +1,8 @@
 \cleardoublepage
 \chapter{The rise of \ebook{}s} \label{ch:intro} % ``Introduction'' is too boring!
 
-\marginpar{Note: this chapter is currently pretty much word for word the content of the interim
-report. I'll update it when the rest is written.}
+\redmarginpar{Note: this chapter is currently pretty much word for word the content of the interim
+report, and therefore needs a complete rewrite. I'll update it when the rest is written.}
 
 %\marginpar{Blurb re: portable devices, screen sizes etc}
 
@@ -15,7 +15,7 @@ September 2010, was, over the same period, outselling hardback books by a factor
 These ratios are likely to increase as time goes on.
 
 \section{Devices}
-\marginpar{Amazon\ed kindle apps for PC, iPhone, iPad, netbooks, \emph{actual} kindles\ldots a
+\redmarginpar{Amazon\ed kindle apps for PC, iPhone, iPad, netbooks, \emph{actual} kindles\ldots a
 plethora
 of sizes! Many are battery powered. Don't want to kill the battery, but don't want output to look
 crap.}
@@ -25,7 +25,7 @@ netbooks, and desktop PCs. Indeed, virtually every modern device with network co
 screen can be equipped to read \ebook{}s. Consequently, \ebook{} files are expected to be read on a
 wide range of screen sizes and types.
 
-\marginpar{something about range of screen sizes/types/pixel densities}
+\todo{write something about range of screen sizes/types/pixel densities}
 
 \section{File formats}
 Three formats currently dominate the \ebook{} market: \epub{} and Mobipocket, which allow the
@@ -53,7 +53,7 @@ and \emph{tagged \gls{pdf}}, introduced in \gls{pdf}~1.4 in 2001, provides vario
 Unfortunately, \gls{pdf} documents which actually make good use of these facilities are few and far
 between, even a decade after their introduction.
 
-\marginpar{Mention why tagged \gls{pdf}/structure tree aren't particularly useful for reflow (ie helps
+\todo{Mention why tagged \gls{pdf}/structure tree aren't particularly useful for reflow (ie helps
 to unpick, but still need to re-typeset... no better off than html)}
 
 \subsection{HTML based}
@@ -181,6 +181,11 @@ The paper \emph{Reflowable Documents Composed From Pre-rendered Atomic Component
 (attached as an appendix) goes into some detail, particularly in sections 2.1 and 2.2, of what sort
 of properties to expect from good-quality typesetting.
 
+\redmarginpar{H+J. What is good H+J? Good hyphenation algorithm. Word spacing. Letter spacing. Glyph
+reshaping. Must look at whole paragraph!}
+
+\redmarginpar{Use of kerning. Use of ligatures where appropriate. Avoidance of widows/orphans.}
+
 Knuth and Plass's line breaking algorithm\cite{Knuth1981}, in conjunction with Liang's hyphenation
 algorithm\cite{Liang1983}, breaks paragraphs into lines of text to fit a page, resulting in what can be
 considered an optimal configuration. \TeX 's default behaviour is then to alter the spacing
@@ -188,12 +193,9 @@ between words in order to justify the line to fit the measure of the page. More 
 than simply stretching or shrinking the word spacing do exist, however. Robert Bringhurst, in
 \emph{The Elements of Typographic Style}\cite{Bringhurst2008}, suggests that in addition to altering
 word spacing, subtle changes to inter-character spacing and individual glyph widths (in the range of
-$\pm$ 3\%) can produce more typographically and aesthetically pleasing results. This is discussed
-further in section~\ref{edgecases}.
+$\pm$ 3\%) can produce more typographically and aesthetically pleasing results. %This is discussed
+%further in section~\ref{edgecases}. % no it bloody isn't
 
-\marginpar{H+J. What is good H+J? Good hyphenation algorithm. Word spacing. Letter spacing. Glyph
-reshaping. Must look at whole paragraph!}
 
-\marginpar{Use of kerning. Use of ligatures where appropriate. Avoidance of widows/orphans.}
 
 

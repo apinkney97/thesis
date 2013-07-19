@@ -22,15 +22,15 @@
 The system described in Chapter~\ref{ch:malleable} supports only simple documents that are composed solely from text. Many (perhaps most) real-world documents contain figures, diagrams, illustrations, tables etc., and so consideration must be given towards how these should be handled.
 This chapter extends the work of the previous chapter to allow floatable graphical blocks, whose absolute position within a document's text may vary, depending upon the layout.
 
-\section{Implementation}
+%\section{Implementation}
 
 The implementation of the system described in the previous chapter is deeply rooted within \gls{pdf}, and requires a custom-written plugin (see Section~\ref{sec:acroplugin}) for Adobe Acrobat to view the documents. Consequently, it is difficult to test that particular implementation on any device which is not running Microsoft Windows and does not have a fully licensed version of Adobe Acrobat. Effectively, this rules out any mobile \ebook{} readers.
 
-Almost all \ebook{} readers support the \epub{} format,\marginpar{Amazon's Kindle is one of the few devices that does \emph{not} support \epub{}} which is principally built upon \html{}, \css{}, and JavaScript. With this in mind, it was decided to reimplement the system using these technologies, in order that it could be tested on \ebook{} hardware. 
+Almost all \ebook{} readers support the \epub{} format,\marginpar{Amazon's \emph{Kindle} is one of the few contemporary devices that do not support \epub{}} which is principally built upon \html{}, \css{}, and JavaScript. With this in mind, it was decided that the system should be  reimplemented using these technologies, in order that it could be tested on \ebook{} hardware. 
 
 
 
-\subsection{Document Generation}
+\section{Document Generation}
 \label{sec:docgen}
 
 
@@ -38,7 +38,7 @@ Almost all \ebook{} readers support the \epub{} format,\marginpar{Amazon's Kindl
 
 In the system described in the previous chapter, the generation of malleable documents had been a rather labour-intensive process, involving the processing of the source document through \troff{} and \pdfdit{}. In the case of documents with galleys of more than one width, modifications needed to be made, by hand, to the document structure tree of the resultant \gls{pdf} files.
 
-Adding or removing characters to the source of a \gls{pdf} file is no trivial matter, since the \textsc{xref} table, which stores the byte offsets of all \glspl{COSObject} within the file, is no longer correct. (Acrobat does kindly offer to fix this problem if it detects it, but it has the side effect of discarding any data it does not recognise. Clearly losing the document structure tree is undesirable.) The \textsc{xref} table can either be fixed programatically, or by a painstaking process involving a hex editor and a lot of patience. Significant lack of patience meant that there was only ever one multiple galley-width test document produced for the previous system.
+Adding or removing characters to the source of a \gls{pdf} file is no trivial matter, since the \textsc{xref} table, which stores the byte offset of every \gls{COSObject} within the a \gls{pdf} file, is no longer valid. (Acrobat does kindly offer to fix this problem if it detects it, but it has the side effect of discarding any data it does not recognise. Clearly losing the document structure tree is undesirable.) The \textsc{xref} table can either be fixed programatically, or by a painstaking process involving a hex editor and a lot of patience. Significant lack of patience meant that there was only ever one multiple galley-width test document produced for the previous system.
 
 Since the new system no longer relies on \gls{cog}-\gls{pdf}, the reliance on \troff{} and \pdfdit{} is no longer present. Consequently, a sensible approach is to produce a completely bespoke typesetting tool, allowing unneeded features to be removed, and the provision of some finer-grained control over other aspects. For example, it is important for this system that the the line-breaking and hyphenation algorithms can easily be changed.
 
@@ -83,11 +83,39 @@ is serialised, replete with COGs and content tree.
 \end{lstlisting}
 
 
- Next, the source document is passed through a program\marginpar{Should I find a name for this program? It's a bit unwieldy referring to it anonymously all the time. Is \emph{Galley Renderer} ok? Or \emph{Document Generator}?} to produce the output that becomes the malleable document itself. This program passes the text of each paragraph through an implementation of a line-breaking algorithm (we use Knuth-Plass, but this could be replaced by any other algorithm that performs line breaking and justification). Each paragraph is rendered multiple times, once for each galley width, in order to produce the document's multiple galley renderings. Each line of each rendering of every paragraph is converted into a list of its composite words. All of these words have an associated offset value, which is later used when drawing the text to ensure that each word is positioned on the line with the correct spacing. The general algorithm used is given in listing~\ref{lst:parsplitter}.
+ Next, the source document is passed through a program to produce the output that becomes the malleable document itself. This program\redmarginpar{Should I find a name for this program? It's a bit unwieldy referring to it anonymously all the time. Is \emph{Galley Renderer} ok? Or \emph{Document Generator}?} passes the text of each paragraph through an implementation of a line-breaking algorithm (we use Knuth-Plass, but this could be replaced by any other algorithm that performs line breaking and justification). Each paragraph is rendered multiple times, once for each galley width, in order to produce the document's multiple galley renderings. Each line of each rendering of every paragraph is converted into a list of its composite words. All of these words have an associated offset value, which is later used when drawing the text to ensure that each word is positioned on the line with the correct spacing. The general algorithm used is given in listing~\ref{lst:parsplitter}.
 
 
-\begin{lstlisting}[label=lst:parsplitter,captionpos=b,float,caption={Algorithm followed by the galley renderer}]
- TODO: write theI haven't written this yet :(
+\begin{lstlisting}[label=lst:parsplitter,captionpos=b,float,caption={[Algorithm followed by the galley renderer]The algorithm followed by the galley renderer. Firstly the source of the document is parsed to break it into its initial logical blocks: one block per paragraph and one block per float, in the order encountered in the document source. These blocks are then processed further depending on their type. floats may be probed for their pixel dimensions if no size was specified, and are then added to the document structure tree. Paragraphs have their content passed through a line breaking algorithm, once for each specified width.}]
+docStrucTree renderDocument(documentContent, galleyWidths[]) {
+    parasAndFloats[] = parseDocumentSource(documentContent);
+    docStrucTree = empty tree;
+    foreach (item in parasAndFloats) {
+        if (item is a float) {
+            if (dimensions are not specified) {
+                read pixel dimensions from file;
+            }
+            add float to docStrucTree;
+        } else { /* therefore item is a paragraph */
+            create empty paragraph container;
+            foreach (width in galleyWidths) {
+                pass item text through linebreaker using width;
+                create empty galley container;
+                foreach (line returned by linebreaker) {
+                    add words and positioning data for line to galley container;
+                }
+                add galley container to paragraph container;
+            }
+            add paragraph container to docStrucTree;
+        }
+    }
+    return docStrucTree;
+}
+
+parasAndFloats[] parseDocumentSource(documentContent) {
+    step through documentContent line by line, returning the documentContent broken into an array of strings with one element per paragraph and per float;
+}
+
 \end{lstlisting}
 
 
@@ -98,7 +126,7 @@ Finally, once the whole of the source document has been processed, the rendered 
 
 
 
-\subsection{The Viewer}
+\section{The Viewer}
 \label{sec:viewer}
 
 In order to circumvent the browser's default text layout algorithm, and to ensure that our ``high quality'' pre-computed text-layout is used, the viewer must specify the absolute position of every word on each line, in a manner not dissimilar to the internals of a PDF file. The document generator described in the previous section ensures that all the information needed to lay the text out is contained within the generated JSON data representing the document structure tree.
@@ -111,7 +139,7 @@ Although every galley is rendered in the same point size, this can be scaled up 
 
 
 
-\subsubsection{Floats with a Queue}
+\subsection{Floats with a Queue}
 The first attempt at supporting floats took inspiration from \TeX, which places floats into a queue until it finds somewhere it deems appropriate to place the first float. In order to emulate this, two queues were defined: the \emph{float queue}, and the \emph{line queue}. (`Line queue' is perhaps a slight misnomer, but it is somewhat snappier than `non-floating items queue'.)
 
 
@@ -123,7 +151,7 @@ When at least one of the queues is not empty, document layout begins. If the flo
   \begin{center}
   \includegraphics[height=\textheight]{gfx/floatqueueflowchart}
   \end{center}
-  \caption{Flowchart describing the two-queue float algorithm}
+  \caption[Flowchart of the two-queue float algorithm]{Flowchart describing the two-queue float algorithm}
   \label{fig:float-flowchart}
 \end{figure}
 
@@ -131,7 +159,7 @@ Pagination is reasonably simple with this queueing system: as soon as a page is 
 
 While this approach does produce reasonable layouts, and handles floats well without the need for backtracking, it is not particularly conducive to producing layouts with floats that span multiple columns. The queue-based layout described above is rather simplistic: it knows about the size of each component that it lays out, but it does not remember the history of the positions of any of the components that are already laid out. This makes it difficult to have items that span more than one column, because there is no mechanism to mark space on the page as being reserved. In order to do this, another approach must be taken.
 
-\subsubsection{A Grid-Based Layout}
+\subsection{A Grid-Based Layout}
 % - Support of floats
     % - Queue system
     % - Grid/array system (no need for queue)
@@ -162,3 +190,4 @@ Pagination becomes a little trickier when floats are allowed to span multiple co
 The first option is clearly not desirable behaviour, given that shrinking a float may well reduce its legibility. Additionally, if this becomes a common problem, it it likely to be noticeable that floats spanning into the rightmost column of the page appear shrunken. The second option (delaying placement until the following page) is a reasonable compromise, though it will increase float-drift (whereby floats become separated from their callout points in the text), which is not ideal. The third option (backtracking and shunting) is likely to produce the most desirable output, although some computational overhead will be added. One approach is simply to check whether there is enough space immediately to the left (specifically a gap between other, already placed, floats) into which the current float can be placed, with the displaced lines being shunted forwards. This method will not produce layouts as optimal as methods that use full backtracking and check all possibilities, but it will run in much quicker time. A combination of all three of the above options is likely to work best in practice.
 
 
+\todo{Actually implement some of these pagination schemes, and write something intelligent-sounding about it. Provide some example output (screenshots).}
