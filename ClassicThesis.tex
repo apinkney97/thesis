@@ -47,6 +47,7 @@ Chapters/Chapter04,
 Chapters/Chapter05,
 Chapters/Chapter06,
 Chapters/Chapter07,
+Chapters/Chapter0A,
 FrontBackmatter/Bibliography
 }
 
@@ -70,12 +71,17 @@ FrontBackmatter/Bibliography
 \include{FrontBackmatter/Dedication}
 %\include{FrontBackmatter/Foreword}
 
+%\onehalfspacing
+\doublespacing
 \include{FrontBackmatter/Abstract}
+\singlespacing
 %\include{FrontBackmatter/Publication}
 \include{FrontBackmatter/Acknowledgments}
 
 \pagestyle{scrheadings}
+\doublespacing
 \include{FrontBackmatter/Contents}
+\singlespacing
 %********************************************************************
 % Mainmatter
 %*******************************************************
@@ -83,10 +89,13 @@ FrontBackmatter/Bibliography
 % use \cleardoublepage here to avoid problems with pdfbookmark
 
 \doublespacing
+\part{Motivation}
 \include{Chapters/Chapter01}
+\part{Implementation}
 \include{Chapters/Chapter02}
 \include{Chapters/Chapter03}
 \include{Chapters/Chapter04}
+\part{Analysis}
 \include{Chapters/Chapter05}
 \include{Chapters/Chapter06}
 \include{Chapters/Chapter07}
@@ -97,9 +106,9 @@ FrontBackmatter/Bibliography
 %*******************************************************
 \appendix
 \cleardoublepage
-%\part{Appendix}
+\part{Appendices}
 
-%\include{Chapters/Chapter0A}
+\include{Chapters/Chapter0A}
 %********************************************************************
 % Other Stuff in the Back
 %*******************************************************

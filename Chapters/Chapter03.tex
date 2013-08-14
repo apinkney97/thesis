@@ -38,7 +38,7 @@ Almost all \ebook{} readers support the \epub{} format,\marginpar{Amazon's \emph
 
 In the system described in the previous chapter, the generation of malleable documents had been a rather labour-intensive process, involving the processing of the source document through \troff{} and \pdfdit{}. In the case of documents with galleys of more than one width, modifications needed to be made, by hand, to the document structure tree of the resultant \gls{pdf} files.
 
-Adding or removing characters to the source of a \gls{pdf} file is no trivial matter, since the \textsc{xref} table, which stores the byte offset of every \gls{COSObject} within the a \gls{pdf} file, is no longer valid. (Acrobat does kindly offer to fix this problem if it detects it, but it has the side effect of discarding any data it does not recognise. Clearly losing the document structure tree is undesirable.) The \textsc{xref} table can either be fixed programatically, or by a painstaking process involving a hex editor and a lot of patience. Significant lack of patience meant that there was only ever one multiple galley-width test document produced for the previous system.
+Adding or removing characters to the source of a \gls{pdf} file is no trivial matter, since the \textsc{xref} table, which stores the byte offset of every \gls{COSObject} within a \gls{pdf} file, is no longer valid. (Acrobat does kindly offer to fix this problem if it detects it, but it has the side effect of discarding any PDF data that it does not recognise. Clearly losing the document structure tree is undesirable.) The \textsc{xref} table can either be fixed programatically, or by a painstaking process involving a hex editor and a lot of \marginpar{Significant lack of patience meant that there was only ever one multiple galley-width test document produced for the previous system.} patience. 
 
 Since the new system no longer relies on \gls{cog}-\gls{pdf}, the reliance on \troff{} and \pdfdit{} is no longer present. Consequently, a sensible approach is to produce a completely bespoke typesetting tool, allowing unneeded features to be removed, and the provision of some finer-grained control over other aspects. For example, it is important for this system that the the line-breaking and hyphenation algorithms can easily be changed.
 
@@ -86,23 +86,23 @@ is serialised, replete with COGs and content tree.
  Next, the source document is passed through a program to produce the output that becomes the malleable document itself. This program\redmarginpar{Should I find a name for this program? It's a bit unwieldy referring to it anonymously all the time. Is \emph{Galley Renderer} ok? Or \emph{Document Generator}?} passes the text of each paragraph through an implementation of a line-breaking algorithm (we use Knuth-Plass, but this could be replaced by any other algorithm that performs line breaking and justification). Each paragraph is rendered multiple times, once for each galley width, in order to produce the document's multiple galley renderings. Each line of each rendering of every paragraph is converted into a list of its composite words. All of these words have an associated offset value, which is later used when drawing the text to ensure that each word is positioned on the line with the correct spacing. The general algorithm used is given in listing~\ref{lst:parsplitter}.
 
 
-\begin{lstlisting}[label=lst:parsplitter,captionpos=b,float,caption={[Algorithm followed by the galley renderer]The algorithm followed by the galley renderer. Firstly the source of the document is parsed to break it into its initial logical blocks: one block per paragraph and one block per float, in the order encountered in the document source. These blocks are then processed further depending on their type. floats may be probed for their pixel dimensions if no size was specified, and are then added to the document structure tree. Paragraphs have their content passed through a line breaking algorithm, once for each specified width.}]
+\begin{lstlisting}[label=lst:parsplitter,language=c,captionpos=b,float,caption={[Algorithm followed by the galley renderer]The algorithm followed by the galley renderer. Firstly the source of the document is parsed to break it into its initial logical blocks: one block per paragraph and one block per float, in the order encountered in the document source. These blocks are then processed further depending on their type. Floats may be probed for their pixel dimensions if no size was specified, and are then added to the document structure tree. Paragraphs have their content passed through a line breaking algorithm, once for each specified width.}]
 docStrucTree renderDocument(documentContent, galleyWidths[]) {
     parasAndFloats[] = parseDocumentSource(documentContent);
     docStrucTree = empty tree;
     foreach (item in parasAndFloats) {
-        if (item is a float) {
+        if (item is a floatable object) {
             if (dimensions are not specified) {
                 read pixel dimensions from file;
             }
-            add float to docStrucTree;
+            add floatable object to docStrucTree;
         } else { /* therefore item is a paragraph */
             create empty paragraph container;
             foreach (width in galleyWidths) {
                 pass item text through linebreaker using width;
                 create empty galley container;
                 foreach (line returned by linebreaker) {
-                    add words and positioning data for line to galley container;
+                    add this line's words and positioning data to galley container;
                 }
                 add galley container to paragraph container;
             }
@@ -113,7 +113,7 @@ docStrucTree renderDocument(documentContent, galleyWidths[]) {
 }
 
 parasAndFloats[] parseDocumentSource(documentContent) {
-    step through documentContent line by line, returning the documentContent broken into an array of strings with one element per paragraph and per float;
+    step through documentContent line by line, returning the documentContent broken into an array of strings with one element per paragraph and per floatable object;
 }
 
 \end{lstlisting}
@@ -121,15 +121,61 @@ parasAndFloats[] parseDocumentSource(documentContent) {
 
 The content of the floats is largely left unchanged. A reference to the image, along with its required dimensions, is simply passed through to the output. If dimensions were not explicitly specified in the source document, the pixel size of the image itself is used.
 
-Finally, once the whole of the source document has been processed, the rendered content is output\ed in the form of the document structure tree shown in figure~\ref{fig:tree}\ed encoded in JSON. This becomes the data representing the source document, which, in conjunction with the viewer defined in the next section, becomes a \emph{malleable document}.
+Finally, once the whole of the source document has been processed, the rendered content is output\ed in the form of the document structure tree shown in figure~\ref{fig:tree}\ed encoded in \gls{json}. This becomes the data representing the source document, which, in conjunction with the viewer defined in the next section, becomes a \emph{malleable document}. A sample of this data is shown in listing~\ref{lst:datajs}.
 
+\begin{lstlisting}[label=lst:datajs,captionpos=b,float,language=c,stringstyle=\color{blue},basicstyle=\ttfamily\footnotesize,caption={[Excerpt from JavaScript data file]Excerpt from JavaScript data file representing a 3-galley document. Note that the title "Abstract" is treated as any normal paragraph and, as for any paragraph, is typeset once for each galley rendering (despite there being no difference between each rendering in this case). The first rendering of the first paragraph of the abstract begins below. For brevity's sake, subsequent renderings are not shown, but since the following galleys are typeset with a different measure, the spacing and words per line will differ. At the top is an object representing a float, which contains values for \textcolor{red}width, \textcolor{red}height, and \textcolor{red}data.}]
+[
+    {
+        w: 952.5,
+        h: 342.75,
+        d: "<img style=\"width:100%\" src=\"fig0.png\" alt=\"Reflowable Documents Composed from\nPre-rendered Atomic Components\nAlexander J. Pinkney\nSteven R. Bagley\nDavid F. Brailsford\nDocument Engineering Lab.\nSchool of Computer Science\nUniversity of Nottingham\nNottingham, NG8 1BB, UK\n{azp|srb|dfb}@cs.nott.ac.uk\n\">"
+    },
+    [
+        [
+            [
+                [0, "Abstract"]
+            ]
+        ],
+        [
+            [
+                [0, "Abstract"]
+            ]
+        ],
+        [
+            [
+                [0, "Abstract"]
+            ]
+        ]
+    ],
+    [
+        [
+            [
+                [0, "Mobile"], [38.346, "eBook"], [73.356, "readers"]
+            ],
+            [
+                [0, "are"], [17.334, "now"], [40.68, "commonplace"]
+            ],
+            [
+                [0, "in"], [13.004, "today&#39;s"], [52, "society,"], [92.664, "but"]
+            ],
+            [
+                [0, "their"], [26.334, "document"], [78, "layout"]
+            ],
+            [
+                [0, "algorithms"], [53.736,"remain"], [89.46,"basic,"]
+            ],
+            [
+                [0, "largely"],[35.724, "due"],[55.452, "to"],[67.188, "constraints"]
+            ],
+        /* truncated */
 
+\end{lstlisting}
 
 
 \section{The Viewer}
 \label{sec:viewer}
 
-In order to circumvent the browser's default text layout algorithm, and to ensure that our ``high quality'' pre-computed text-layout is used, the viewer must specify the absolute position of every word on each line, in a manner not dissimilar to the internals of a PDF file. The document generator described in the previous section ensures that all the information needed to lay the text out is contained within the generated JSON data representing the document structure tree.
+In order to circumvent the browser's default text layout algorithm, and to ensure that our ``high quality'' pre-computed text-layout is used, the viewer must specify the absolute position of every word on each line, in a manner not dissimilar to the internals of a PDF file. The document generator described in the previous section ensures that all the information needed to lay the text out is contained within the generated \gls{json} data representing the document structure tree.
 
 
 When the viewer is launched, it decides which is the most appropriate galley rendering to display, based on a metric of which rendering will be most aesthetically pleasing. Since it appears to work well, the metric defined in Chapter~\ref{ch:malleable} is used, which attempts to balance a penalty for excessive inter-column whitespace against a penalty for too many columns. 
@@ -181,7 +227,7 @@ An advantage of this grid-based approach is that it no longer requires the use o
 
 \begin{figure}
     \includegraphics[angle=90,origin=c,width=\textwidth]{gfx/floatrendering}
-    \caption[A sample rendering with multi-column floats]{An excerpt from \cite{Pinkney2011}, typeset and rendered by our new system.}
+    \caption[A sample rendering with multi-column floats]{An excerpt from \cite{Pinkney2011}, typeset and rendered by the system described in chapter~\ref{ch:floats}. Of the two floats (a screenshot from a Kindle, and a demonstration of some micro-typographical techniques), one spans only one column, and one spans two. }
     \label{fig:screengrab}
 \end{figure}
 
