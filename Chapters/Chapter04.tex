@@ -1,12 +1,11 @@
 \chapter{Dealing with File Bloat}\label{ch:bloat}
-\redmarginpar{Have done the groundwork for this chapter (results in table~\ref{tab:filesize}) but need to do some more on comparing different compression schemes, and then write about it.}
 
 \section{Rationale}
 In the system thus far described in this thesis, the emphasis has been firmly upon reducing the computational complexity of layout operations at view-time of a document, and therefore little consideration has been given to the filesize of the resultant malleable documents.
 
-\todo{Put in some pdfdump output comparing ``normal'' pdfs with my malleable ones (maybe as an appendix)}
+%\todo{Put in some pdfdump output comparing ``normal'' pdfs with my malleable ones (maybe as an appendix)}
 
-The resultant tradeoff between filesize and required computation has previously been justified on the basis that storage is both cheap (as of 2013 one US dollar will buy around two gigabytes of \textsc{nand} flash memory) and light; and batteries, although not enormously expensive either, already comprise a significant proportion of the overall mass of most portable devices suitable for reading \ebook{}s. The upshot is that adding more storage to a device has little impact upon devices' aesthetics, but that adding extra battery life (emerging nanotube battery technology notwithstanding) would result in vast increases in the devices' overall bulk and mass.
+The resultant tradeoff between filesize and required computation has previously been justified on the basis that storage is cheap,\marginpar{as of 2013 one US dollar will buy around two gigabytes of \textsc{nand} flash memory} light, and small, and that batteries, although relatively inexpensive, already comprise a significant proportion of the overall mass and volume of most portable devices suitable for reading \ebook{}s. The consequence of this is that adding more storage to a device has little impact upon devices' aesthetics, but that adding extra battery life (emerging nanotube battery technology notwithstanding) would result in vast increases in devices' overall bulk and mass.
 
 Despite this, it seems perverse to make no attempt at all to keep filesizes as small as possible, as long as there are no (or limited) impacts upon the required computation at view-time.
 
@@ -36,67 +35,95 @@ If, for example, if the word ``shall'' appears several times in a document (in t
 
 \section{Results}
 
-\subsection{Ordered dictionary with absolute positioning}
+The following pages show the evolution of the encoding system, and a sample of resultant filesizes.
+
 
 \begin{figure}
   \begin{center}
-  \includegraphics[width=\textwidth]{gfx/scaling}
+  \includegraphics[width=\textwidth]{gfx/1-b}
+  \includegraphics[width=\textwidth]{gfx/1-s}
+  \includegraphics[width=\textwidth]{gfx/1-r}
   \end{center}
-  \caption[Filesize versus number of renderings, using absolute positioning]{Filesize in bytes, for a selection of documents that contain varying numbers of galley renderings, using an ordered dictionary and absolute positioning}
-  \label{fig:sizescale}
+  \caption[Filesizes of documents in original encoding]{Filesizes of various documents, using the original encoding.}
+  \label{fig:size-orig}
+\end{figure}
+
+
+
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=\textwidth]{gfx/2-b}
+  \includegraphics[width=\textwidth]{gfx/2-s}
+  \includegraphics[width=\textwidth]{gfx/2-r}
+  \end{center}
+  \caption[Filesizes of documents in JSONified encoding]{Filesizes of various documents, encoded in a JSON-like manner.}
+  \label{fig:size-json}
+\end{figure}
+
+
+
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=\textwidth]{gfx/3-b}
+  \includegraphics[width=\textwidth]{gfx/3-s}
+  \includegraphics[width=\textwidth]{gfx/3-r}
+  \end{center}
+  \caption[Filesizes of documents with an unordered dictionary]{Filesizes of various documents, encoded using an unordered dictionary.}
+  \label{fig:size-unord}
+\end{figure}
+
+
+
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=\textwidth]{gfx/4-b}
+  \includegraphics[width=\textwidth]{gfx/4-s}
+  \includegraphics[width=\textwidth]{gfx/4-r}
+  \end{center}
+  \caption[Filesizes of documents with an ordered dictionary]{Filesizes of various documents, encoded using an ordered dictionary and absolute positioning.}
+  \label{fig:size-ord}
+\end{figure}
+
+
+
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=\textwidth]{gfx/5-b}
+  \includegraphics[width=\textwidth]{gfx/5-s}
+  \includegraphics[width=\textwidth]{gfx/5-r}
+  \end{center}
+  \caption[Filesizes of documents with an ordered dictionary and relative positioning]{Filesizes of various documents, encoded using an ordered dictionary and relative positioning.}
+  \label{fig:size-deltas}
+\end{figure}
+
+
+\section{Comparison of all encodings}
+
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=\textwidth]{gfx/kjv-b}
+  \end{center}
+  \caption[Comparison of filesizes from all encodings]{A comparison of filesizes produced by all encodings, using the King James Version of the Bible as a sample document.}
+  \label{fig:size-all-b}
 \end{figure}
 
 \begin{figure}
   \begin{center}
-  \includegraphics[width=\textwidth]{gfx/scalingpersrc}
+  \includegraphics[width=\textwidth]{gfx/kjv-gz}
   \end{center}
-  \caption[Filesize as a proportion of source document size, versus number of renderings, using absolute positioning]{Filesize as a proportion of source document filesize, for a selection of documents that contain varying numbers of galley renderings, using an ordered dictionary and absolute positioning}
-  \label{fig:sizescalepersrc}
-\end{figure}
-
-\begin{figure}
-  \begin{center}
-  \includegraphics[width=\textwidth]{gfx/scalingpersrcpern}
-  \end{center}
-  \caption[Filesize as a proportion of source document size, per rendering, versus number of renderings, using absolute positioning]{Filesize as a proportion of source document filesize and per galley rendering, for a selection of documents that contain varying numbers of galley renderings, using an ordered dictionary and absolute positioning}
-  \label{fig:sizescalepersrcpern}
+  \caption[Comparison of gzipped filesizes from all encodings]{A comparison of filesizes of all encodings after gzipping, using the King James Version of the Bible as a sample document. Note the substantial improvement in compression of the encoding that uses position deltas over the variants that use absolute positioning.}
+  \label{fig:size-all-gz}
 \end{figure}
 
 
-\subsection{Ordered dictionary with relative positioning}
-
-\begin{figure}
-  \begin{center}
-  \includegraphics[width=\textwidth]{gfx/scalingdeltas}
-  \end{center}
-  \caption[Filesize versus number of renderings, using relative positioning]{Filesize in bytes, for a selection of documents that contain varying numbers of galley renderings, using an ordered dictionary and relative positioning, with word widths stored in the dictionary}
-  \label{fig:sizescaledeltas}
-\end{figure}
-
-\begin{figure}
-  \begin{center}
-  \includegraphics[width=\textwidth]{gfx/scalingdeltaspersrc}
-  \end{center}
-  \caption[Filesize as a proportion of source document size, versus number of renderings, using relative positioning]{Filesize as a proportion of source document filesize, for a selection of documents that contain varying numbers of galley renderings, using an ordered dictionary and relative positioning, with word widths stored in the dictionary}
-  \label{fig:sizescaledeltaspersrc}
-\end{figure}
-
-\begin{figure}
-  \begin{center}
-  \includegraphics[width=\textwidth]{gfx/scalingdeltaspersrcpern}
-  \end{center}
-  \caption[Filesize as a proportion of source document size, per rendering, versus number of renderings, using relative positioning]{Filesize as a proportion of source document filesize and per galley rendering, for a selection of documents that contain varying numbers of galley renderings, using an ordered dictionary and relative positioning, with word widths stored in the dictionary}
-  \label{fig:sizescaledeltaspersrcpern}
-\end{figure}
-
-\begin{table}
-    \myfloatalign
-  \begin{tabularx}{\textwidth}{lXXXXXX} %\toprule
-    & \multicolumn{2}{l}{\textsc{source text}} & \multicolumn{2}{l}{\textsc{orig. scheme}} & \multicolumn{2}{l}{\textsc{dictionary}} \\
-    & \textsc{plain} & \textsc{gz} & \textsc{plain} & \textsc{gz} & \textsc{plain} & \textsc{gz} \\ \midrule
-    PBB11~\cite{Pinkney2011} & 23\textsc{k} & 9.4\textsc{k} & 627\textsc{k} & 145\textsc{k} & 314\textsc{k} & 111\textsc{k} \\ \midrule
-    King James Bible & 4.3\textsc{m} & 1.4\textsc{m} & 144\textsc{m} & 32\textsc{m} & 73\textsc{m} & 24\textsc{m} \\ 
-    \bottomrule
-  \end{tabularx}
-  \caption[Comparison of filesizes]{Comparison of filesizes using various encoding methods}  \label{tab:filesize}
-\end{table}
+% \begin{table}
+%     \myfloatalign
+%   \begin{tabularx}{\textwidth}{lXXXXXX} %\toprule
+%     & \multicolumn{2}{l}{\textsc{source text}} & \multicolumn{2}{l}{\textsc{orig. scheme}} & \multicolumn{2}{l}{\textsc{dictionary}} \\
+%     & \textsc{plain} & \textsc{gz} & \textsc{plain} & \textsc{gz} & \textsc{plain} & \textsc{gz} \\ \midrule
+%     PBB11~\cite{Pinkney2011} & 23\textsc{k} & 9.4\textsc{k} & 627\textsc{k} & 145\textsc{k} & 314\textsc{k} & 111\textsc{k} \\ \midrule
+%     King James Bible & 4.3\textsc{m} & 1.4\textsc{m} & 144\textsc{m} & 32\textsc{m} & 73\textsc{m} & 24\textsc{m} \\ 
+%     \bottomrule
+%   \end{tabularx}
+%   \caption[Comparison of filesizes]{Comparison of filesizes using various encoding methods}  \label{tab:filesize}
+% \end{table}
