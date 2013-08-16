@@ -3,6 +3,6 @@ set output "kjv-gz.pdf"
 set key inside left
 set xla "Number of Galley Renderings"
 set yla "Filesize (bytes)"
-plot "./kjv-gz.data" i 0 title columnheader(1), '' i 1 title columnheader(1), '' i 2 title columnheader(1), '' i 3 title columnheader(1), '' i 4 title columnheader(1)
+plot "./kjv-gz.data" i 1 title columnheader(1), '' i 2 title columnheader(1), '' i 3 title columnheader(1), '' i 4 title columnheader(1)
 
 
