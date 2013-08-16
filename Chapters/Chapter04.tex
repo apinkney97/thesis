@@ -9,6 +9,8 @@ The resultant tradeoff between filesize and required computation has previously 
 
 Despite this, it seems perverse to make no attempt at all to keep filesizes as small as possible, as long as there are no (or limited) impacts upon the required computation at view-time.
 
+
+
 \section{Implementation}
 The most obvious saving that can be made is with the duplication of a document's textual content. The systems described in chapters \ref{ch:malleable}~and~\ref{ch:floats} both contain as many copies of the document text as there are pre-rendered galleys; in practice, though, there is no real need for more than one copy to be present in the file. Two approaches to this problem were considered.
 
@@ -37,26 +39,13 @@ If, for example, if the word ``shall'' appears several times in a document (in t
 
 The following pages show the evolution of the encoding system, and a sample of resultant filesizes.
 
-
 \begin{figure}
   \begin{center}
-  \includegraphics[width=\textwidth]{gfx/1-b}
-  \includegraphics[width=\textwidth]{gfx/1-s}
-  \includegraphics[width=\textwidth]{gfx/1-r}
+  \includegraphics[width=\textwidth]{gnuplot/2-b}
+  \includegraphics[width=\textwidth]{gnuplot/2-s}
+  \includegraphics[width=\textwidth]{gnuplot/2-r}
   \end{center}
   \caption[Filesizes of documents in original encoding]{Filesizes of various documents, using the original encoding.}
-  \label{fig:size-orig}
-\end{figure}
-
-
-
-\begin{figure}
-  \begin{center}
-  \includegraphics[width=\textwidth]{gfx/2-b}
-  \includegraphics[width=\textwidth]{gfx/2-s}
-  \includegraphics[width=\textwidth]{gfx/2-r}
-  \end{center}
-  \caption[Filesizes of documents in JSONified encoding]{Filesizes of various documents, encoded in a JSON-like manner.}
   \label{fig:size-json}
 \end{figure}
 
@@ -64,9 +53,9 @@ The following pages show the evolution of the encoding system, and a sample of r
 
 \begin{figure}
   \begin{center}
-  \includegraphics[width=\textwidth]{gfx/3-b}
-  \includegraphics[width=\textwidth]{gfx/3-s}
-  \includegraphics[width=\textwidth]{gfx/3-r}
+  \includegraphics[width=\textwidth]{gnuplot/3-b}
+  \includegraphics[width=\textwidth]{gnuplot/3-s}
+  \includegraphics[width=\textwidth]{gnuplot/3-r}
   \end{center}
   \caption[Filesizes of documents with an unordered dictionary]{Filesizes of various documents, encoded using an unordered dictionary.}
   \label{fig:size-unord}
@@ -76,9 +65,9 @@ The following pages show the evolution of the encoding system, and a sample of r
 
 \begin{figure}
   \begin{center}
-  \includegraphics[width=\textwidth]{gfx/4-b}
-  \includegraphics[width=\textwidth]{gfx/4-s}
-  \includegraphics[width=\textwidth]{gfx/4-r}
+  \includegraphics[width=\textwidth]{gnuplot/4-b}
+  \includegraphics[width=\textwidth]{gnuplot/4-s}
+  \includegraphics[width=\textwidth]{gnuplot/4-r}
   \end{center}
   \caption[Filesizes of documents with an ordered dictionary]{Filesizes of various documents, encoded using an ordered dictionary and absolute positioning.}
   \label{fig:size-ord}
@@ -88,9 +77,9 @@ The following pages show the evolution of the encoding system, and a sample of r
 
 \begin{figure}
   \begin{center}
-  \includegraphics[width=\textwidth]{gfx/5-b}
-  \includegraphics[width=\textwidth]{gfx/5-s}
-  \includegraphics[width=\textwidth]{gfx/5-r}
+  \includegraphics[width=\textwidth]{gnuplot/5-b}
+  \includegraphics[width=\textwidth]{gnuplot/5-s}
+  \includegraphics[width=\textwidth]{gnuplot/5-r}
   \end{center}
   \caption[Filesizes of documents with an ordered dictionary and relative positioning]{Filesizes of various documents, encoded using an ordered dictionary and relative positioning.}
   \label{fig:size-deltas}
@@ -101,7 +90,7 @@ The following pages show the evolution of the encoding system, and a sample of r
 
 \begin{figure}
   \begin{center}
-  \includegraphics[width=\textwidth]{gfx/kjv-b}
+  \includegraphics[width=\textwidth]{gnuplot/kjv-b}
   \end{center}
   \caption[Comparison of filesizes from all encodings]{A comparison of filesizes produced by all encodings, using the King James Version of the Bible as a sample document.}
   \label{fig:size-all-b}
@@ -109,7 +98,7 @@ The following pages show the evolution of the encoding system, and a sample of r
 
 \begin{figure}
   \begin{center}
-  \includegraphics[width=\textwidth]{gfx/kjv-gz}
+  \includegraphics[width=\textwidth]{gnuplot/kjv-gz}
   \end{center}
   \caption[Comparison of gzipped filesizes from all encodings]{A comparison of filesizes of all encodings after gzipping, using the King James Version of the Bible as a sample document. Note the substantial improvement in compression of the encoding that uses position deltas over the variants that use absolute positioning.}
   \label{fig:size-all-gz}
