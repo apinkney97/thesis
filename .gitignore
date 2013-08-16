@@ -22,7 +22,7 @@
 *.mtc1
 *.out
 *.synctex.gz
-*.pdf
+ClassicThesis.pdf
 *.ps
 *.kilepr
 *.backup
