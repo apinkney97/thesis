@@ -13,44 +13,124 @@
 %can be taken, and their effects on the final document.
 
 
-The invention of movable type in China in the 11th Century, and independently in Europe in the 15th Century, led to an enormous increase in the availability of printed material. Movable type, in various incarnations, formed an enormously important part of the newspaper industry, from its advent in the 17th century until digitisation in the mid-1980s. The inherently volatile nature of newspaper layout (caused, for example, by important stories breaking shortly before going to press) coupled with the expense and time-consuming nature of physical typesetting, led to the development of the familiar columnar appearance of the newspaper that is prevalent worldwide.
+The invention of movable type in China in the 11th Century, and independently in Europe in the 15th Century, led to an enormous increase in the availability of printed material. In its various incarnations, movable type formed an enormously important part of the newspaper industry, from its advent in the 17th century, until digitisation in the mid-1980s. The inherently volatile nature of newspaper layout (caused, for example, by important stories breaking shortly before going to press) coupled with the expense and time-consuming nature of physical typesetting, led to the development of the familiar columnar appearance of the newspaper that is prevalent worldwide.
 
 \section{The use of Galleys in Typesetting}
-In a traditional newspaper layout, each page is divided into columns of equal \emph{measure}, that is of equal horizontal width. All text to appear in the newspaper is typeset to fit this measure (or integer multiples thereof, for example in the case of headlines) allowing articles to be slotted anywhere into the final layout of the newspaper, simply by breaking their text between lines where necessary to span across columns or pages. The article never requires retypesetting as long as its content remains unchanged\ed{}an advantage only available when all text is rendered to the same width.
+In a traditional newspaper layout, each page is divided into columns of equal \gls{measure}, that is of equal horizontal width. All text that is to appear in the newspaper is typeset to fit this \gls{measure} (or integer multiples thereof, for example in the case of headlines) allowing articles to be slotted anywhere into the final layout of the newspaper, simply by breaking their text between lines where necessary to span across columns or pages. An article never requires retypesetting as long as its content remains unchanged\ed{}an advantage only available when all text is rendered to the same width.
 
 
-The metal trays used to contain typeset lines of physical type are known as \emph{galleys}. Newspapers use reasonably narrow galleys; paperback books tend to use wider galleys, and hardback books wider still. \marginpar{A very unscientific survey of various items of print within arms' reach suggests that newspapers use approximately 2'' galleys, paperback books around 4'', and hardback books around 5''.}Narrower galleys offer the advantage that less space is wasted if the final line in a paragraph does not span the full width: this is more important in newspaper layout than in most other typesetting situations, as space is at a premium. Wider galleys aid readability, up to a certain point, after which it becomes difficult for the eyes to keep track between lines.\cite{Bringhurst2008, Voorhees2011}
+The metal trays used to contain typeset lines of physical type are known as \glspl{galley}. Newspapers use reasonably narrow galleys; paperback books tend to use wider galleys, and hardback books wider still. \marginpar{A very unscientific survey of various items of print within arms' reach suggests that newspapers use approximately 2'' galleys, paperback books around 4'', and hardback books around 5''.}Narrower galleys offer the advantage that less space is wasted if the final line in a paragraph does not span the full width: this is more important in newspaper layout than in most other typesetting situations, as space is at a premium. Wider galleys aid readability, up to a certain point, after which it becomes difficult for the eyes to keep track between lines \cite{Bringhurst2008, Voorhees2011}.
 
+\begin{framed}
+{ \footnotesize \parindent0pt
+\textsc{Aside:} Robert Bringhurst \cite{Bringhurst2008} has the following to say about line length:
 
-Typesetting text into physical galleys is directly analogous to precomputing many of the `hard' parts of typesetting. In particular, all hyphenation, line breaking, justification, kerning, glyph substitution etc. (in fact all horizontal layout) has been `compiled out'. No matter the height of the page nor the number of columns, only vertical layout problems remain, such as attempting to avoid widows and orphans (where the last/first lines of a paragraph appear first/last in a column) and choosing optimal placements of figures and other floating bodies. The problem that remains is similar to that described by Michael Plass in his PhD thesis\cite{Plass1981}.
+\begin{quotation}\noindent
+Anything from 45 to 75 characters is widely regarded as a satisfactory length of line for a single-column page set in a serifed text face in a text size. The 66-character line (counting both letters and spaces) is widely regarded as ideal. For multiple-column work, a better average is  40 to 50 characters.
+\end{quotation}
+
+Bringhurst goes on to say that line lengths exceeding 75--80 characters make continuous reading difficult, and that at the other end of the spectrum, lines shorter than 38--40 characters are unlikely to be easy to fully justify, and should therefore in most cases be set ragged-right.
+}
+\end{framed}
+
+Typesetting text into physical galleys is directly analogous to precomputing many of the `hard' parts of typesetting. In particular, all hyphenation, line breaking, justification, kerning, glyph substitution etc. (in fact all horizontal layout) has been `compiled out'. No matter the height of the page nor the number of columns, only vertical layout problems remain, such as attempting to avoid widowed and orphaned lines (where the last/first lines of a paragraph appear first/last in a column) and choosing optimal placements of figures and other floating bodies. The problem that remains is similar to that described by Michael Plass in his Ph.D. thesis \cite{Plass1981}.
 
 \section{Galleys as a Reflow Tool}
-If an electronic version of a primarily text-based document can be partially pre-rendered into the analogue of a galley, the document is then provided with some limited flowability. Specifically, the document can be rendered for any page size at least as wide as the galley, and of arbitrary height. Wider pages may be able to accommodate multiple columns, but unless the page size is chosen carefully based on the galley's width, there is likely to be noticeable extra horizontal whitespace if the page width is not close to a multiple of the galley width.
+If an electronic version of a primarily text-based document can be partially pre-rendered into the analogue of a galley, the document is then provided with some limited flowability. Specifically, the document can be rendered for any page size at least as wide as the galley, and of arbitrary height. Wider pages may be able to accommodate multiple columns, but unless the page size is chosen carefully based on the galley's width, there is likely to be noticeable extra horizontal whitespace, if the page width is not close to a multiple of the galley width.
 
 \begin{figure}
- \includegraphics[width=\textwidth]{gnuplot/1col}
+ \includegraphics[height=\textwidth,angle=90]{gnuplot/1col}
  \caption[Extra whitespace in a single-galley document]{As more columns fit on a page, the extra whitespace required per column decreases}
  \label{fig:sawtooth}
 \end{figure}
 
 
-Figure~\ref{fig:sawtooth} shows how the extra horizontal whitespace on a page varies with page width. The peaks are at the point where an extra column can be added, and the amount of extra whitespace required drops to a minimum. The green dashed line divides this extra whitespace by the number of columns on the page, which gives a more useful metric to work with: if we physically divide the extra whitespace and insert it between the columns to increase their spacing (as opposed to leaving it on the right- or left-hand margins) then the wider the page, the less detriment is caused by the extra fraction of galley width.
+Figure~\ref{fig:sawtooth} shows how the extra horizontal whitespace on a page varies with page width. The peaks are just before the point where an extra column can be added, and the amount of extra whitespace required drops to a minimum. The blue line shows the extra whitespace divided by the number of columns on the page, which gives a more useful metric to work with: if we physically divide the extra whitespace and insert it between the columns to increase their spacing (as opposed to leaving it on the right- or left-hand margins) then the wider the page, the less detriment is caused by the extra fraction of galley width.
 
 \section{Multiple Galley Renderings}
 The problem of extra whitespace can be overcome in several ways. Firstly, and most simply, the scaling of the galley can be altered, effectively simulating a change in the point size of the font. This is probably undesirable unless a change in point size has explicitly been requested, especially if the size change is particularly noticeable.
+
 A second way in which columns can be better fitted to the page width is to typeset the source document into a range of galleys of varying width. When the document is rendered at view-time, the most appropriate width (according to some metric) can be chosen to be displayed. One very simplistic metric is to choose whichever galley rendering would result in the least extra added whitespace. By overlaying the Figure \mbox{\ref{fig:sawtooth}-like} graphs for each galley, we are able to obtain a graph like Figure~\ref{fig:overlay}, which features all available galleys. If we use our simple metric of minimum whitespace, we can simply choose whichever galley requires the smallest amount of extra whitespace for a given page width.
 
 \begin{figure}
- \includegraphics[width=\textwidth]{gnuplot/overlay}
- \caption[Extra whitespace in a multi-galley document]{Overlaying the sawtooth graphs for several galleys of differing widths allows us to minimise the extra added whitespace}
+ \includegraphics[height=\textwidth,angle=90]{gnuplot/overlay}
+ \caption[Extra whitespace in a multi-galley document]{Overlaying the sawtooth graphs for several galleys of differing widths allows us to easily choose the galley that minimises extra added whitespace}
  \label{fig:overlay}
 \end{figure}
 
 \section{A Simple Implementation}
-At an early stage it was decided that the simplest available method of implementing the above-mentioned layout algorithm was to use some existing tools from the University of Nottingham Document Engineering Laboratory: in particular the \gls{cog} model\cite{Bagley2003} for creating and managing modularised \gls{pdf} documents. This was chosen specifically to avoid the need to write a typesetter or layout engine from scratch; typesetting is performed by the \troff{} suite, and layout by Adobe Acrobat, though there is no reason why this algorithm could not be implemented with any other system capable of tightly specifying page imaging operations. Indeed, for this to be implemented in any non-prototypal form, \ie{} to be used on any portable device, it is likely that a specific, new rendering engine will need to be written for each device (or class of device).
+At an early stage, it was decided that the simplest available method of implementing the layout algorithm described above, was to use some existing tools from the University of Nottingham Document Engineering Laboratory: in particular the \gls{cog} model \cite{Bagley2003} for creating and managing modularised \gls{pdf} documents. This was chosen specifically to avoid the need to write a typesetter or layout engine from scratch; typesetting is performed by the \troff{} suite, and layout by Adobe Acrobat. % though there is no reason why this algorithm could not be implemented with any other system capable of tightly specifying page imaging operations. Indeed, for this to be implemented in any non-prototypal form, \ie{} to be used on any portable device, it is likely that a specific, new rendering engine will need to be written for each device (or class of device).
 
 \subsection{The Source Document}\label{sec:srcdoc}
-Since the majority of available tools for producing \gls{cog}ged \gls{pdf}s rely on the typesetting package \ditroff{}, it was decided to use this as the basis for the source document. \Ditroff{} is particularly amenable to many of the features required here\ed{}it is quite happy to have its page length set to large values\ed{}one sample document used a page length of 2000 inches (approximately 50 metres) with no complaints from \ditroff{}. The line length was set to a small value (approximately two inches) in order to produce a narrow column of text. Following this, the actual document content was inserted several times, incrementing the line length on each iteration, producing one document effectively containing multiple galley-width renderings of the same content.
+Since the majority of available tools for producing \gls{cog}ged \gls{pdf}s rely on the typesetting package \ditroff{}, it was decided to use this as the basis for the source document. \Ditroff{} is particularly amenable to many of the features required here\ed{}it is quite happy to have its page length set to large values\ed{}one sample document used a page length of 2000 inches (approximately 50 metres) with no complaints from \ditroff{}. The line length was set to a small value (approximately two inches) in order to produce a narrow column of text. Following this, the actual document content was inserted several times, and the line length incremented after each iteration, producing one document effectively containing multiple galley-width renderings of the same content. An example of a source document is shown in listings \ref{lst:troffsourcedoc1}~and~\ref{lst:troffsourcedoc2}.
+
+\begin{lstlisting}[label=lst:troffsourcedoc1,captionpos=b,float,caption={[A sample troff source document, part 1]A sample troff source document. The actual document text is in a file named {\tt contents.inc} , and is imported multiple times with the {\tt .so} macro. After each import, the current line length is changed (using, for example, {\tt .nr LL 1.5i} to set Line Length register to 1.5 inches). The {\tt \textbackslash X} commands are used to pass arbitrary data through the typesetter, and into the resultant ditroff intermediate code for later use. In this case, it is used to pass the column width (hence ``cWidth'') in points, so that this data can later be embedded within the final PDF file.}]
+.nr HM 0.5i
+.nr FM 0.5i
+.ds CH 
+.\" Overwrites the Centre Header (suppresses page number)
+.pl 2000i
+.\" Make the page quite long to avoid troff doing any pagination
+.nr PO 0
+.\" Page Offset (ie left margin)
+.ps 11
+.vs 13
+.nr PS 11
+.nr VS 13
+.\" COPY BELOW & CHANGE VALUE OF LL
+.nr LL 1i
+\X'cWidth:72'
+.\" Line Length (ie galley width)
+.so contents.inc
+.nr LL 1.5i
+\X'cWidth:108'
+.so contents.inc
+.nr LL 2i
+\X'cWidth:144'
+.so contents.inc
+.nr LL 2.5i
+\X'cWidth:180'
+.so contents.inc
+.nr LL 3i
+\X'cWidth:216'
+.so contents.inc
+.nr LL 3.5i
+\X'cWidth:252'
+.so contents.inc
+.nr LL 4i
+\X'cWidth:288'
+.so contents.inc
+\end{lstlisting}
+
+
+\begin{lstlisting}[label=lst:troffsourcedoc2,captionpos=b,float,caption={[A sample troff source document, part 2]A two-paragraph excerpt from a sample {\tt contents.inc} file, as described in listing~\ref{lst:troffsourcedoc1}. Each paragraph is preceded by a call of the {\tt.PP} macro, which signifies the start of a new paragraph.}]
+.PP
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vel
+enim vitae mauris vestibulum egestas. Suspendisse potenti.
+Pellentesque leo nunc, lobortis vitae gravida vel, congue at
+nulla. Praesent a placerat mauris. Praesent sed erat ac dui
+tincidunt consectetur vel nec leo. In velit odio, congue non
+eleifend at, accumsan eu diam. Suspendisse dignissim, quam quis
+euismod laoreet, est leo euismod lectus, sed consequat leo nunc
+in ante. Duis risus tellus, suscipit ut fermentum et, ornare non
+lorem. Morbi nibh elit, dignissim ullamcorper posuere at, lacinia
+condimentum odio. Fusce vitae metus mi. Pellentesque scelerisque
+fermentum magna a dictum. Mauris ut ante mauris, ac viverra
+felis. Praesent ut elit ut purus malesuada suscipit. Fusce mollis
+eros ac lectus suscipit gravida. Pellentesque vel nisl nec eros
+convallis luctus nec eu quam. Aliquam tincidunt ultrices blandit.
+.PP
+Vestibulum lorem felis, consectetur ornare vehicula ac, cursus
+tincidunt nisl. Aliquam in enim nisi, quis hendrerit est. Nullam
+pretium congue sapien ac tincidunt. Suspendisse suscipit felis
+eget nibh luctus sit amet imperdiet ligula venenatis. Vestibulum
+eu dui nulla. Vivamus interdum ullamcorper sapien eget dapibus.
+Proin sed dictum arcu. Curabitur velit justo, fringilla non
+sodales laoreet, dignissim nec nulla. Praesent convallis ipsum
+quis dolor ultricies non sodales dui viverra. Phasellus nec nisi
+at nisi bibendum aliquam vitae et arcu. Donec feugiat dolor ut
+felis dapibus eget auctor enim mattis.
+\end{lstlisting}
 
 \subsection{pdfdit}
 Having generated the source document, it was processed with ditroff to generate the intermediate code used to feed each typesetter post-pro\-cessor. This output is very expressive, and, unlike \TeX's DVI, contains enough information that post-processors are easily able to locate the start and end of lines and paragraphs within the document. This meant that only minimal changes were needed to be made to the \emph{pdfdit} package described in \cite{Bagley2003} to implement the design.
@@ -68,11 +148,11 @@ Once the entire output file has been parsed, the tree representations of the var
 \subsection{Acrobat Plugin}\label{sec:acroplugin}
 \begin{figure}
  \includegraphics[width=\textwidth]{gfx/renderings}
- \caption[Sample renderings from the Acrobat plugin]{Sample renderings from the Acrobat plugin at page widths of 42, 48, and 54~em. \textbf{NOTE TO SELF: ADD BOUNDING BOXES}}
+ \caption[Sample renderings from the Acrobat plugin]{Sample renderings from the Acrobat plugin at page widths of 42, 48, and 54~em.}
  \label{fig:renderings}
 \end{figure}
 
-The decision to use Acrobat as an eBook `emulator' stemmed once again from the available existing \gls{cog}-based tools (see section \ref{sec:srcdoc}, as well as the extensive API and developer support available for Acrobat.
+The decision to use Acrobat as an \ebook{} `emulator' stemmed once again from the available existing \gls{cog}-based tools (see section \ref{sec:srcdoc}, as well as the extensive API and developer support available for Acrobat.
 
 Since, by the point the document is to be displayed in Acrobat, most of the computationally expensive typesetting has already been carried out, the algorithm used to lay out the lines of the galleys can be very simple. The plugin chooses the most appropriate galley width to lay out, based on the current page width, and according to some measure of aesthetics, and then simply lays the document out line by line, with appropriate vertical spacing, until no more lines will fit in the current column. Any subsequent columns which will fit on the same page are then laid out in the same manner.
 
@@ -80,11 +160,12 @@ For convenience of testing, the plugin also automatically resizes the page to th
 Some sample renderings from the Acrobat plugin are shown in Figure~\ref{fig:renderings}.
 
 \section{Layout Considerations}
-\begin{figure}
+\begin{sidewaysfigure}
  \includegraphics[width=\textwidth]{gfx/graph-em}
  \caption[Graph of minimum penalty values]{Graph showing the minimum penalty value of all galleys in a reflowable document, over a range of page widths. The particular document used contained four galleys; these were rendered at widths of 15, 18, 21 and 24~em, with a minimum gutter width of 1~em. Each vertical band highlights a range of page widths within which only the horizontal spacing of the page is altered. The boundaries between vertical bands represent a switch between galley renderings\ed{}the galley used and number of columns is as annotated on the graph.}
  \label{fig:penaltygraph}
-\end{figure}
+\end{sidewaysfigure}
+
 Since galleys of text lend themselves to being used in a columnar format, a method of fitting columns appropriately to the available page width must be devised. A sensible first approach is simply to calculate how many columns of each galley rendering will fit, by adding the galley width to a specified minimum inter-column spacing, and dividing the page width by this. The remainder of this division will then specify the total extra amount of horizontal whitespace required, which can then divided up and inserted between the columns. A simple measure of aesthetic quality here is to apply a linear penalty for any extra whitespace required, as we seek to keep page margins and column gutters to a minimum.
 
 %\begin{math}
