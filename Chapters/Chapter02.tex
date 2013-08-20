@@ -36,7 +36,8 @@ Bringhurst goes on to say that line lengths exceeding 75--80 characters make con
 Typesetting text into physical galleys is directly analogous to precomputing many of the `hard' parts of typesetting. In particular, all hyphenation, line breaking, justification, kerning, glyph substitution etc. (in fact all horizontal layout) has been `compiled out'. No matter the height of the page nor the number of columns, only vertical layout problems remain, such as attempting to avoid widowed and orphaned lines (where the last/first lines of a paragraph appear first/last in a column) and choosing optimal placements of figures and other floating bodies. The problem that remains is similar to that described by Michael Plass in his Ph.D. thesis \cite{Plass1981}.
 
 \section{Galleys as a Reflow Tool}
-If an electronic version of a primarily text-based document can be partially pre-rendered into the analogue of a galley, the document is then provided with some limited flowability. Specifically, the document can be rendered for any page size at least as wide as the galley, and of arbitrary height. Wider pages may be able to accommodate multiple columns, but unless the page size is chosen carefully based on the galley's width, there is likely to be noticeable extra horizontal whitespace, if the page width is not close to a multiple of the galley width.
+\label{sec:singlegalleymetric}
+If an electronic version of a primarily text-based document can be partially pre-rendered into the analogue of a galley, the document is then provided with some limited flowability. Specifically, the document can be rendered for any page size at least as wide as the galley, and of arbitrary height. Wider pages may be able to accommodate multiple columns, but unless the page size is chosen carefully, based on the galley's width, there is likely to be noticeable extra horizontal whitespace, particularly if the page width is not close to a multiple of the galley width.
 
 \begin{figure}
  \includegraphics[height=\textwidth,angle=90]{gnuplot/1col}
@@ -45,12 +46,13 @@ If an electronic version of a primarily text-based document can be partially pre
 \end{figure}
 
 
-Figure~\ref{fig:sawtooth} shows how the extra horizontal whitespace on a page varies with page width. The peaks are just before the point where an extra column can be added, and the amount of extra whitespace required drops to a minimum. The blue line shows the extra whitespace divided by the number of columns on the page, which gives a more useful metric to work with: if we physically divide the extra whitespace and insert it between the columns to increase their spacing (as opposed to leaving it on the right- or left-hand margins) then the wider the page, the less detriment is caused by the extra fraction of galley width.
+Figure~\ref{fig:sawtooth} shows how the extra horizontal whitespace on a page varies with page width. The peaks occur just before the point where an extra column can be added, and the amount of extra whitespace that is required drops to a minimum. The blue line shows the extra whitespace divided by the number of columns that fit on the page, which gives a more useful metric to work with: if we physically divide the extra whitespace and insert it between the columns to increase their spacing (as opposed to leaving it on the right- or left-hand margins) then the wider the page, the less detriment is caused by the extra fraction of galley width.
 
 \section{Multiple Galley Renderings}
-The problem of extra whitespace can be overcome in several ways. Firstly, and most simply, the scaling of the galley can be altered, effectively simulating a change in the point size of the font. This is probably undesirable unless a change in point size has explicitly been requested, especially if the size change is particularly noticeable.
+\label{sec:multigalleymetric}
+The problem of extra whitespace can be overcome in several ways. Firstly, and most simply, the scaling of the galley can be altered, effectively simulating a change in the point size of the font. This obvious side-effect is probably undesirable, unless a change in point size has explicitly been requested, and especially if the size change is particularly noticeable.
 
-A second way in which columns can be better fitted to the page width is to typeset the source document into a range of galleys of varying width. When the document is rendered at view-time, the most appropriate width (according to some metric) can be chosen to be displayed. One very simplistic metric is to choose whichever galley rendering would result in the least extra added whitespace. By overlaying the Figure \mbox{\ref{fig:sawtooth}-like} graphs for each galley, we are able to obtain a graph like Figure~\ref{fig:overlay}, which features all available galleys. If we use our simple metric of minimum whitespace, we can simply choose whichever galley requires the smallest amount of extra whitespace for a given page width.
+A second way in which columns can be better fitted to the page width is to typeset the source document into a range of galleys of varying \gls{measure}. When the document is to be rendered at view-time, the most appropriate \gls{measure} (according to some metric) can be chosen to be displayed. One very simplistic metric is to choose whichever galley rendering would result in the least extra added whitespace. By overlaying the figure \mbox{\ref{fig:sawtooth}-like} graphs for each galley, we are able to obtain a graph like figure~\ref{fig:overlay}, which features all available galleys. If we use our simple metric of minimum whitespace, we can simply choose whichever galley requires the smallest amount of extra whitespace for a given page width.
 
 \begin{figure}
  \includegraphics[height=\textwidth,angle=90]{gnuplot/overlay}
@@ -59,10 +61,26 @@ A second way in which columns can be better fitted to the page width is to types
 \end{figure}
 
 \section{A Simple Implementation}
-At an early stage, it was decided that the simplest available method of implementing the layout algorithm described above, was to use some existing tools from the University of Nottingham Document Engineering Laboratory: in particular the \gls{cog} model \cite{Bagley2003} for creating and managing modularised \gls{pdf} documents. This was chosen specifically to avoid the need to write a typesetter or layout engine from scratch; typesetting is performed by the \troff{} suite, and layout by Adobe Acrobat. % though there is no reason why this algorithm could not be implemented with any other system capable of tightly specifying page imaging operations. Indeed, for this to be implemented in any non-prototypal form, \ie{} to be used on any portable device, it is likely that a specific, new rendering engine will need to be written for each device (or class of device).
+At an early stage, it was decided that the simplest available method of implementing the layout algorithm described above was to use some existing tools from the University of Nottingham Document Engineering Laboratory: in particular the \gls{cog} model \cite{Bagley2003} for creating and managing modularised \gls{pdf} documents. This was chosen specifically to avoid the need to write a typesetter or layout engine from scratch; typesetting is performed by the \troff{} suite, and layout by Adobe Acrobat.  % though there is no reason why this algorithm could not be implemented with any other system capable of tightly specifying page imaging operations. Indeed, for this to be implemented in any non-prototypal form, \ie{} to be used on any portable device, it is likely that a specific, new rendering engine will need to be written for each device (or class of device).
+
+\subsection{The \textsc{cog} Model}
+%summary of cogs, what I've changed, ie line-level rather than default paragraph level. Put in tree to retain par details
+The \gls{cog} model was developed to enable the reuse of semantic components within PDF documents, by breaking the traditional graphically-monolithic PDF page into a series of distinct, encapsulated graphical blocks, termed \glspl{cog}. In its original incarnation, the \gls{cog} model did not account for any relationship between individual \glspl{cog}\,---\,it was simply designed as a method by which document components could be easily reused or reordered. The \glspl{cog} generated are largely at the granularity of a paragraph, and can still be imaged onto the page in any arbitrary order, independent of reading order.
+
+In order to implement this galley-based design, it is necessary to decrease this granularity, such that each line of text is represented by a separate \gls{cog}. However, it is also important that the semantic structure of the document is explicitly stored. This is principally so that the reading order of the \glspl{cog} is maintained, and also so that the reader software can identify paragraphs, headings, and so on, in order to enable them to be laid out correctly.
+
+The \gls{cog} model takes advantage of the fact that the \pdf{} specification allows page content to be described by an array of streams of imaging operators, rather than the more commonly encountered single, monolithic stream. Unfortunately, this array can only be one-di\-men\-sional, meaning that whilst it can enforce reading order, it cannot be used to, say, group lines into paragraphs.
+
+Since the PDF specification allows essentially arbitrary insertion of data structures into a document, \marginpar{According to the specification, PDF readers that encounter unknown data within a \pdf{} file that they do not recognise should simply ignore it} this flexibility was used to embed a simple tree structure representing the paragraphs, in parallel to the \glspl{cog} themselves (an example of which is shown in figure~\ref{fig:tree}). At the level of its leaves, this tree simply contains pointers to the \glspl{cog} which make up the content of the document. In the simplest case, where the document contains only one rendering (and thus the pa\-ra\-graph-level items have only one child) the \glspl{cog} pointed at by the leaves can simply be rendered in order, adding vertical space as appropriate.
+
+\begin{figure}
+ \includegraphics[width=\textwidth]{gfx/tree}
+ \caption[A simple document structure tree]{A simple document structure tree. The first level below the root represents all paragraph-level items: headings, paragraphs, figures etc. These items have one child for each galley rendering of the document. These in turn have one child for each \gls{cog} comprising their content\ed{}in the case of a paragraph or heading its lines; in the case of a figure, the figure itself and any associated caption.}
+ \label{fig:tree}
+\end{figure}
 
 \subsection{The Source Document}\label{sec:srcdoc}
-Since the majority of available tools for producing \gls{cog}ged \gls{pdf}s rely on the typesetting package \ditroff{}, it was decided to use this as the basis for the source document. \Ditroff{} is particularly amenable to many of the features required here\ed{}it is quite happy to have its page length set to large values\ed{}one sample document used a page length of 2000 inches (approximately 50 metres) with no complaints from \ditroff{}. The line length was set to a small value (approximately two inches) in order to produce a narrow column of text. Following this, the actual document content was inserted several times, and the line length incremented after each iteration, producing one document effectively containing multiple galley-width renderings of the same content. An example of a source document is shown in listings \ref{lst:troffsourcedoc1}~and~\ref{lst:troffsourcedoc2}.
+Since the majority of available tools for producing \gls{cog}ged \gls{pdf}s rely on the typesetting package \ditroff{}, it was decided to use this as the basis for the source document. \Ditroff{} is particularly amenable to many of the features required here\ed{}it is quite happy to have its page length set to large values\ed{}one sample document used a page length of 2000 inches (approximately 50 metres) with no complaints from \ditroff{}. The line length was set to a small value (approximately two inches) in order to produce a narrow column of text. Following this, the actual document content was inserted several times, and the line length increased after each iteration, producing one document effectively containing multiple galley-width renderings of the same content. An example of a source document is shown in listings \ref{lst:troffsourcedoc1}~and~\ref{lst:troffsourcedoc2}.
 
 \begin{lstlisting}[label=lst:troffsourcedoc1,captionpos=b,float,caption={[A sample troff source document, part 1]A sample troff source document. The actual document text is in a file named {\tt contents.inc} , and is imported multiple times with the {\tt .so} macro. After each import, the current line length is changed (using, for example, {\tt .nr LL 1.5i} to set Line Length register to 1.5 inches). The {\tt \textbackslash X} commands are used to pass arbitrary data through the typesetter, and into the resultant ditroff intermediate code for later use. In this case, it is used to pass the column width (hence ``cWidth'') in points, so that this data can later be embedded within the final PDF file.}]
 .nr HM 0.5i
@@ -133,22 +151,18 @@ felis dapibus eget auctor enim mattis.
 \end{lstlisting}
 
 \subsection{pdfdit}
-Having generated the source document, it was processed with ditroff to generate the intermediate code used to feed each typesetter post-pro\-cessor. This output is very expressive, and, unlike \TeX's DVI, contains enough information that post-processors are easily able to locate the start and end of lines and paragraphs within the document. This meant that only minimal changes were needed to be made to the \emph{pdfdit} package described in \cite{Bagley2003} to implement the design.
+Having created the source document, it was processed with \ditroff{} to generate the intermediate code used to feed each typesetter post-pro\-cessor. This output is very expressive, and, unlike \TeX's equivalent DVI, contains enough information that post-processors are easily able to locate the start and end of lines and paragraphs within the document. This meant that only minimal changes were needed to be made to the \emph{pdfdit} package described in \cite{Bagley2003} to implement the design.
 
 The first change necessary was to decrease the granularity of the output \gls{cog}s, producing them at the line level, rather than at the paragraph level. Secondly, some method of generating the requisite tree representing the document structure was required. This was solved by simply using the point at which the original version of pdfdit would have started a new paragraph-level \gls{cog}, and, instead, starting a new paragraph-level block entry in the document structure tree. Each subsequent line-level \gls{cog} produced can then be added as a child of this block.
 
 Once the entire output file has been parsed, the tree representations of the various width galleys are amalgamated per-paragraph, as indicated in figure~\ref{fig:tree}, and finally the PDF file is serialised, replete with \gls{cog}s and content tree.
 
-\begin{figure}
- \includegraphics[width=\textwidth]{gfx/tree}
- \caption[A simple document structure tree]{A simple document structure tree. The first level below the root represents all paragraph-level items: headings, paragraphs, figures etc. These items have one child for each galley rendering of the document. These in turn have one child for each \gls{cog} comprising their content\ed{}in the case of a paragraph or heading its lines; in the case of a figure, the figure itself and any associated caption.}
- \label{fig:tree}
-\end{figure}
+
 
 \subsection{Acrobat Plugin}\label{sec:acroplugin}
 \begin{figure}
  \includegraphics[width=\textwidth]{gfx/renderings}
- \caption[Sample renderings from the Acrobat plugin]{Sample renderings from the Acrobat plugin at page widths of 42, 48, and 54~em.}
+ \caption[Sample renderings from the Acrobat plugin]{Three sample renderings from the Acrobat plugin, with page widths of 42, 48, and 54~em.}
  \label{fig:renderings}
 \end{figure}
 
@@ -166,20 +180,48 @@ Some sample renderings from the Acrobat plugin are shown in Figure~\ref{fig:rend
  \label{fig:penaltygraph}
 \end{sidewaysfigure}
 
-Since galleys of text lend themselves to being used in a columnar format, a method of fitting columns appropriately to the available page width must be devised. A sensible first approach is simply to calculate how many columns of each galley rendering will fit, by adding the galley width to a specified minimum inter-column spacing, and dividing the page width by this. The remainder of this division will then specify the total extra amount of horizontal whitespace required, which can then divided up and inserted between the columns. A simple measure of aesthetic quality here is to apply a linear penalty for any extra whitespace required, as we seek to keep page margins and column gutters to a minimum.
+As discussed in sections \ref{sec:singlegalleymetric} and~\ref{sec:multigalleymetric}, galleys of text lend themselves to being used in a columnar format, and therefore a method of fitting columns appropriately to the available page width must be devised. A sensible first approach is simply to calculate how many columns of each galley rendering will fit, by adding the galley width to a specified minimum inter-column spacing, and dividing the page width by this. The remainder of this division will then specify the total extra amount of horizontal whitespace required, which can then divided up and inserted between the columns. A simple measure of aesthetic quality here is to apply a linear penalty for any extra whitespace required, as we seek to keep page margins and column gutters to a minimum.
 
-%\begin{math}
-%N_\text{cols}=\left\lfloor\frac{W_\text{page}}{W_\text{galley}+W_\text{ICS}}\right\rfloor
-%\end{math}
+Equations \ref{eqn:numcols} and~\ref{eqn:extraws} below show the formulae used to calculate the number of columns that will fit ($N_\text{cols}$), and the requisite extra whitespace ($S_\text{extra}$). $W_\text{page}$ is the total width of the page, $W_\text{galley}$ is the width of the current galley, and $W_\text{ICS}$ is the minimum required inter-column spacing.
+\begin{equation}\label{eqn:numcols}
+N_\text{cols}=\left\lfloor\frac{W_\text{page}}{W_\text{galley}+W_\text{ICS}}\right\rfloor
+\end{equation}
+\begin{equation}\label{eqn:extraws}
+S_\text{extra}=W_\text{page}\!\!\mod \left(W_\text{galley}+W_\text{ICS}\right)
+\end{equation}
 
 As the page width increases, so must the widths of the inter-column gutters. In accordance with the extra-whitespace penalty, each galley rendering will produce penalties which vary in a sawtooth manner as the width of the page is increased. With a careful choice of galley widths, when these sawtooth penalties are overlaid, and the galley producing the minimum penalty chosen at each page width, a flatter and finer-toothed penalty graph emerges, as shown in figure~\ref{fig:penaltygraph}.
 
-In addition to penalising extra whitespace, wider columns should, in general, be favoured over narrower ones, i.e.~for a given page width, fewer, wider columns are generally considered preferable to a greater number of narrower columns. By multiplying the existing penalty by a smaller-than-linear function of the number of columns (experiments have been carried out with both logarithms and roots) the penalty may be subtly increased for greater numbers of columns. The formula for the penalty used in figure~\ref{fig:penaltygraph} is $P = (C + W_{ex})\cdot\sqrt{N_{cols}}$, where $P$ is the penalty, $W_{ex}$ is the extra whitespace required to be inserted, $N_{cols}$ is the number of columns which are required to fill the width of the page, and $C$ is a positive constant. The purpose of the constant is to prevent the penalty from ever evaluating to zero, which would have the effect of disregarding the weighting of the number of columns. Figure~\ref{fig:penaltygraph} uses $C=1$.
+In addition to penalising extra whitespace, wider columns should, in general, be favoured over narrower ones, i.e.~for a given page width, fewer, wider columns are generally considered preferable to a greater number of narrower columns. By multiplying the existing penalty by a smaller-than-linear function of the number of columns (experiments have been carried out with both logarithms and roots) the penalty may be subtly increased for greater numbers of columns.
+
+The formula for the penalty used in figure~\ref{fig:penaltygraph} is \begin{equation}P = (C + S_\text{extra})\cdot\sqrt{N_\text{cols}}\end{equation} where $P$ is the penalty, $S_\text{extra}$ is the extra whitespace required to be inserted (as computed in equation~\ref{eqn:extraws}), $N_\text{cols}$ is the number of columns which are required to fill the width of the page (as computed in equation~\ref{eqn:numcols}), and $C$ is a positive constant.
+
+The purpose of the constant is to prevent the penalty from ever evaluating to zero, which would have the effect of disregarding the weighting of the number of columns. Figure~\ref{fig:penaltygraph} uses $C=1$.
 %eg what sort of layouts are we constricted to, and are they any good... cite Plass/Bringhurst
 
+\section{Included galley renderings}
+\label{sec:inc-renderings}
+In order for a document to achieve optimal fit on every device of every conceivable size, we must produce one galley rendering of every conceivable width. Clearly, \marginpar{As one of my colleagues once shouted in exasperation: ``infinity is not an option!''} this is infeasible, both in terms of space and time. For reasons of practicality, we are therefore forced choose some non-infinite subset of galley widths to include within a document.
+
+Some experimentation has suggested that using between three and seven galley renderings, ranging in width between two and five inches (set in twelve point type) provides acceptable coverage on a variety of device sizes. Whether the sampling range within these bounds should be linear, or based on some other function, is still open for debate, and requires further experimentation.
+
+
+
+
 \section{Efficiency}
-theoretically, how does it compare? Shove in lots of speculative Big Oh notation and try to sound authoritative. Or look at the algorithms used and
-actually be authoritative :)
+%theoretically, how does it compare? Shove in lots of speculative Big Oh notation and try to sound authoritative. Or look at the algorithms used and actually be authoritative :)
+
+It can easily be observed that the view-time complexity of the layout algorithm described in this chapter is $O(n)$.
+
+At view-time, it must be decided which galley rendering to display: this is a trivial operation that requires one calculation per galley rendering. Assuming that there will never be more than ten galley renderings within one document (this seems reasonable given the discussion in section~\ref{sec:inc-renderings}) choosing the time to choose best-fitting galley will always be dominated by the time to perform the actual layout.
+
+After the rendering to display has been chosen, all that is left is to traverse the document structure tree, laying out each line of text sequentially. If there are $n$ lines of text in the document, this takes at most $kn$ operations, where $k$ is some constant pertaining to operations required to lay out one line of text, and therefore the view-time complexity is $O(n)$.
+
+A first-fit (or greedy) layout algorithm, as used by most current \ebook{} hardware and web browsers, also runs in $O(n)$ (proportional to the number of possible breakpoints, $n$) though its layout will almost certainly be substandard in comparison to any high-quality pre-rendered layout, as used by the system described in this chapter. Conversely, to compute this high-quality layout on the fly, (using, for example, the Knuth-Plass line breaking algorithm \cite{Knuth1981}, or something even more complex) can take upwards of $O(n^2)$.
+
+The drawbacks of this system are that the filesize is necessarily increased (since data for multiple layouts must be included), and that the galley rendering that is displayed may not fit the available page width as snugly as an algorithm that has been run on the fly. In spite of this, this galley-based system produces pleasing-looking, well formatted documents, in the vast majority of cases.
+
+
 
 
 
