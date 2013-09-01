@@ -190,7 +190,7 @@ Since, by the point the document is to be displayed in Acrobat, most of the comp
 For convenience of testing, the plugin also automatically resizes the page to that of the window of Acrobat, and re-lays out the text on the fly, allowing various combinations of page sizes, zoom levels, and aspect ratios to be trialled.
 Some sample renderings from the Acrobat plugin are shown in Figure~\ref{fig:renderings}, and an excerpt of the code used for the layout is shown in listing~\ref{lst:acrolayout}.
 
-\begin{lstlisting}[language=c++,tabsize=4,basicstyle=\ttfamily\scriptsize\singlespacing,stringstyle=\color{blue},label=lst:acrolayout,captionpos=b,float,caption={[Acrobat plugin's layout algorithm]An excerpt from the Acrobat plugin, showing the implementation of the layout algorithm described in section~\ref{sec:acroplugin}.}]
+\begin{lstlisting}[language=c++,tabsize=4,basicstyle=\ttfamily\scriptsize\singlespacing,stringstyle=\color{blue},label=lst:acrolayout,captionpos=b,float,caption={[Acrobat plugin's layout algorithm]An excerpt from the C++ Acrobat plugin, showing the implementation of the layout algorithm described in section~\ref{sec:acroplugin}.}]
 int numPars = CosArrayLength(parArray) - 1; // first element is not a paragraph
 CosObj widthsArray = CosArrayGet(parArray, 0); // it is the widths array
 int numWidths = CosArrayLength(widthsArray);
