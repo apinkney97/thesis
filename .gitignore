@@ -24,7 +24,6 @@
 *.synctex.gz
 ClassicThesis.pdf
 *.ps
-*.kilepr
 *.backup
 *.bak
 *~
