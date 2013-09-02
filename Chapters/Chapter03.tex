@@ -46,7 +46,7 @@ Since the new system no longer relies on \gls{cog}-\gls{pdf}, the reliance on \t
 
 In the new system, the source document is described in terms of separate logical blocks; a block is either designated as a `float', or as a `paragraph'. (Listing~\ref{lst:sourcedoc} contains an excerpt from a sample source document.) Floats are currently limited to referencing images only (with an optional size parameter). Paragraphs, on the other hand, are described by their desired textual content. This is deliberately simplistic. It is envisaged that in a real system, the source document would have a richer language, perhaps marked up in a form similar to \LaTeX{} source, or in \xml{}.
 
-\begin{lstlisting}[label=lst:sourcedoc,captionpos=b,float,caption={[An excerpt from a sample source document]An excerpt from a sample source document, itself an excerpt from \cite{Pinkney2011}. The document is parsed from top to bottom. Paragraphs are separated by blank lines. Floats are specified by lines that begin \texttt{\_\_FLOAT} and contain a reference to an image. Subsequent lines, until the next \texttt{\_\_FLOAT} or \texttt{\_\_PARA} marker, are assumed to be the float caption.}]
+\begin{lstlisting}[label=lst:sourcedoc,captionpos=b,float,caption={[An excerpt from a sample source document]An excerpt from a sample source document, itself an excerpt from \cite{Pinkney2011}. The document is parsed from top to bottom. Paragraphs are separated by blank lines. Floats are specified by lines that begin \texttt{\_\_FLOAT} and contain a reference to an image. Subsequent lines, until the next \texttt{\_\_FLOAT} or \texttt{\_\_PARA} marker, are interpreted as the float caption.}]
 3.1.3 pdfdit
 
 Having generated the source document, it was processed with
@@ -83,7 +83,11 @@ is serialised, replete with COGs and content tree.
 \end{lstlisting}
 
 
- Next, the source document is passed through a program to produce the output that becomes the malleable document itself. This program\redmarginpar{Should I find a name for this program? It's a bit unwieldy referring to it anonymously all the time. Is \emph{Galley Renderer} ok? Or \emph{Document Generator}?} passes the text of each paragraph through an implementation of a line-breaking algorithm (we use Knuth-Plass, but this could be replaced by any other algorithm that performs line breaking and justification). Each paragraph is rendered multiple times, once for each galley width, in order to produce the document's multiple galley renderings. Each line of each rendering of every paragraph is converted into a list of its composite words. All of these words have an associated offset value, which is later used when drawing the text to ensure that each word is positioned on the line with the correct spacing. The general algorithm used is given in listing~\ref{lst:parsplitter}.
+Next, the source document is passed through a program (which will henceforth be referred to as the \emph{Paragraph Splitter}\ed see Appendix~\ref{app:parsplitter}) to produce the output that becomes the malleable document itself.
+
+The Paragraph Splitter passes the text of each paragraph through an implementation of a line-breaking algorithm. The implementation shown in Appendix~\ref{app:parsplitter} uses Knuth-Plass~\cite{Knuth1981} (specifically the program detailed in Appendix~\ref{app:linebreaker}), but this can easily be replaced by any other algorithm that performs line breaking and justification.
+
+Each paragraph is rendered multiple times, once for each galley width, in order to produce the document's multiple galley renderings. Each line of each rendering of every paragraph is converted into a list of its composite words. All of these words have an associated position offset value, which is later used when drawing the text to ensure that each word is positioned on the line with the correct spacing. The general algorithm used is given in listing~\ref{lst:parsplitter}.
 
 
 \begin{lstlisting}[label=lst:parsplitter,language=c,captionpos=b,float,caption={[Algorithm followed by the galley renderer]The algorithm followed by the galley renderer. Firstly the source of the document is parsed to break it into its initial logical blocks: one block per paragraph and one block per float, in the order encountered in the document source. These blocks are then processed further depending on their type. Floats may be probed for their pixel dimensions if no size was specified, and are then added to the document structure tree. Paragraphs have their content passed through a line breaking algorithm, once for each specified width.}]
@@ -102,7 +106,7 @@ docStrucTree renderDocument(documentContent, galleyWidths[]) {
                 pass item text through linebreaker using width;
                 create empty galley container;
                 foreach (line returned by linebreaker) {
-                    add this line's words and positioning data to galley container;
+                    add words and positioning data of line to galley container;
                 }
                 add galley container to paragraph container;
             }
@@ -125,49 +129,49 @@ Finally, once the whole of the source document has been processed, the rendered 
 
 \begin{lstlisting}[label=lst:datajs,captionpos=b,float,language=c,stringstyle=\color{blue},basicstyle=\ttfamily\footnotesize,caption={[Excerpt from JavaScript data file]Excerpt from JavaScript data file representing a 3-galley document. Note that the title "Abstract" is treated as any normal paragraph and, as for any paragraph, is typeset once for each galley rendering (despite there being no difference between each rendering in this case). The first rendering of the first paragraph of the abstract begins below. For brevity's sake, subsequent renderings are not shown, but since the following galleys are typeset with a different measure, the spacing and words per line will differ. At the top is an object representing a float, which contains values for \textcolor{red}width, \textcolor{red}height, and \textcolor{red}data.}]
 [
-    {
-        w: 952.5,
-        h: 342.75,
-        d: "<img style=\"width:100%\" src=\"fig0.png\" alt=\"Reflowable Documents Composed from\nPre-rendered Atomic Components\nAlexander J. Pinkney\nSteven R. Bagley\nDavid F. Brailsford\nDocument Engineering Lab.\nSchool of Computer Science\nUniversity of Nottingham\nNottingham, NG8 1BB, UK\n{azp|srb|dfb}@cs.nott.ac.uk\n\">"
-    },
+  {
+    "w": 952.5,
+    "h": 342.75,
+    "d": "<img style=\"width:100%\" src=\"fig0.png\" alt=\"Reflowable Documents Composed from\nPre-rendered Atomic Components\nAlexander J. Pinkney\nSteven R. Bagley\nDavid F. Brailsford\nDocument Engineering Lab.\nSchool of Computer Science\nUniversity of Nottingham\nNottingham, NG8 1BB, UK\n{azp|srb|dfb}@cs.nott.ac.uk\n\">"
+  },
+  [
     [
-        [
-            [
-                [0, "Abstract"]
-            ]
-        ],
-        [
-            [
-                [0, "Abstract"]
-            ]
-        ],
-        [
-            [
-                [0, "Abstract"]
-            ]
-        ]
+      [
+        [0, "Abstract"]
+      ]
     ],
     [
-        [
-            [
-                [0, "Mobile"], [38.346, "eBook"], [73.356, "readers"]
-            ],
-            [
-                [0, "are"], [17.334, "now"], [40.68, "commonplace"]
-            ],
-            [
-                [0, "in"], [13.004, "today&#39;s"], [52, "society,"], [92.664, "but"]
-            ],
-            [
-                [0, "their"], [26.334, "document"], [78, "layout"]
-            ],
-            [
-                [0, "algorithms"], [53.736,"remain"], [89.46,"basic,"]
-            ],
-            [
-                [0, "largely"],[35.724, "due"],[55.452, "to"],[67.188, "constraints"]
-            ],
-        /* truncated */
+      [
+        [0, "Abstract"]
+      ]
+    ],
+    [
+      [
+        [0, "Abstract"]
+      ]
+    ]
+  ],
+  [
+    [
+      [
+        [0, "Mobile"], [38.346, "eBook"], [73.356, "readers"]
+      ],
+      [
+        [0, "are"], [17.334, "now"], [40.68, "commonplace"]
+      ],
+      [
+        [0, "in"], [13.004, "today&#39;s"], [52, "society,"], [92.664, "but"]
+      ],
+      [
+        [0, "their"], [26.334, "document"], [78, "layout"]
+      ],
+      [
+        [0, "algorithms"], [53.736,"remain"], [89.46,"basic,"]
+      ],
+      [
+        [0, "largely"],[35.724, "due"],[55.452, "to"],[67.188, "constraints"]
+      ],
+  /* truncated */
 
 \end{lstlisting}
 
@@ -175,7 +179,7 @@ Finally, once the whole of the source document has been processed, the rendered 
 \section{The Viewer}
 \label{sec:viewer}
 
-In order to circumvent the browser's default text layout algorithm, and to ensure that our ``high quality'' pre-computed text-layout is used, the viewer must specify the absolute position of every word on each line, in a manner not dissimilar to the internals of a PDF file. The document generator described in the previous section ensures that all the information needed to lay the text out is contained within the generated \gls{json} data representing the document structure tree.
+In order to circumvent the browser's default text layout algorithm, and to ensure that the ``high quality'' pre-computed text-layout is used, the absolute position of every word on each line must be specified, in a manner not dissimilar to the internals of a PDF file. The Paragraph Splitter described in the previous section ensures that all the information needed to lay the text out is contained within the generated \gls{json} data representing the document structure tree.
 
 
 When the viewer is launched, it decides which is the most appropriate galley rendering to display, based on a metric of which rendering will be most aesthetically pleasing. Since it appears to work well, the metric defined in Chapter~\ref{ch:malleable} is used, which attempts to balance a penalty for excessive inter-column whitespace against a penalty for too many columns. 
