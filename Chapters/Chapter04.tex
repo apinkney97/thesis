@@ -1,7 +1,7 @@
 \chapter{Dealing with File Bloat}\label{ch:bloat}
 
 \section{Rationale}
-In the system thus far described in this thesis, the emphasis has been firmly upon reducing the computational complexity of layout operations at view-time of a document, and therefore little consideration has been given to the filesize of the resultant malleable documents.
+In the system thus far described, the emphasis has been firmly upon reducing the computational complexity of layout operations at document view-time, and therefore little consideration has been given to the filesize of the output malleable documents.
 
 %\todo{Put in some pdfdump output comparing ``normal'' pdfs with my malleable ones (maybe as an appendix)}
 
@@ -15,14 +15,42 @@ Despite this, it seems perverse to make no attempt at all to keep filesizes as s
 The most obvious saving that can be made is with the duplication of a document's textual content. The systems described in chapters \ref{ch:malleable}~and~\ref{ch:floats} both contain as many copies of the document text as there are pre-rendered galleys; in practice, though, there is no real need for more than one copy to be present in the file. Two approaches to this problem were considered.
 
 \subsection{Pointers into the Source Text}
-The first approach to be considered was to include the source text of the document in its entirety, and for each rendering to contain only pointers to the relevant sections of text, instead of the words themselves. These pointers can either be physical\redmarginpar{I don't think ``physical'' is the right word here. What is???} (in the form of a character offset from the start of the text) or logical (in the form \emph{paragraph m, word n}). If the document text is to be included as a plaintext string, physical pointers are easier to use than logical: logical pointers either require an auxiliary data structure to map the logical pointers to physical ones, or for the document text to be stored in a format reflecting the logical structure, \ie{} not in plain text.
+The first approach to be considered was to include the source text of the document in its entirety, and for each rendering to contain only pointers to the relevant sections of text, instead of the words themselves. These pointers can either be absolute (in the form of a character offset from the start of the text) or logical (in the form \emph{paragraph m, word n}). If the document text is to be included as a plaintext string, absolute pointers are easier to use than logical: logical pointers either require an auxiliary data structure to map the logical pointers to absolute ones, or for the document text to be stored in a format reflecting the logical structure, \ie{} not in plain text.
 
-A drawback of using this approach is that on occasion, the output of the linebreaking process does not exactly match the input: for example in the case where words are hyphenated (requiring one word to be broken into two parts, and the addition of a hyphen) or where certain glyphs may be substituted for others (such as with the use of ligatures, where a glyph pair or triplet may be replaced with a single glyph).
+The principle drawback of using this approach is that on occasion, the output of the linebreaking process does not exactly match the input: for example in the case where words are hyphenated (requiring one word to be broken into two parts, and the addition of a hyphen) or where certain glyphs may be substituted for others (such as with the use of ligatures, where a glyph pair or triplet may be replaced with a single glyph).
+
 
 
 
 \subsection{Use of a Dictionary}
 The second approach considered was the use of a \emph{dictionary} (or \emph{map}) to act as a lookup table for each word-level item produced by the linebreaking process.
+
+Additionally, the source text itself is likely to contain significant redundancy: Zipf's law \cite{zipf1932}
+
+\begin{table} \footnotesize
+    \myfloatalign
+  \begin{tabularx}{\textwidth}{rrlrlrlrl} \toprule
+    \textsc{rank} & \multicolumn{2}{l}{\textsc{butterley}} & \multicolumn{2}{l}{\textsc{pbb11}} & \multicolumn{2}{l}{\textsc{shakespeare}} & \multicolumn{2}{l}{\textsc{kjv}}\\
+    \midrule
+    1 & 103 & the & 233 & the & 23197 & the & 62099 & the \\ 
+    2 & 35 & of & 134 & of & 19540 & I & 38576 & and \\ 
+    3 & 33 & and & 116 & to & 18263 & and & 34445 & of \\ 
+    4 & 31 & in & 75 & and & 15592 & to & 13387 & to \\ 
+    5 & 25 & to & 75 & a & 15507 & of & 12735 & And \\ 
+    6 & 23 & for & 56 & is & 12516 & a & 12451 & that \\ 
+    7 & 23 & a & 52 & be & 10825 & my & 12167 & in \\ 
+    8 & 21 & was & 50 & in & 9565 & in & 9760 & shall \\ 
+    9 & 19 & company & 34 & as & 9059 & you & 9508 & he \\ 
+    10 & 17 & Butterley & 32 & document & 7831 & is & 8932 & unto \\ 
+    \midrule
+    \textsc{total} & \multicolumn{2}{l}{1232} & \multicolumn{2}{l}{3724} & \multicolumn{2}{l}{899595} & \multicolumn{2}{l}{821133} \\ 
+    \midrule
+    \textsc{unique} & \multicolumn{2}{l}{628} & \multicolumn{2}{l}{1436} & \multicolumn{2}{l}{67107} & \multicolumn{2}{l}{33446} \\ 
+    \bottomrule
+    
+  \end{tabularx}
+  \caption[Word frequencies in various documents]{Top 10 most frequent words in various documents}  \label{tab:wordfreq}
+\end{table}
 
 \begin{figure}
   \begin{center}
