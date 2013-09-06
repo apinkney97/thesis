@@ -81,20 +81,19 @@ Referring back to Figures \ref{fig:wordfreq}~and~\ref{fig:cumulative}, and to Zi
 
 It was therefore decided to store the dictionary as an array, ordered so that the most frequently occurring words have the smallest keys.
 
+\newpage
 \subsection{Further Compression Possibilities}
 \label{sec:deltas}
 
-The techniques discussed thus far have focused mostly upon exploiting the inherent redundancy in natural language (specifically redundancy in written English, though some non-rigorous research suggests this is also true in a large number of other written languages). A fairly large part of the data contained within the document structure tree has been overlooked: the typesetting data itself.
+The techniques discussed thus far have focused mostly upon exploiting the inherent redundancy in natural language (specifically redundancy in written English, though some non-rigorous research suggests this is also true in many other written languages). A fairly large part of the data contained within the document structure tree has been overlooked: the typesetting data itself.
 
 All of the aforementioned encoding systems have used an absolute value for the positioning of each word on each line; that is, each occurrence of each word has an associated value representing the required distance of its placement, in \glspl{point}, from the start of the line. An example of this can be seen in Listing~\ref{lst:datajs} on page~\pageref{lst:datajs}.
 
 With a vague view to producing data that would be more easily compressible by a generic compression algorithm (that would perhaps be useful if HTTP compression or similar is used to transfer the document data to a device) it was decided to investigate a different approach to storing this data.
 
-In any typeset document, most (if not all) occurrences of the same word will be indistinguishable from one another. In particular, they will always take an identical amount of horizontal space. Similarly, if a document's text is fully justified, the space between words on each individual line will be identical. If the document is left-justified, then each space between each word on every line will be identical. This redundancy is present within all the previous encodings, but cannot be picked up by a generic compression algorithm, since it requires knowledge of the typesetting process.
+In any typeset document, most (if not all) occurrences of the same word will be indistinguishable from one another. In particular, the amount of horizontal space a word uses will be consistent for each occurrence of the word. Similarly, if a document's text is fully justified, the space between words on each individual line will be identical. If the document is left-justified, then each space between each word on every line will be identical. This redundancy is present within all the previous encodings, but cannot be picked up by a generic compression algorithm, since it requires knowledge of the typesetting process. By separating the word widths from the spacing, this redundancy can be made more explicit, and therefore easier for a generic compression algorithm to take advantage of.
 
-Whilst an encoding could be defined that allows only regular spacing of words, it was felt that this would be somewhat restrictive, and would detract from the appeal of the system as something that supports complex, arbitrary layouts.
-
-\begin{lstlisting}[label=lst:deltasdata,captionpos=b,float,language=c,stringstyle=\color{blue},basicstyle=\ttfamily\footnotesize,caption={[Excerpt from JavaScript data file]Excerpt from a JavaScript data file that uses position deltas, representing one paragraph.}]
+\begin{lstlisting}[label=lst:deltasdata,captionpos=b,float,language=c,stringstyle=\color{blue},basicstyle=\ttfamily\footnotesize,caption={[Excerpt from a paragraph tree using position deltas]Excerpt from a JavaScript data file that uses position deltas in the document structure tree, representing one galley rendering of one paragraph.}]
 [
     [[0,982],[3.678,26],[3.678,93],],
     [[0,14],[2.682,1307],[2.682,558],],
@@ -124,12 +123,15 @@ Whilst an encoding could be defined that allows only regular spacing of words, i
 ],
 \end{lstlisting}
 
-\begin{lstlisting}[label=lst:deltasdict,captionpos=b,float,language=c,stringstyle=\color{blue},basicstyle=\ttfamily\footnotesize,caption={[Excerpt from JavaScript data file]Excerpt from a JavaScript data file that uses position deltas, representing one paragraph.}]
-[["the",14.664],["of",9.996],["to",9.336],["and",17.328],["a",5.328],["is",8.004],["be",11.328],["in",9.336],["as",9.996],["document",47.328],["that",18],["it",6.672],["page",22.656],["for",13.992],["are",14.652],["by",12],["on",12],["will",18.672],["which",29.328],["with",21.336],["this",17.34],["The",18.66],["can",16.656],["an",11.328],["or",9.996],["-",3.996],["eBook",31.332],["used",21.996],["PDF",22.008],
+\begin{lstlisting}[label=lst:deltasdict,captionpos=b,float,language=c,stringstyle=\color{blue},basicstyle=\ttfamily\footnotesize,caption={[Excerpt from a dictionary storing word widths]Excerpt from the dictionary from a JavaScript data file that uses position deltas, where the width of each word is stored alongside the word itself.}]
+ [["the",14.664],["of",9.996],["to",9.336],["and",17.328],["a",5.328],["is",8.004],["be",11.328],["in",9.336],["as",9.996],["document",47.328],["that",18],["it",6.672],["page",22.656],["for",13.992],["are",14.652],["by",12],["on",12],["will",18.672],["which",29.328],["with",21.336],["this",17.34],["The",18.66],["can",16.656],["an",11.328],["or",9.996],["-",3.996],["eBook",31.332],["used",21.996],["PDF",22.008],["In",9.996],["layout",30],["have",22.656],["from",23.328],["not",15.336],["at",8.664],["width",27.336],["This",21.336],["has",15.996],["then",20.664],["each",21.984],["was",18.66],["typesetting",52.668],["columns",40.668],["simply",32.676],["these",24.66],["text",18],["into",18.672],["hyphenation",59.328],["content",35.328],["quality",33.336],["column",36],["lines",22.668],["only",21.336],["line",18],["ACM",27.336],["our",15.996],["its",11.34],["structure",41.988],["Document",49.992],["penalty",35.328],["between",39.984],["galley",29.328],["order",25.32],["more",24.66],["COGs",30],["out",15.336],["end",17.328],["one",17.328],["use",15.996],["algorithm",46.668],["producing",48.66],["columns.",43.668],["galleys",33.996],["figure",28.656],["simple",32.004],["would",30],
 \end{lstlisting}
 
-In an act of serendipity, it appears that this attempt to make the data more compressible also compressed it further even in its plaintext form!
+On the basis of the above observations, the decision was taken that the dictionary should be modified to store the width of each word alongside itself, and that the document structure tree should be modified so that each word to be typeset is now accompanied by the offset required from the end of the previous word (which shall henceforth be referred to as \emph{deltas}) rather than the absolute offset required from the start of the line. This does of course necessitate two array lookups in the dictionary where previously there would have been only one, but since array accesses run in constant time, it does not present too much of a problem. Excerpts from a document structure tree and dictionary that use this encoding system are shown in Listings \ref{lst:deltasdata}~and~\ref{lst:deltasdict} respectively.
 
+Further redundancy could be removed by exploiting the fact that words tend to be regularly spaced on each line. Whilst the encoding could be modified to allow only regular spacing of words, it was felt that this might be somewhat restrictive, and would detract from the appeal of the system as something that supports complex, arbitrary layouts.
+
+Even without making further compression attempts beyond the encoding system shown in Listings \ref{lst:deltasdata}~and~\ref{lst:deltasdict}\ed the motivation for which, we must remember, was to produce an encoding that was more \emph{compressible}, rather than more \emph{compressed}\ed by pure chance, it turns out that even in its full form, this is the most compact representation yet devised!
 
 
 
@@ -140,15 +142,17 @@ The following pages show the evolution of the encoding system, and how the files
 
 \begin{itemize}
 
- \item Figure \ref{fig:size-json} (page \pageref{fig:size-json}) shows the ``original'' encoding system described in Chapter~\ref{ch:floats}, which does not make any attempt to minimise filesize.
+ \item Figure~\ref{fig:size-json} (page~\pageref{fig:size-json}) shows the ``original'' encoding system described in Chapter~\ref{ch:floats}, which does not make any attempt to minimise filesize.
 
- \item Figure \ref{fig:size-unord} (page \pageref{fig:size-unord}) shows the encoding system described in Section~\ref{sec:dictionary}, using a dictionary ordered such that the first occurring words have the shortest keys. (The dictionary is therefore described as \emph{unordered}.)
+ \item Figure~\ref{fig:size-unord} (page~\pageref{fig:size-unord}) shows the encoding system described in Section~\ref{sec:dictionary}, using a dictionary ordered such that the first occurring words have the shortest keys. (The dictionary is therefore described as \emph{unordered}.)
 
- \item Figure \ref{fig:size-ord} (page \pageref{fig:size-ord}) shows the encoding system described in Section~\ref{sec:dictionary}, using a dictionary ordered such that the most frequently occurring words have the shortest keys. (The dictionary is therefore described as \emph{ordered}.)
+ \item Figure~\ref{fig:size-ord} (page~\pageref{fig:size-ord}) shows the encoding system described in Section~\ref{sec:dictionary}, using a dictionary ordered such that the most frequently occurring words have the shortest keys. (The dictionary is therefore described as \emph{ordered}.)
 
- \item Figure \ref{fig:size-deltas} (page \pageref{fig:size-deltas}) shows the encoding system described in Section~\ref{sec:deltas}, which not only uses a dictionary ordered so that the most frequently occurring words have the shortest keys, but also stores in the dictionary the width of each word, so that the document structure tree contains deltas rather than absolute positioning data.
+ \item Figure~\ref{fig:size-deltas} (page~\pageref{fig:size-deltas}) shows the encoding system described in Section~\ref{sec:deltas}, which not only uses a dictionary ordered such that the most frequently occurring words have the shortest keys, but also stores in the dictionary the width of each word, so that the document structure tree contains deltas rather than absolute positioning data.
  
+ \item Figure~\ref{fig:size-all-b} on page~\pageref{fig:size-all-b} shows a comparison of the filesizes produced by all encodings. Figure~\ref{fig:size-all-gz} on page~\pageref{fig:size-all-gz} shows the resultant filesizes when each rendering is further compressed with \texttt{gzip}.
 \end{itemize}
+
 
 
 \begin{figure}
@@ -198,11 +202,12 @@ The following pages show the evolution of the encoding system, and how the files
 \end{figure}
 
 \newpage
-\section{Comparison of all encodings}
 
-\begin{figure}[bht]
+
+
+\begin{figure}
   \begin{center}
-  \includegraphics[width=\textwidth]{gnuplot/kjv-b}
+  \includegraphics[height=\textwidth,angle=90]{gnuplot/kjv-b}
   \end{center}
   \caption[Comparison of filesizes from all encodings]{A comparison of filesizes produced by all encodings, using the King James Version of the Bible as a sample document.}
   \label{fig:size-all-b}
@@ -210,7 +215,7 @@ The following pages show the evolution of the encoding system, and how the files
 
 \begin{figure}
   \begin{center}
-  \includegraphics[width=\textwidth]{gnuplot/kjv-gz}
+  \includegraphics[height=\textwidth,angle=90]{gnuplot/kjv-gz}
   \end{center}
   \caption[Comparison of gzipped filesizes from all encodings]{A comparison of filesizes of all encodings after gzipping, using the King James Version of the Bible as a sample document. Note the substantial improvement in compression of the encoding that uses position deltas over the variants that use absolute positioning.}
   \label{fig:size-all-gz}
