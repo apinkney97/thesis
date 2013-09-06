@@ -1,4 +1,4 @@
-set term pdf size 15cm, 10cm font "Palatino"
+set term pdf size 7.6in, 4.66in font "Palatino"
 set output "kjv-gz.pdf"
 set key inside left
 set xla "Number of Galley Renderings"

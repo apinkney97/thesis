@@ -1,4 +1,4 @@
-set term pdf size 15cm, 10cm font "Palatino"
+set term pdf size 7.6in, 4.66in font "Palatino"
 set datafile separator ","
 set output "kjv-b.pdf"
 set key inside left
