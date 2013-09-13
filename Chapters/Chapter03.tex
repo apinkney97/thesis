@@ -1,6 +1,8 @@
 \cleardoublepage
 \chapter{Floatable Blocks}\label{ch:floats}
 
+\marginpar{Much of the work in this chapter was previously published in \cite{Pinkney2013}}
+
 % Required implementation:
 % \begin{itemize}
 %     \item extension of chapter 2 code to support floats
@@ -20,29 +22,25 @@
 % \end{itemize}
 
 The system described in Chapter~\ref{ch:malleable} supports only simple documents that are composed solely from text. Many (perhaps most) real-world documents contain figures, diagrams, illustrations, tables etc., and so consideration must be given towards how these should be handled.
+
 This chapter extends the work of the previous chapter to allow floatable graphical blocks, whose absolute position within a document's text may vary, depending upon the layout.
 
 %\section{Implementation}
 
 The implementation of the system described in the previous chapter is deeply rooted within \gls{pdf}, and requires a custom-written plugin (see Section~\ref{sec:acroplugin}) for Adobe Acrobat to view the documents. Consequently, it is difficult to test that particular implementation on any device which is not running Microsoft Windows and does not have a fully licensed version of Adobe Acrobat. Effectively, this rules out any mobile \ebook{} readers.
 
-Almost all \ebook{} readers support the \epub{} format,\marginpar{Amazon's \emph{Kindle} is one of the few contemporary devices that do not support \epub{}} which is principally built upon \html{}, \css{}, and JavaScript. With this in mind, it was decided that the system should be  reimplemented using these technologies, in order that it could be tested on \ebook{} hardware. 
+Almost all \ebook{} readers support the \epub{} format,\marginpar{Amazon's \emph{Kindle} is one of the few contemporary devices that do not support \epub{}} which is principally built upon \html{}, \css{}, and JavaScript. With this in mind, it was decided that the system should be  reimplemented using these technologies, in order that it could eventually be tested on \ebook{} hardware. 
 
 
 
 \section{Document Generation}
 \label{sec:docgen}
 
-
-
-
 In the system described in the previous chapter, the generation of malleable documents had been a rather labour-intensive process, involving the processing of the source document through \troff{} and \pdfdit{}. In the case of documents with galleys of more than one width, modifications needed to be made, by hand, to the document structure tree of the resultant \gls{pdf} files.
 
 Adding or removing characters to the source of a \gls{pdf} file is no trivial matter, since the \textsc{xref} table, which stores the byte offset of every \gls{COSObject} within a \gls{pdf} file, is no longer valid. (Acrobat does kindly offer to fix this problem if it detects it, but it has the side effect of discarding any PDF data that it does not recognise. Clearly losing the document structure tree is undesirable.) The \textsc{xref} table can either be fixed programatically, or by a painstaking process involving a hex editor and a lot of \marginpar{Significant lack of patience meant that there was only ever one multiple galley-width test document produced for the previous system.} patience. 
 
 Since the new system no longer relies on \gls{cog}-\gls{pdf}, the reliance on \troff{} and \pdfdit{} is no longer present. Consequently, a sensible approach is to produce a completely bespoke typesetting tool, allowing unneeded features to be removed, and the provision of some finer-grained control over other aspects. For example, it is important for this system that the the line-breaking and hyphenation algorithms can easily be changed.
-
-
 
 In the new system, the source document is described in terms of separate logical blocks; a block is either designated as a `float', or as a `paragraph'. (Listing~\ref{lst:sourcedoc} contains an excerpt from a sample source document.) Floats are currently limited to referencing images only (with an optional size parameter). Paragraphs, on the other hand, are described by their desired textual content. This is deliberately simplistic. It is envisaged that in a real system, the source document would have a richer language, perhaps marked up in a form similar to \LaTeX{} source, or in \xml{}.
 
@@ -85,7 +83,7 @@ is serialised, replete with COGs and content tree.
 
 Next, the source document is passed through a program (which will henceforth be referred to as the \emph{Paragraph Splitter}\ed see Appendix~\ref{app:parsplitter}) to produce the output that becomes the malleable document itself.
 
-The Paragraph Splitter passes the text of each paragraph through an implementation of a line-breaking algorithm. The implementation shown in Appendix~\ref{app:parsplitter} uses Knuth-Plass~\cite{Knuth1981} (specifically the program detailed in Appendix~\ref{app:linebreaker}), but this can easily be replaced by any other algorithm that performs line breaking and justification.
+The Paragraph Splitter passes the text of each paragraph through an implementation of a line-breaking algorithm. The implementation shown in Appendix~\ref{app:parsplitter} uses Knuth-Plass~\cite{Knuth1981} (specifically the program detailed in Appendix~\ref{app:linebreaker}) but this can easily be replaced by any other algorithm that performs line breaking and justification.
 
 Each paragraph is rendered multiple times, once for each galley width, in order to produce the document's multiple galley renderings. Each line of each rendering of every paragraph is converted into a list of its composite words. All of these words have an associated position offset value, which is later used when drawing the text to ensure that each word is positioned on the line with the correct spacing. The general algorithm used is given in listing~\ref{lst:parsplitter}.
 
@@ -125,7 +123,7 @@ parasAndFloats[] parseDocumentSource(documentContent) {
 
 The content of the floats is largely left unchanged. A reference to the image, along with its required dimensions, is simply passed through to the output. If dimensions were not explicitly specified in the source document, the pixel size of the image itself is used.
 
-Finally, once the whole of the source document has been processed, the rendered content is output\ed in the form of the document structure tree shown in figure~\ref{fig:tree} on page \pageref{fig:tree}\ed encoded in \gls{json}. This becomes the data representing the source document, which, in conjunction with the viewer defined in the next section, becomes a \emph{malleable document}. A sample of this data is shown in listing~\ref{lst:datajs}.
+Finally, once the whole of the source document has been processed, the rendered content is output\ed in the form of the document structure tree shown in figure~\ref{fig:tree} on page \pageref{fig:tree}\ed encoded as a \gls{json} string. This becomes the data representing the source document, which, in conjunction with the viewer defined in the next section, becomes a \emph{malleable document}. A sample of this data is shown in listing~\ref{lst:datajs}.
 
 \begin{lstlisting}[label=lst:datajs,captionpos=b,float,language=c,stringstyle=\color{blue},basicstyle=\ttfamily\footnotesize,caption={[Excerpt from JavaScript data file]Excerpt from JavaScript data file representing a 3-galley document. Note that the title "Abstract" is treated as any normal paragraph and, as for any paragraph, is typeset once for each galley rendering (despite there being no difference between each rendering in this case). The first rendering of the first paragraph of the abstract begins below. For brevity's sake, subsequent renderings are not shown, but since the following galleys are typeset with a different measure, the spacing and words per line will differ. At the top is an object representing a float, which contains values for \textcolor{red}width, \textcolor{red}height, and \textcolor{red}data.}]
 [
@@ -242,4 +240,16 @@ The first option is clearly not desirable behaviour, given that shrinking a floa
 
 % \todo{Actually implement some of these pagination schemes, and write something intelligent-sounding about it. Provide some example output (screenshots).}
 
-\todo{Write some analysis of the various float algorithms; provide some criticism of growing file sizes which leads onto the next chapter}
+\section{Summary}
+
+The reimplementation of the system in \html{} is not without its pitfalls. One strong advantage of using \pdf{} over \html{} is that any \pdf{} reader that correctly implements the standard~\cite{Adobe2001} should display any given document in an identical manner to any other reader. Regrettably (and much to the chagrin of web developers everywhere) this is very much not true of rival web browser layout engines. Though standards do exist (published by the \gls{w3c}) and are largely adhered to by all the major layout engines, there are certain areas that are open to interpretation by the developers. One particular problem that is encountered when using the system described in this chapter is that of font scaling. The layouts produced by this system will only retain its quality if it is laid out precisely as specified by the typesetting process. Viewing the malleable documents in Google Chrome and Mozilla Firefox (which use WebKit and Gecko respectively) produces noticeably different results when the user chooses to scale the page up: WebKit appears to be inconsistent and non-linear when scaling fonts, whereas Gecko does a better job, and manages to lay out the text as intended by the typesetter. Figure~\ref{fig:craprenderer} shows an example of Gecko's font scaling problem.
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{gfx/webkitisshit}
+    \caption[Inconsistent font scaling by WebKit]{Chrome and Safari's layout engine (WebKit) can be inconsistent when scaling fonts. The paragraph to the left is displayed ``correctly'', but the paragraph to the right (scaled up by 1\% by the JavaScript) has clearly not scaled linearly. In contrast, Firefox's layout engine, Gecko, scales smoothly, and behaves as one might expect when zooming in on a \pdf{} file, which was the intended behaviour.}
+    \label{fig:craprenderer}
+\end{figure}
+
+
+
+\todo{Write some analysis of the various float algorithms; provide some criticism of growing file sizes which leads onto the next chapter; mention problems that occur when the renderer tries to be clever (eg does its own kerning) ie Webkit vs Gecko}
