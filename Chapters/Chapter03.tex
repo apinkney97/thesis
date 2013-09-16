@@ -85,7 +85,7 @@ Next, the source document is passed through a program (which will henceforth be 
 
 The Paragraph Splitter passes the text of each paragraph through an implementation of a line-breaking algorithm. The implementation shown in Appendix~\ref{app:parsplitter} uses Knuth-Plass~\cite{Knuth1981} (specifically the program detailed in Appendix~\ref{app:linebreaker}) but this can easily be replaced by any other algorithm that performs line breaking and justification.
 
-Each paragraph is rendered multiple times, once for each galley width, in order to produce the document's multiple galley renderings. Each line of each rendering of every paragraph is converted into a list of its composite words. All of these words have an associated position offset value, which is later used when drawing the text to ensure that each word is positioned on the line with the correct spacing. The general algorithm used is given in listing~\ref{lst:parsplitter}.
+Each paragraph is rendered multiple times, once for each galley width, in order to produce the document's multiple galley renderings. Each line of each rendering of every paragraph is converted into a list of its composite words. All of these words have an associated position offset value, which is later used when drawing the text to ensure that each word is positioned on the line with the correct spacing. The general algorithm used is given in Listing~\ref{lst:parsplitter}.
 
 
 \begin{lstlisting}[label=lst:parsplitter,language=c,captionpos=b,float,caption={[Algorithm followed by the galley renderer]The algorithm followed by the galley renderer. Firstly the source of the document is parsed to break it into its initial logical blocks: one block per paragraph and one block per float, in the order encountered in the document source. These blocks are then processed further depending on their type. Floats may be probed for their pixel dimensions if no size was specified, and are then added to the document structure tree. Paragraphs have their content passed through a line breaking algorithm, once for each specified width.}]
@@ -123,7 +123,7 @@ parasAndFloats[] parseDocumentSource(documentContent) {
 
 The content of the floats is largely left unchanged. A reference to the image, along with its required dimensions, is simply passed through to the output. If dimensions were not explicitly specified in the source document, the pixel size of the image itself is used.
 
-Finally, once the whole of the source document has been processed, the rendered content is output\ed in the form of the document structure tree shown in figure~\ref{fig:tree} on page \pageref{fig:tree}\ed encoded as a \gls{json} string. This becomes the data representing the source document, which, in conjunction with the viewer defined in the next section, becomes a \emph{malleable document}. A sample of this data is shown in listing~\ref{lst:datajs}.
+Finally, once the whole of the source document has been processed, the rendered content is output\ed in the form of the document structure tree shown in figure~\ref{fig:tree} on page \pageref{fig:tree}\ed encoded as a \gls{json} string. This becomes the data representing the source document, which, in conjunction with the viewer defined in the next section, becomes a \emph{malleable document}. A sample of this data is shown in Listing~\ref{lst:datajs}.
 
 \begin{lstlisting}[label=lst:datajs,captionpos=b,float,language=c,stringstyle=\color{blue},basicstyle=\ttfamily\footnotesize,caption={[Excerpt from JavaScript data file]Excerpt from JavaScript data file representing a 3-galley document. Note that the title "Abstract" is treated as any normal paragraph and, as for any paragraph, is typeset once for each galley rendering (despite there being no difference between each rendering in this case). The first rendering of the first paragraph of the abstract begins below. For brevity's sake, subsequent renderings are not shown, but since the following galleys are typeset with a different measure, the spacing and words per line will differ. At the top is an object representing a float, which contains values for \textcolor{red}width, \textcolor{red}height, and \textcolor{red}data.}]
 [
@@ -208,12 +208,13 @@ Pagination is reasonably simple with this queueing system: as soon as a page is 
 While this approach does produce reasonable layouts, and handles floats well without the need for backtracking, it is not particularly conducive to producing layouts with floats that span multiple columns. The queue-based layout described above is rather simplistic: it knows about the size of each component that it lays out, but it does not remember the history of the positions of any of the components that are already laid out. This makes it difficult to have items that span more than one column, because there is no mechanism to mark space on the page as being reserved. In order to do this, another approach must be taken.
 
 \subsection{A Grid-Based Layout}
+\label{sec:gridlayout}
 % - Support of floats
     % - Queue system
     % - Grid/array system (no need for queue)
     % - Multicolumn floats
         % - issues with spanning \& pagination
-A simple method for allowing parts of a page to be reserved is to break it up into a grid. Grid-based layouts are useful in many situations~\cite{Collier1991}; one example of particular note is that of modern-day newspapers (see figure~\ref{fig:gridlayout}). Following the example set by these newspapers, the grid used in this system is defined to have a row height of the \gls{leading} of the document's body text, and a column width of the \gls{measure} of one text column plus the required gutter space.
+A simple method for allowing parts of a page to be reserved is to break it up into a grid. Grid-based layouts are useful in many situations~\cite{Collier1991,Bringhurst2008}; one example of particular note is that of modern-day newspapers (see figure~\ref{fig:gridlayout}). Following the example set by these newspapers, the grid used in this system is defined to have a row height of the \gls{leading} of the document's body text, and a column width of the \gls{measure} of one text column plus the required gutter space.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{gfx/newspaper}
@@ -221,18 +222,34 @@ A simple method for allowing parts of a page to be reserved is to break it up in
     \label{fig:gridlayout}
 \end{figure}
 
-The viewer uses the dimensions of the float, as specified in the document structure tree (see section \ref{sec:docgen}), to determine how many columns it should span. The float is scaled to span the integer multiple of column widths that most closely matches its `natural' size, though for reasons that should hopefully be obvious, this number is limited to a minimum of 1, and a maximum of the number of columns on the page. Additionally, checks are made to ensure that the scaling will not cause the height of the figure to exceed that of the page.
+The viewer uses the dimensions of the float, as specified in the document structure tree (see Section~\ref{sec:docgen}), to determine how many columns it should span. The float is scaled to span the integer multiple of column widths that most closely matches its `natural' size, though for reasons that should hopefully be obvious, this number is limited to a minimum of 1, and a maximum of the number of columns on the page. Additionally, checks are made to ensure that the scaling will not cause the height of the figure to exceed that of the page.
 
-An advantage of this grid-based approach is that it no longer requires the use of queues, either for lines, or for floats. The viewer simply traverses the document structure tree, placing each item in the first available place in the grid. In the case of floats, or other items larger than multiples of the main \gls{leading}, spaces in the grid can be marked as reserved, to prevent other items from trampling over their reserved space. If a float will not fit directly below the previous item to be placed, the grid is walked over until a gap of sufficient size can be found. Figure~\ref{fig:screengrab} shows an example of a document laid out with this system.
+An advantage of this grid-based approach is that it no longer requires the use of queues, either for lines, or for floats. The viewer simply traverses the document structure tree, placing each item in the first available place in the grid. In the case of floats, or other items larger than multiples of the main \gls{leading}, spaces in the grid can be marked as reserved, to prevent other items from trampling over their reserved space. If a float will not fit directly below the previous item to be placed, the grid is walked over until a gap of sufficient size can be found. Figure~\ref{fig:floatlayout} shows the progressive stages of this algorithm, and Figure~\ref{fig:screengrab} shows a real example of a document laid out with this system.
+
+\begin{figure}
+    \captionsetup[subfigure]{justification=raggedright}
+    \subfloat[][Lines of text are added to the grid at the leftmost then topmost available position]{\includegraphics[width=0.3\textwidth]{gfx/float2.png}}\hspace{0.04\textwidth}
+    \subfloat[][A float 2-column float is encountered, and is inserted below the text]{\includegraphics[width=0.3\textwidth]{gfx/float3.png}}\hspace{0.04\textwidth}
+    \subfloat[][More lines of text are laid out]{\includegraphics[width=0.3\textwidth]{gfx/float4.png}}\\
+    \subfloat[][A single column float is encountered, but will not fit in the current space]{\includegraphics[width=0.3\textwidth]{gfx/float5.png}}\hspace{0.04\textwidth}
+    \subfloat[][The float will also not fit at the top of the next column due to the position of the previous float]{\includegraphics[width=0.3\textwidth]{gfx/float6.png}}\hspace{0.04\textwidth}
+    \subfloat[][A space has been found for the second float]{\includegraphics[width=0.3\textwidth]{gfx/float7.png}}\\
+    \subfloat[][More text is laid out until the bottom of the column is reached]{\includegraphics[width=0.3\textwidth]{gfx/float8.png}}\hspace{0.04\textwidth}
+    \subfloat[][Text begins to be laid out at the top of the next column, until the reserved space of the float is encountered]{\includegraphics[width=0.3\textwidth]{gfx/float9.png}}\hspace{0.04\textwidth}
+    \subfloat[][Text is subsequently laid out below the two floats until the page is filled]{\includegraphics[width=0.3\textwidth]{gfx/float10.png}}
+    \caption[Step through of multi-column layout]{A step-by-step example of how multi-column spanning floats are positioned using the grid-based layout described in Section~\ref{sec:gridlayout}}
+    \label{fig:floatlayout}
+\end{figure}
 
 
 
 \begin{figure}
     \includegraphics[angle=90,origin=c,width=\textwidth]{gfx/floatrendering}
-    \caption[A sample rendering with multi-column floats]{An excerpt from \cite{Pinkney2011}, typeset and rendered by the system described in chapter~\ref{ch:floats}. Of the two floats (a screenshot from a Kindle, and a demonstration of some micro-typographical techniques), one spans only one column, and one spans two. }
+    \caption[A sample rendering with multi-column floats]{An excerpt from \cite{Pinkney2011}, typeset and rendered by the system described in Chapter~\ref{ch:floats}. Of the two floats (a screenshot from a Kindle, and a demonstration of some micro-typographical techniques), one spans only one column, and one spans two. }
     \label{fig:screengrab}
 \end{figure}
 
+\newpage %naughty naughty
 Pagination becomes a little trickier when floats are allowed to span multiple columns. For example, if a float, whose natural size would lead it to span $n$ columns, is encountered in the document structure tree when there are $(n-1)$ or fewer columns remaining to be typeset on the page, it must be decided how best to handle the situation. Three obvious options present themselves: alter the float to span fewer columns; delay the placement of the float until the start of the next page; or backtrack and check whether there is room to move the float back one or more columns, by shunting non-floatable text lines forwards.
 
 The first option is clearly not desirable behaviour, given that shrinking a float may well reduce its legibility. Additionally, if this becomes a common problem, it it likely to be noticeable that floats spanning into the rightmost column of the page appear shrunken. The second option (delaying placement until the following page) is a reasonable compromise, though it will increase float-drift (whereby floats become separated from their callout points in the text), which is not ideal. The third option (backtracking and shunting) is likely to produce the most desirable output, although some computational overhead will be added. One approach is simply to check whether there is enough space immediately to the left (specifically a gap between other, already placed, floats) into which the current float can be placed, with the displaced lines being shunted forwards. This method will not produce layouts as optimal as methods that use full backtracking and check all possibilities, but it will run in much quicker time. A combination of all three of the above options is likely to work best in practice.
@@ -242,7 +259,7 @@ The first option is clearly not desirable behaviour, given that shrinking a floa
 
 \section{Summary}
 
-The reimplementation of the system in \html{} is not without its pitfalls. One strong advantage of using \pdf{} over \html{} is that any \pdf{} renderer that correctly implements the standard~\cite{Adobe2001} should display any given document in an identical manner to any other renderer. Regrettably (and much to the chagrin of web developers everywhere) this is very much not true of rival web browser layout engines. Though standards do exist (published by the \gls{w3c}) and are largely adhered to by all the major layout engines, there are certain areas that are open to interpretation by the developers. One particular problem that is encountered when using the system described in this chapter is that of font scaling. The layouts produced by this system will only retain their quality if they are laid out precisely as specified by the typesetting process. Viewing the malleable documents in Google Chrome and Mozilla Firefox (which use WebKit and Gecko respectively) produces noticeably different results when the user chooses to scale the page up or down. WebKit appears to be inconsistent and non-linear when scaling fonts, whereas Gecko does a better job, and manages to lay out the text as intended by the typesetter. Figure~\ref{fig:craprenderer} shows an example of Gecko's font scaling problem.
+The reimplementation of the system in \html{} is not without its pitfalls. One strong advantage of using \pdf{} over \html{} is that any \pdf{} renderer that correctly implements the standard~\cite{Adobe2001} should display any given document in an identical manner to any other renderer. Regrettably (and much to the chagrin of web developers everywhere) this is very much not true of rival web browser layout engines. Though standards do exist, published by the \gls{w3c}, which are largely adhered to by all the major layout engines, there are certain areas that appear to be open to interpretation. One particular problem that is encountered when using the system described in this chapter is that of font scaling. 
 
 \begin{figure}
     \includegraphics[width=\textwidth]{gfx/webkitisshit}
@@ -250,6 +267,13 @@ The reimplementation of the system in \html{} is not without its pitfalls. One s
     \label{fig:craprenderer}
 \end{figure}
 
+The layouts produced by this system will only retain their quality if they are laid out precisely as specified by the typesetting process. Viewing the malleable documents in Google Chrome and Mozilla Firefox (which use WebKit and Gecko respectively) produces noticeably different results when the user chooses to scale the page up or down. WebKit appears to be inconsistent and non-linear when scaling fonts, whereas Gecko does a better job, and manages to lay out the text as intended by the typesetter. Figure~\ref{fig:craprenderer} shows an example of Gecko's font scaling problem. There is no real way around this issue, other than ensuring that whichever rendering engine is used in the reader device provides the required smooth scaling of fonts.
+
+
+
+
+
 
 %\todo{Write some analysis of the various float algorithms; provide some criticism of growing file sizes which leads onto the next chapter; mention problems that occur when the renderer tries to be clever (eg does its own kerning) ie Webkit vs Gecko}
+
 
