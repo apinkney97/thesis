@@ -13,7 +13,7 @@ Much like typesetting algorithms, few compression algorithms are designed with t
 
 
 \section{Implementation}
-The most obvious saving that can be made is with the duplication of a document's textual content. The systems described in chapters \ref{ch:malleable}~and~\ref{ch:floats} both contain as many copies of the document text as there are pre-rendered galleys. In practice, there is no real need for more than one copy to be present in the file. Two approaches to this problem were considered.
+The most obvious saving that can be made is with the duplication of a document's textual content. The systems described in Chapters \ref{ch:malleable}~and~\ref{ch:floats} both contain as many copies of the document text as there are pre-rendered galleys. In practice, there is no real need for more than one copy to be present in the file. Two approaches to this problem were considered.
 
 \subsection{Pointers into the Source Text}
 The first approach to be considered was to include the source text of the document in its entirety, and for each rendering to contain only pointers to the relevant sections of text, instead of the words themselves. These pointers can either be absolute (in the form of a character offset from the start of the text) or logical (in the form \emph{paragraph m, word n}). If the document text is to be included as a plaintext string, absolute pointers are easier to use than logical: logical pointers either require an auxiliary data structure to map the logical pointers to absolute ones, or for the document text to be stored in a format reflecting the logical structure, \ie{} not in plain text.
@@ -201,8 +201,6 @@ The following pages show the evolution of the encoding system, and how the files
   \label{fig:size-deltas}
 \end{figure}
 
-\newpage
-
 
 
 \begin{figure}
@@ -233,3 +231,15 @@ The following pages show the evolution of the encoding system, and how the files
 %   \end{tabularx}
 %   \caption[Comparison of filesizes]{Comparison of filesizes using various encoding methods}  \label{tab:filesize}
 % \end{table}
+
+
+\subsection{Discussion}
+
+It is fairly clear from the above graphs that so long as some thought is put in, a lot of redundancy can be squeezed out of the data, without the need to resort to aggressive compression methods that require significant computation during decompression.
+
+Nevertheless, Figures \ref{fig:size-all-b}~and~\ref{fig:size-all-gz} suggest that a significant amount of redundancy remains in each of the encoding schemes: on gzipping, the filesizes are reduced by some 66--75\%. Some of this can be attributed to \gls{json}'s syntax, but it is likely that the blame lies more with the data itself. The dictionary itself is not particularly compact. No advantage is taken of words that share common substrings, nor of words that have identical widths.
+
+\todo{bleh}
+
+\section{Summary}
+
