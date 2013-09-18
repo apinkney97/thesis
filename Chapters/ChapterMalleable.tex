@@ -177,7 +177,7 @@ The first change necessary was to decrease the granularity of the output \gls{co
 
 Once the entire output file has been parsed, the tree representations of the various width galleys are amalgamated per-paragraph, as indicated in Figure~\ref{fig:tree}, and finally the \pdf{} file is serialised, replete with \gls{cog}s and document structure tree. Various key excerpts from a malleable \pdf{} file's internal structure is shown in Listings \ref{lst:pdfstart}, \ref{lst:pdfpartree}, \ref{lst:pdfcog}, and~\ref{lst:pdfpages}.
 
-\begin{lstlisting}[label=lst:pdfstart,captionpos=b,language=postscript,float,caption={[Excerpt from a the start of a malleable document \pdf{}]An excerpt from a the start of a malleable document \pdf{} file. A reference to the \texttt{/ParagraphData} object (shown in Listing~\ref{lst:pdfpartree}) has been added to the \pdf{}'s \texttt{/Catalog} object. The \texttt{/Pages} object is also shown\ed{}note that there is only ever one page in a malleable \pdf{}.}]
+\begin{lstlisting}[label=lst:pdfstart,captionpos=b,language=postscript,float,caption={[Excerpt from a malleable document \pdf{}]An excerpt from a the start of a malleable document \pdf{} file. A reference to the \texttt{/ParagraphData} object (shown in Listing~\ref{lst:pdfpartree}) has been added to the \pdf{}'s \texttt{/Catalog} object. The \texttt{/Pages} object is also shown\ed{}note that there is only ever one page in a malleable \pdf{}.}]
 %PDF-1.4
 1 0 obj
 <<
@@ -197,7 +197,7 @@ endobj
 \end{lstlisting}
 
 
-\begin{lstlisting}[label=lst:pdfpartree,captionpos=b,language=postscript,float,caption={[Excerpt from a document structure tree in a malleable document \pdf{}]An excerpt from a document structure tree in a malleable document \pdf{} file. The tree structure described in Figure~\ref{fig:tree} can be observed in the \texttt{/Paragraphs} array, with the exception that the first element is an array containing the widths of each included galley rendering.}]
+\begin{lstlisting}[label=lst:pdfpartree,captionpos=b,language=postscript,float,caption={[Excerpt from a document structure tree]An excerpt from a document structure tree in a malleable document \pdf{} file. The tree structure described in Figure~\ref{fig:tree} can be observed in the \texttt{/Paragraphs} array, with the exception that the first element is an array containing the widths of each included galley rendering.}]
 7473 0 obj
 <<
  /Type /Multi-Width
