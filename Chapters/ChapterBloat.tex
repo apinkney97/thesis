@@ -93,7 +93,7 @@ With a vague view to producing data that would be more easily compressible by a 
 
 In any typeset document, most (if not all) occurrences of the same word will be indistinguishable from one another. In particular, the amount of horizontal space a word uses will be consistent for each occurrence of the word. Similarly, if a document's text is fully justified, the space between words on each individual line will be identical. If the document is left-justified, then each space between each word on every line will be identical. This redundancy is present within all the previous encodings, but cannot be picked up by a generic compression algorithm, since it requires knowledge of the typesetting process. By separating the word widths from the spacing, this redundancy can be made more explicit, and therefore easier for a generic compression algorithm to take advantage of.
 
-\begin{lstlisting}[label=lst:deltasdata,captionpos=b,float,language=c,stringstyle=\color{blue},basicstyle=\ttfamily\footnotesize,caption={[Excerpt from a paragraph tree using position deltas]Excerpt from a JavaScript data file that uses position deltas in the document structure tree, representing one galley rendering of one paragraph.}]
+\begin{lstlisting}[label=lst:deltasdata,captionpos=b,float,language=c,stringstyle=\color{blue},basicstyle=\ttfamily\footnotesize,caption={[Excerpt from a paragraph tree using deltas]Excerpt from a JavaScript data file that uses position deltas in the document structure tree, representing one galley rendering of one paragraph.}]
 [
     [[0,982],[3.678,26],[3.678,93],],
     [[0,14],[2.682,1307],[2.682,558],],
@@ -173,7 +173,7 @@ The following pages show the evolution of the encoding system, and how the files
   \includegraphics[width=\textwidth]{gnuplot/3-s}
   \includegraphics[width=\textwidth]{gnuplot/3-r}
   \end{center}
-  \caption[Filesizes of documents with an unordered dictionary]{Filesizes of various documents, encoded using an unordered dictionary.}
+  \caption[Filesizes with an unordered dictionary]{Filesizes of various documents, encoded using an unordered dictionary.}
   \label{fig:size-unord}
 \end{figure}
 
@@ -185,7 +185,7 @@ The following pages show the evolution of the encoding system, and how the files
   \includegraphics[width=\textwidth]{gnuplot/4-s}
   \includegraphics[width=\textwidth]{gnuplot/4-r}
   \end{center}
-  \caption[Filesizes of documents with an ordered dictionary]{Filesizes of various documents, encoded using an ordered dictionary.}
+  \caption[Filesizes with an ordered dictionary]{Filesizes of various documents, encoded using an ordered dictionary.}
   \label{fig:size-ord}
 \end{figure}
 
@@ -197,7 +197,7 @@ The following pages show the evolution of the encoding system, and how the files
   \includegraphics[width=\textwidth]{gnuplot/5-s}
   \includegraphics[width=\textwidth]{gnuplot/5-r}
   \end{center}
-  \caption[Filesizes of documents with an ordered dictionary and relative positioning]{Filesizes of various documents, encoded using an ordered dictionary with word widths, and position deltas in the document structure tree.}
+  \caption[Filesizes with relative positioning]{Filesizes of various documents, encoded using an ordered dictionary with word widths, and position deltas in the document structure tree.}
   \label{fig:size-deltas}
 \end{figure}
 
@@ -215,7 +215,7 @@ The following pages show the evolution of the encoding system, and how the files
   \begin{center}
   \includegraphics[height=\textwidth,angle=90]{gnuplot/kjv-gz}
   \end{center}
-  \caption[Comparison of gzipped filesizes from all encodings]{A comparison of filesizes of all encodings after gzipping, using the King James Version of the Bible as a sample document. Note the substantial improvement in compression of the encoding that uses position deltas over the variants that use absolute positioning.}
+  \caption[Comparison of gzips of all encodings]{A comparison of filesizes of all encodings after gzipping, using the King James Version of the Bible as a sample document. Note the substantial improvement in compression of the encoding that uses position deltas over the variants that use absolute positioning.}
   \label{fig:size-all-gz}
 \end{figure}
 
