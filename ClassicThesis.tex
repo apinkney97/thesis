@@ -13,9 +13,9 @@
 
 \newcommand{\Ebook}{Ebook}
 \newcommand{\ebook}{ebook}
-\newcommand{\pdf}{\textsc{pdf}}
-\newcommand{\epub}{\textsc{epub}}
-\newcommand{\html}{\textsc{html}}
+\newcommand{\pdf}{\gls{pdf}}%{\textsc{pdf}}
+\newcommand{\epub}{EPUB}
+\newcommand{\html}{\gls{html}}%\textsc{html}}
 \newcommand{\xhtml}{\textsc{xhtml}}
 \newcommand{\xml}{\textsc{xml}}
 \newcommand{\css}{\textsc{css}}
@@ -24,7 +24,8 @@
 \newcommand{\Troff}{\emph{Troff}}
 \newcommand{\ditroff}{\emph{ditroff}}
 \newcommand{\Ditroff}{\emph{Ditroff}}
-\newcommand{\COG}{\textsc{cog}}
+\newcommand{\COG}{\gls{cog}}%\textsc{cog}}
+
 \newcommand{\todo}[1]{\vspace{0.3in}\hspace{-0.5in}\textbf{\textcolor{red}{TODO:\hspace{1.1in}#1}}\vspace{0.3in}}
 \newcommand{\redmarginpar}[1]{\marginpar{\textcolor{red}{#1}}}
 %\newacronym[longplural=Frames per Second]{FPS}{fpsLabel}{Frame per Second}
@@ -37,19 +38,20 @@
 % GO!GO!GO! MOVE IT!
 %*******************************************************
 
-% \includeonly{
-% FrontBackmatter/Abstract,
-% FrontBackmatter/Contents,
-% Chapters/Chapter01,
-% Chapters/Chapter02,
-% Chapters/Chapter03,
-% Chapters/Chapter04,
-% Chapters/Chapter05,
-% Chapters/Chapter06,
-% Chapters/Chapter07,
-% Chapters/Chapter0A,
-% FrontBackmatter/Bibliography
-% }
+\includeonly{
+FrontBackmatter/Titlepage,
+FrontBackmatter/Abstract,
+FrontBackmatter/Contents,
+Chapters/ChapterIntro,
+Chapters/ChapterMalleable,
+Chapters/ChapterFloats,
+Chapters/ChapterBloat,
+Chapters/ChapterTechAnalysis,
+Chapters/ChapterAestheticAnalysis,
+Chapters/ChapterEvaluation,
+Chapters/ChapterAppendix,
+FrontBackmatter/Bibliography
+}
 
 \lstset{literate= % Make my numbers red, you fucker
     *{0}{{{\color{BrickRed}0}}}1
@@ -85,8 +87,8 @@
 \include{FrontBackmatter/Dedication}
 %\include{FrontBackmatter/Foreword}
 
-%\onehalfspacing
-\doublespacing
+\onehalfspacing
+%\doublespacing
 \include{FrontBackmatter/Abstract}
 \singlespacing
 %\include{FrontBackmatter/Publication}
