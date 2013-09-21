@@ -19,21 +19,21 @@ As a consequence of this, \ebook{} files must be flexible enough to allow their 
     \captionsetup[subfigure]{justification=raggedright}
     \begin{centering}
 
-        \subfloat[][A commercially printed book]{\includegraphics[width=0.3\textwidth]{gfx/sc-book}} \hspace{1mm} 
-        \subfloat[][A laser-printed webpage]{\includegraphics[width=0.3\textwidth]{gfx/sc-laser}} \hspace{1mm} 
-        \subfloat[][A dot-matrix \textsc{lcd} screen]{\includegraphics[width=0.3\textwidth]{gfx/sc-lcd}\label{fig:calculator}} 
+        \subfloat[][A commercially printed book]{\includegraphics[width=0.31\textwidth]{gfx/sc-book}} \hspace{1mm} 
+        \subfloat[][A laser-printed webpage]{\includegraphics[width=0.31\textwidth]{gfx/sc-laser}} \hspace{1mm} 
+        \subfloat[][A dot-matrix \textsc{lcd} screen]{\includegraphics[width=0.31\textwidth]{gfx/sc-lcd}\label{fig:calculator}} 
 
-        \subfloat[][A \textsc{tft} \textsc{lcd} monitor]{\includegraphics[width=0.3\textwidth]{gfx/sc-tft1}} \hspace{1mm} 
-        \subfloat[][Another \textsc{tft} \textsc{lcd} monitor]{\includegraphics[width=0.3\textwidth]{gfx/sc-tft2}} \hspace{1mm} 
-        \subfloat[][A \textsc{tft} \textsc{lcd} on a Kindle Fire HD]{\includegraphics[width=0.3\textwidth]{gfx/sc-fire}} 
+        \subfloat[][A \textsc{tft} \textsc{lcd} monitor]{\includegraphics[width=0.31\textwidth]{gfx/sc-tft1}} \hspace{1mm} 
+        \subfloat[][Another \textsc{tft} \textsc{lcd} monitor]{\includegraphics[width=0.31\textwidth]{gfx/sc-tft2}} \hspace{1mm} 
+        \subfloat[][A \textsc{tft} \textsc{lcd} on a Kindle Fire HD]{\includegraphics[width=0.31\textwidth]{gfx/sc-fire}} 
 
-        \subfloat[][A Super \textsc{amoled} display on a Galaxy Nexus smartphone]{\includegraphics[width=0.3\textwidth]{gfx/sc-gnex}} \hspace{1mm} 
-        \subfloat[][An e-paper screen on a Kobo eReader]{\includegraphics[width=0.3\textwidth]{gfx/sc-kobo}} \hspace{1mm} 
-        \subfloat[][An e-paper screen on a Kindle Touch]{\includegraphics[width=0.3\textwidth]{gfx/sc-kindle}} 
+        \subfloat[][A Super \textsc{amoled} display on a Galaxy Nexus smartphone]{\includegraphics[width=0.31\textwidth]{gfx/sc-gnex}} \hspace{1mm} 
+        \subfloat[][An e-paper screen on a Kobo eReader]{\includegraphics[width=0.31\textwidth]{gfx/sc-kobo}} \hspace{1mm} 
+        \subfloat[][An e-paper screen on a Kindle Touch]{\includegraphics[width=0.31\textwidth]{gfx/sc-kindle}} 
 
     \end{centering}
 
-    \caption[Examples of document display technologies]{Examples of some document display technologies, magnified about 25 times (top halves of images) and 350 times (bottom halves). Note that the resolution of the screen in (g) is close to that of the microscope used to capture the image, hence the aliasing effect.}
+    \caption[Examples of document display technologies]{Examples of some document display technologies, magnified about 25 times (top halves of images) and 350 times (bottom halves). Note that the resolutions of the screens in (f) and (g) are close to that of the microscope used to capture the image, hence the aliasing effect.}
     \label{fig:screens}
 \end{figure}
 
@@ -64,13 +64,13 @@ This is not to say that \pdf{} files \emph{cannot} represent the semantic struct
 
 \subsection{Flowable Formats}
 \label{sec:flowableformats}
-\marginpar{Amazon's proprietary Kindle format is derived from Mobipocket; \pdf{} and \epub{} are open standards}
-The two most common flowable \ebook{} formats are \epub{} and Mobipocket, both of which are largely based on \html{}. \html{} was chosen not only because of its inherent support for reflow, but also because it allows document content to be semantically marked up into paragraphs, varying levels of headers, and so on. At the time, this was an enormous improvement over \ebook{}s stored as plain text, which consequently had no formatting \emph{or} semantic structure, 
+
+The\marginpar{Amazon's proprietary Kindle format is derived from Mobipocket; \pdf{} and \epub{} are open standards} two most common flowable \ebook{} formats are \epub{} and Mobipocket, both of which are largely based on \html{}. \html{} was chosen not only because of its inherent support for reflow, but also because it allows document content to be semantically marked up into paragraphs, varying levels of headers, and so on. At the time, this was an enormous improvement over \ebook{}s stored as plain text, which consequently had neither formatting nor semantic structure, 
 
 Whilst the use of these \html{}-like formats allows the semantic structure of documents to be very well defined, in general their presentation can only be specified in a very loose manner. On an \ebook{} reader (or in \ebook{} reading software) the user is often presented with a choice of typefaces and point sizes, which gives the reader software scope to render the document in any number of arbitrary ways.
 
 Since a document stored in a flowable format has no concrete presentation associated with it, each time the document is displayed, its layout must be recomputed. For an \ebook{} reader to maximise its battery life, this computation must be as simple as possible, \ie{} the algorithm used must not be too complex, since the more \textsc{cpu} cycles spent executing it, the less time the \textsc{cpu} can spend idle, and thus the greater the drain on the device's battery. Furthermore, the longer that is spent formatting the output, the longer the delay between page turns on the device, and with the speed of \textsc{cpu}s used in these devices ($<$ 500 \textsc{MHz}) it does not take too large an increase in computation for the page-turn time to become noticeable.
-
+\redmarginpar{Check whether this value is up to date\ldots}
 
 
 \section{Limitations of Current Formats}
@@ -83,18 +83,24 @@ Applications have been written that attempt to reflow the content of PDF documen
 
 
 
-\epub{} and Mobipocket, both based on \html{}, provide a higher abstraction of documents. This allows a font size to be chosen at view-time, and the text to be rendered accordingly, to closely fit the screen. Line breaks and page breaks can then be calculated and inserted as necessary, in order to wrap the text to fit the screen, and to paginate the content. The rendering engines of \ebook{} readers use simplistic reflow algorithms\ed but necessarily so.
+\epub{} and Mobipocket, both based on \html{}, provide a higher abstraction of documents. This allows a font size to be chosen at view-time, and the text to be rendered accordingly, to closely fit the screen. Line breaks and page breaks can then be calculated and inserted as necessary, in order to wrap the text to fit the screen, and to paginate the content.
 
-The battery life of portable devices is lamentably low\ed battery capacity has not improved at anywhere near the same rate as other facets of mobile computing. Manufacturers of \ebook{} readers may claim their products have batteries which can last for weeks, but this is principally due to the many shortcuts used when laying out flowable content. As noted in Section~\ref{sec:flowableformats}, were these devices to use more complex layout algorithms, which can produce far higher quality typeset output, it would soon emerge that any savings made by using a low-power e-paper screen would quickly disappear. In addition to increasing battery usage, the higher computational complexity of these algorithms may cause page turns to take longer, as each subsequent page is only rendered when a page turn is requested. This time delay could be fixed reasonably easily by buffering between page turns, but this would not solve the battery drain problem.
+The rendering engines of \ebook{} readers use simplistic reflow algorithms\ed but necessarily so. The battery life of portable devices is lamentably low\ed battery capacity has not improved at anywhere near the same rate as other facets of mobile computing. Manufacturers of \ebook{} readers may claim their products have batteries that can last for weeks, but this is principally due to the many typographical corners that they cut when laying out flowable content. As noted in Section~\ref{sec:flowableformats}, were these devices to use more complex layout algorithms, which can produce far higher quality typeset output, any savings made by using a low-power e-paper screen would quickly be dispelled. In addition to increasing battery usage, the higher computational complexity of these algorithms may cause page turns to take longer, as each subsequent page is only rendered when a page turn is requested. This time delay could be fixed reasonably easily by buffering between page turns, but this would not solve the battery drain problem.
 
 
 \epub{} allows fonts to be embedded, but Mobipocket does not. Mobipocket files (and by extension, Kindle files) are therefore restricted to be rendered in a typeface local to (and often chosen by) the reader software. The Kindle, as an example, provides the user with a choice of `regular', `condensed', or `sans-serif' for the main body text of its documents. There are bold and italic variants of these, which are applied according to formatting instructions within the documents themselves. Additionally, there is a typewriter-style font which document authors may choose to use in the same manner. The Mobipocket specification supports a very limited subset of \html{} and \css{}, which makes it virtually impossible to achieve complex layouts such as those involving arbitrary indentation or font size changes. Figures \ref{fig:alices1} and~\ref{fig:alices2} demonstrate the well known `Mouse's Tale' from Lewis Carroll's \emph{Alice in Wonderland}, and the limitations of various formats.
 
 
-\begin{figure}[tb]
+\begin{figure}
 \includegraphics[width=\textwidth]{gfx/alices1}
 \caption[Document displayed in Calibre]{On the left is an \epub{} version of Alice in Wonderland, displayed in Calibre (an open source desktop \ebook{} viewer). On the right is the same file, converted to Mobipocket, also displayed in Calibre. Note that in addition to the indentation being lost, the (embedded) font from the \epub{} is no longer present in the Mobipocket file.}
 \label{fig:alices1}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=\textwidth]{gfx/alices2}
+\caption[The same document displayed on the Kindle]{On the left is the Mobipocket version of Alice in Wonderland (from Figure~\ref{fig:alices1}) displayed on the Kindle. Note that the sizing instructions appear to have been ignored. On the right is the free version of Alice in Wonderland from the Kindle store, displayed on the Kindle. Note that no attempt has been made to render the poem in a `tail' shape.}
+\label{fig:alices2}
 \end{figure}
 
 %\marginpar{Mobipocket\ed can't embed fonts... very limited choice of html to use. Reliant on
@@ -104,48 +110,46 @@ The battery life of portable devices is lamentably low\ed battery capacity has n
 
 \epub{} is a little more flexible, since it supports a more comprehensive range of \xhtml{} and \css{}, and allows for arbitrarily complex styling. \epub{} files are still entirely reliant on the rendering engine of the display device correctly displaying their content, as they have no concrete layout associated with them.
 
-\begin{figure}[tb]
-\begin{center}
-\vspace{-.3in}
-\includegraphics[width=\textwidth]{gfx/alices2}
-\end{center}
-\vspace{-.3in}
-\caption[The same document displayed on the Kindle]{On the left is the Mobipocket version of Alice in Wonderland (from Figure~\ref{fig:alices1}) displayed on the Kindle. Note that the sizing instructions appear to have been ignored. On the right is the free version of Alice in Wonderland from the Kindle store, displayed on the Kindle. Note that no attempt has been made to render the poem in a `tail' shape.}
-\label{fig:alices2}
-\end{figure}
+
 
 \section{``Good'' typesetting}
 \label{sec:goodtypesetting}
+
+Generally speaking, the better the quality of a document's typography, the less it should be noticed by the reader. Good typography should be transparent, in order that the reader may concentrate upon the content of the document, rather than be distracted by its presentation.
+
+Many studies~\cite{Mittelbach1992,Hill1999,Bringhurst2008,Voorhees2011,Legge2011} have confirmed that the readability of text is inextricably linked to the quality of its typography. Unfortunately, producing well-typeset text can be an extremely complex process.
+
+
+
+\subsection{Hyphenation and Line-Breaking}
+\Ebook{} readers typically use a `greedy' algorithm to lay out their text\ed that is, they place as many words as will fit onto the current line without exceeding it, then start a new line and continue. Although this algorithm is optimal in that it will always fit text onto the fewest possible lines, it often causes consecutive lines to have wildly varying lengths, accentuating either the `ragged-right' effect of the text, or, in the case of justified text, the inter-word spacing. In general, \ebook{} readers will only hyphenate in extreme cases\ed indeed the Kindle seems not to do so at all, to the detriment of its typography (see Figure~\ref{fig:crapkindle}).
+
+Donald E. Knuth and Michael F. Plass~\cite{Knuth1981} developed a more advanced line-breaking algorithm (now used by \TeX{}) which attempts to minimise large discrepancies between consecutive lines by considering each paragraph as a whole. \TeX{} also uses the hyphenation algorithm designed by Franklin Liang~\cite{Liang1983} (another of Knuth's grad students) which has been ported to many other applications.
+
+Knuth and Plass's line breaking algorithm, in conjunction with Liang's hyphenation algorithm, breaks paragraphs into lines of text to fit a page, resulting in what can be considered an aesthetically optimal configuration. \TeX 's default behaviour is then to alter the spacing between words in order to justify the line to fit the measure of the page. This algorithm nominally runs in $O(n^2)$ time (compared with $O(n)$ for a greedy first-fit approach). With some pruning, the effective complexity can be reduced to $O(n)$~\cite{Hirschberg1987,Eppstein1992,Hurst2009} though large constant factors still make the algorithm slow in practice. In any case, the Knuth-Plass algorithm is certainly not the last word in line-breaking algorithms: for example, it has no mechanism to avoid (nor indeed any knowledge of) vertical rivers of whitespace.~\cite{Mittelbach1992} Inevitably, adding support to avoid rivers, and for any of the other nuances used by hand compositors, would further add complexity.
 
 \begin{figure}
     \centering
     \fbox{\includegraphics[width=\textwidth
 ]{gfx/screen_shot-42583}}
-    \caption[Poor typography on the Kindle]{The Kindle Keyboard appears to primarily use justified text, falling back to ragged-right when inter-word spacing would become too large.}
+    \caption[Poor typography on the Kindle]{The Kindle appears to fully justify its text, falling back to ragged-right when inter-word spacing would become too large. Its lack of a hyphenation algorithm exacerbates this problem.}
     \label{fig:crapkindle}
 \end{figure}
 
-\subsection{Hyphenation and Line-Breaking}
-\Ebook{} readers typically use a `greedy' algorithm to lay out their text\ed that is, they place as many words as will fit onto the current line without exceeding it, then start a new line and continue. Although this algorithm is optimal in that it will always fit text onto the fewest possible lines, it often causes consecutive lines to have wildly varying lengths, accentuating either the `ragged-right' effect of the text, or, in the case of justified text, the inter-word spacing. In general, \ebook{} readers will only hyphenate in extreme cases\ed indeed the Kindle Keyboard seems not to do so at all, to the detriment of its typography (see Figure~\ref{fig:crapkindle}).
-
-Donald E. Knuth and Michael F. Plass~\cite{Knuth1981} developed a more advanced line-breaking algorithm (now used by \TeX{}) which attempts to minimise large discrepancies between consecutive lines by considering each paragraph as a whole. \TeX{} also uses the hyphenation algorithm designed by Franklin Liang~\cite{Liang1983} (another of Knuth's grad students) which has been ported to many other applications.
-
-Knuth and Plass's line breaking algorithm, in conjunction with Liang's hyphenation algorithm, breaks paragraphs into lines of text to fit a page, resulting in what can be considered an aesthetically optimal configuration. \TeX 's default behaviour is then to alter the spacing between words in order to justify the line to fit the measure of the page.
-
 \begin{figure}
  \fbox{\includegraphics[trim=1.8in 6.54in 3.4in 4.25in, clip=true, width=\textwidth]{gfx/kerningetc}}
- \caption[Examples of microtypographical techniques]{Examples of various letter-pairs and their kerned (left) or ligature (right) equivalents, as typeset by pdf\LaTeX{}.}
+ \caption[Examples of microtypographical techniques]{Examples of various letter-pairs and their kerned (left) or ligature (right) equivalents, as typeset by pdf\LaTeX{}. Some further examples of fi ligatures (or not) can be seen in Figure~\ref{fig:screens}.}
  \label{fig:kern-lig}
 \end{figure}
 
+
 \subsection{Microtypographical Techniques}
-Other techniques employed during hand-type\-set\-t\-ing and high-qua\-l\-ity electronic typesetting include the use of what is often termed \emph{micro\-typo\-graphy},~\cite{Hurst2009} for example, the use of kerning and ligatures. Kerning involves altering the spacing between certain glyph pairs in order to produce more consistent letter spacing, and ligatures are sin\-gle-glyph replacements for two or more single glyphs which may otherwise have clashing components. Some examples of these are shown in Figure~\ref{fig:kern-lig}.
+Other techniques employed during hand-type\-set\-t\-ing, and high-qua\-l\-ity electronic typesetting, include the use of what is often termed \emph{micro\-typo\-graphy},~\cite{Hurst2009} for example, the use of kerning and ligatures. Kerning involves altering the spacing between certain glyph pairs in order to give the appearance of more consistent letter spacing, and ligatures are sin\-gle-glyph replacements for two or more single glyphs that may otherwise have had clashing components. Some examples of these are shown in Figure~\ref{fig:kern-lig}.
 
 Kerning requires a table of kern-pairs, specific to each font; values from this table must then be looked up for every pair of adjacent glyphs in the document. Ligatures may or may not need to be inserted: if the component characters of the ligature lie over a potential hyphenation point, it cannot be decided whether to replace them with the ligature until it is known whether the hyphenation point needs to be used. \TeX{} handles kerning and insertion of ligatures automatically, but there are still further typographical tweaks that its default typesetting algorithm does not use.
 
-More advanced methods than simply stretching or shrinking the word spacing do exist, however. Robert Bringhurst, in \emph{The Elements of Typographic Style}~\cite{Bringhurst2008}, suggests that in addition to altering word spacing, subtle changes to inter-character spacing and individual glyph widths (in the range of $\pm$ 3\%) can produce more typographically and aesthetically pleasing results.
+More\marginpar{\emph{pdf\LaTeX}, used to typeset this thesis, \emph{does} tweak tracking and glyph widths when justifying text} advanced methods than simply stretching or shrinking the word spacing do exist, however. Robert Bringhurst, in \emph{The Elements of Typographic Style}~\cite{Bringhurst2008}, suggests that in addition to altering word spacing, subtle changes to inter-character spacing (also known as \gls{tracking}) and to individual glyph widths (in the range of $\pm$ 3\%) can produce more typographically and aesthetically pleasing results.
 
-%pdf\LaTeX, used to typeset this thesis, \emph{does} make use of all the aforementioned techniques when performing text justification (unlike plain \TeX{} or \LaTeX{}).
 
 
 \section{Summary}
@@ -154,7 +158,25 @@ We have so far seen that electronic representations of documents have layouts th
 
 We have seen that screen technologies for \ebook{} readers have been evolving to become better and better, allowing documents to be displayed in a quality that rivals physical, printed pages. Document representation paradigms have not caught up. They are based on 1990s technology, and were never designed to be used in the way they are today. Fixed layout representations were designed for display on paper. Flowable layout representations were designed for display on such low-resolution screens (such as that in Figure~\ref{fig:calculator}) and underpowered devices that quality typography would have been nothing but a pipe dream.
 
-It is time for a new document representation paradigm designed to match these new technologies\ed time for a \emph{malleable document format}.
 
-It is proposed that by precomputing key parts of the typesetting process, a document may be afforded malleability, so that it may be gently coaxed to fit any page size, without compromising its typographic quality.
+\section{Contributions of this Thesis}
 
+It is clearly time for a new document representation paradigm to be devised, in order to draw level with contemporary document display technologies\ed time for the introduction of a more \emph{malleable} document format. There has been disappointingly little research into this area in the past. Much effort has been put into high-quality typesetting for documents with fixed layouts. Much effort has been put into providing styling for documents with flowable layouts\ed notably \textsc{css}\ed but virtually no consideration has been given to producing well-typeset output on the fly, particularly with the minimum required computation.
+
+In this thesis, such a novel document representation paradigm, geared towards use on portable devices, is proposed and implemented. The desired malleability is afforded to documents by precomputing key parts of the typesetting process, which allows their content to be gently coaxed to fit any page size, without compromising the quality of their typography.
+
+
+
+\section{Thesis Structure}
+
+This introductory chapter is designed to provide an overview of the present state of affairs of the electronic document world, with particular emphasis upon the technologies used in contemporary \ebook{} readers. 
+
+Chapter~\ref{ch:malleable} describes the first prototype implementation of a system to generate and display simple malleable documents.
+
+Chapter~\ref{ch:floats} describes a complete reimplementation of the system described in Chapter~\ref{ch:malleable}, and extends the devised model to include support for floating items such as figures and tables.
+
+Chapter~\ref{ch:bloat} addresses the issue of enlarged file sizes, and details various methods to keep file sizes to a minimum.
+
+Chapters \ref{ch:techanalysis} and~\ref{ch:aesthetics} provide technical and aesthetic analysis, focusing on the quantitative and qualitative aspects of the system as it runs at view-time.
+
+Finally, Chapter~\ref{ch:conclusions} discusses the success of the project, and details areas of potential new research that have been encountered throughout the process.
