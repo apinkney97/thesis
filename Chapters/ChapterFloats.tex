@@ -1,7 +1,7 @@
 \cleardoublepage
 \chapter{Floatable Blocks}\label{ch:floats}
 
-\marginpar{The research in this chapter was previously described in \cite{Pinkney2013}}
+\marginpar{The research in\\ this chapter was previously described in \cite{Pinkney2013}}
 
 % Required implementation:
 % \begin{itemize}
@@ -27,7 +27,7 @@ This chapter extends the work of the previous chapter to allow floatable graphic
 
 %\section{Implementation}
 
-The implementation of the system described in the previous chapter is deeply rooted within \gls{pdf}, and requires a custom-written plugin (see Section~\ref{sec:acroplugin}) for Adobe Acrobat to view the documents. Consequently, it is difficult to test that particular implementation on any device which is not running Microsoft Windows and does not have a fully licensed version of Adobe Acrobat. Effectively, this rules out any mobile \ebook{} readers.
+The implementation of the system described in the previous chapter is deeply rooted within \gls{pdf}, and requires a custom-written plugin (see Section~\ref{sec:acroplugin}) for Adobe Acrobat to view the documents. Consequently, it is difficult to test that particular implementation on any device which is not running Microsoft Windows and does not have a fully licensed version of Adobe Acrobat, which effectively rules out any mobile \ebook{} readers.
 
 Almost all \ebook{} readers support the \epub{} format,\marginpar{Amazon's \emph{Kindle} is one of the few contemporary devices that do not support \epub{}} which is principally built upon \html{}, \css{}, and JavaScript. With this in mind, it was decided that the system should be  reimplemented using these technologies, in order that it could eventually be tested on \ebook{} hardware. 
 
@@ -36,7 +36,7 @@ Almost all \ebook{} readers support the \epub{} format,\marginpar{Amazon's \emph
 \section{Document Generation}
 \label{sec:docgen}
 
-In the system described in the previous chapter, the generation of malleable documents had been a rather labour-intensive process, involving the processing of the source document through \troff{} and \pdfdit{}. In the case of documents with galleys of more than one width, modifications needed to be made, by hand, to the Galley Structure Tree of the resultant \gls{pdf} files.
+In the system described in the previous chapter, the generation of malleable documents had been a rather labour-intensive process, involving the processing of the source document through \ditroff{} and \pdfdit{}. In the case of documents with galleys of more than one width, modifications needed to be made, by hand, to the Galley Structure Tree of the resultant \gls{pdf} files.
 
 Adding or removing characters to the source of a \gls{pdf} file is no trivial matter, since the \textsc{xref} table, which stores the byte offset of every \gls{COSObject} within a \gls{pdf} file, is no longer valid. (Acrobat does kindly offer to fix this problem if it detects it, but it has the side effect of discarding any PDF data that it does not recognise. Clearly losing the Galley Structure Tree is undesirable.) The \textsc{xref} table can either be fixed programatically, or by a painstaking process involving a hex editor and a lot of \marginpar{Significant lack of patience meant that there was only ever one multiple galley-width test document produced for the previous system.} patience. 
 
@@ -88,16 +88,16 @@ The Paragraph Splitter passes the text of each paragraph through an implementati
 Each paragraph is rendered multiple times, once for each galley width, in order to produce the document's multiple galley renderings. Each line of each rendering of every paragraph is converted into a list of its composite words. All of these words have an associated position offset value, which is later used when drawing the text to ensure that each word is positioned on the line with the correct spacing. The general algorithm used is given in Listing~\ref{lst:parsplitter}.
 
 
-\begin{lstlisting}[label=lst:parsplitter,language=c,captionpos=b,float,caption={[Algorithm followed by the galley renderer]The algorithm followed by the galley renderer. Firstly the source of the document is parsed to break it into its initial logical blocks: one block per paragraph and one block per float, in the order encountered in the document source. These blocks are then processed further depending on their type. Floats may be probed for their pixel dimensions if no size was specified, and are then added to the documen structure tree. Paragraphs have their content passed through a line breaking algorithm, once for each specified width.}]
-docStrucTree renderDocument(documentContent, galleyWidths[]) {
+\begin{lstlisting}[label=lst:parsplitter,language=c,captionpos=b,float,caption={[Algorithm followed by the Paragraph Splitter]The algorithm followed by the Paragraph Splitter. Firstly the source of the document is parsed to break it into its initial logical blocks: one block per paragraph and one block per float, in the order encountered in the document source. These blocks are then processed further depending on their type. Floats may be probed for their pixel dimensions if no size was specified, and are then added to the Galley Structure Tree. Paragraphs have their content passed through a line breaking algorithm, once for each specified width.}]
+galleyStrucTree renderDocument(documentContent, galleyWidths[]) {
     parasAndFloats[] = parseDocumentSource(documentContent);
-    docStrucTree = empty tree;
+    galleyStrucTree = empty tree;
     foreach (item in parasAndFloats) {
         if (item is a floatable object) {
             if (dimensions are not specified) {
                 read pixel dimensions from file;
             }
-            add floatable object to docStrucTree;
+            add floatable object to galleyStrucTree;
         } else { /* therefore item is a paragraph */
             create empty paragraph container;
             foreach (width in galleyWidths) {
@@ -108,10 +108,10 @@ docStrucTree renderDocument(documentContent, galleyWidths[]) {
                 }
                 add galley container to paragraph container;
             }
-            add paragraph container to docStrucTree;
+            add paragraph container to galleyStrucTree;
         }
     }
-    return docStrucTree;
+    return galleyStrucTree;
 }
 
 parasAndFloats[] parseDocumentSource(documentContent) {
@@ -121,7 +121,7 @@ parasAndFloats[] parseDocumentSource(documentContent) {
 \end{lstlisting}
 
 
-The content of the floats is largely left unchanged. A reference to the image, along with its required dimensions, is simply passed through to the output. If dimensions were not explicitly specified in the source document, the pixel size of the image itself is used.
+The content of the floats is largely left unchanged. A reference to the image, along with its required dimensions, is simply passed through to the output. If dimensions were not explicitly specified in the source document, the pixel size of the image itself is used, at 96~\textsc{dpi} (\ie 16 pixels becomes 12 points).
 
 Finally, once the whole of the source document has been processed, the rendered content is output\ed in the form of the Galley Structure Tree shown in figure~\ref{fig:tree} on page \pageref{fig:tree}\ed encoded as a \gls{json} string. This becomes the data representing the source document, which, in conjunction with the viewer defined in the next section, becomes a \emph{malleable document}. A sample of this data is shown in Listing~\ref{lst:datajs}.
 
@@ -177,12 +177,12 @@ Finally, once the whole of the source document has been processed, the rendered 
 \section{The Viewer}
 \label{sec:viewer}
 
-In order to circumvent the browser's default text layout algorithm, and to ensure that the ``high quality'' pre-computed text-layout is used, the absolute position of every word on each line must be specified, in a manner not dissimilar to the internals of a PDF file. The Paragraph Splitter described in the previous section ensures that all the information needed to lay the text out is contained within the generated \gls{json} data representing the Galley Structure Tree.
+In order to circumvent the browser's default text layout algorithm, and to ensure that the ``high quality'' pre-computed text-layout is used, the absolute position of every word on each line must be specified, in a manner not dissimilar to the internals of a PDF file. The Paragraph Splitter described in the previous section ensures that all the information needed to lay the text out is contained within the generated \gls{json} string representing the Galley Structure Tree.
 
 
 When the viewer is launched, it decides which is the most appropriate galley rendering to display, based on a metric of which rendering will be most aesthetically pleasing. Since it appears to work well, the metric defined in Chapter~\ref{ch:malleable} is used, which attempts to balance a penalty for excessive inter-column whitespace against a penalty for too many columns. 
 
-Although every galley is rendered in the same point size, this can be scaled up or down at view-time, based on the preference of the user, to simulate point-size changes. The gaps between words are scaled proportionally, to allow the text to remain correctly justified.
+Although every galley is rendered in the same point size, this can be scaled up or down at view-time, based on the preference of the user, to simulate point-size changes. All dimensions other than the page size, such as the gaps between words, are scaled proportionally, to allow the text to remain correctly justified.
 
 
 
@@ -205,7 +205,7 @@ When at least one of the queues is not empty, document layout begins. If the flo
 
 Pagination is reasonably simple with this queueing system: as soon as a page is full, the layout can be restarted at the origin of the page using the current status of both queues and the Galley Structure Tree. It is entirely possible that floats may appear on pages subsequent to their callout point in the text, but this effect should be no worse than in many current typesetting systems.
 
-While this approach does produce reasonable layouts, and handles floats well without the need for backtracking, it is not particularly conducive to producing layouts with floats that span multiple columns. The queue-based layout described above is rather simplistic: it knows about the size of each component that it lays out, but it does not remember the history of the positions of any of the components that are already laid out. This makes it difficult to have items that span more than one column, because there is no mechanism to mark space on the page as being reserved. In order to do this, another approach must be taken.
+Whilst this approach does produce reasonable layouts, and handles floats well without the need for backtracking, it is not particularly conducive to producing layouts with floats that span multiple columns. The queue-based layout described above is rather simplistic: it knows about the size of each component that it lays out, but it does not remember the history of the positions of any of the components that are already laid out. This makes it difficult to have items that span more than one column, because there is no mechanism to mark space on the page as being reserved. In order to do this, another approach must be taken.
 
 \subsection{A Grid-Based Layout}
 \label{sec:gridlayout}
@@ -214,13 +214,16 @@ While this approach does produce reasonable layouts, and handles floats well wit
     % - Grid/array system (no need for queue)
     % - Multicolumn floats
         % - issues with spanning \& pagination
-A simple method for allowing parts of a page to be reserved is to break it up into a grid. Grid-based layouts are useful in many situations~\cite{Collier1991,Bringhurst2008}; one example of particular note is that of modern-day newspapers (see figure~\ref{fig:gridlayout}). Following the example set by these newspapers, the grid used in this system is defined to have a row height of the \gls{leading} of the document's body text, and a column width of the \gls{measure} of one text column plus the required gutter space.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{gfx/newspaper}
     \caption[An example of a grid-based layout]{An example of a grid-based layout in a UK newspaper. Note how all the baselines of the main body text are aligned to a common grid, and that all items span integer multiples of columns.}
     \label{fig:gridlayout}
 \end{figure}
+
+One method for allowing parts of a page to be reserved is to break it up into a grid. Grid-based layouts are useful in many situations~\cite{Collier1991,Bringhurst2008}; one example of particular note is that of modern-day newspapers (see figure~\ref{fig:gridlayout}). Following the example set by these newspapers, the grid used in this system is defined to have a row height of the \gls{leading} of the document's body text, and a column width of the \gls{measure} of one text column plus the required gutter space.
+
+
 
 The viewer uses the dimensions of the float, as specified in the Galley Structure Tree (see Section~\ref{sec:docgen}), to determine how many columns it should span. The float is scaled to span the integer multiple of column widths that most closely matches its `natural' size, though for reasons that should hopefully be obvious, this number is limited to a minimum of 1, and a maximum of the number of columns on the page. Additionally, checks are made to ensure that the scaling will not cause the height of the figure to exceed that of the page.
 
@@ -249,10 +252,14 @@ An advantage of this grid-based approach is that it no longer requires the use o
     \label{fig:screengrab}
 \end{figure}
 
-\newpage %naughty naughty
-Pagination becomes a little trickier when floats are allowed to span multiple columns. For example, if a float, whose natural size would lead it to span $n$ columns, is encountered in the Galley Structure Tree when there are $(n-1)$ or fewer columns remaining to be typeset on the page, it must be decided how best to handle the situation. Three obvious options present themselves: alter the float to span fewer columns; delay the placement of the float until the start of the next page; or backtrack and check whether there is room to move the float back one or more columns, by shunting non-floatable text lines forwards.
 
-The first option is clearly not desirable behaviour, given that shrinking a float may well reduce its legibility. Additionally, if this becomes a common problem, it it likely to be noticeable that floats spanning into the rightmost column of the page appear shrunken. The second option (delaying placement until the following page) is a reasonable compromise, though it will increase float-drift (whereby floats become separated from their callout points in the text), which is not ideal. The third option (backtracking and shunting) is likely to produce the most desirable output, although some computational overhead will be added. One approach is simply to check whether there is enough space immediately to the left (specifically a gap between other, already placed, floats) into which the current float can be placed, with the displaced lines being shunted forwards. This method will not produce layouts as optimal as methods that use full backtracking and check all possibilities, but it will run in much quicker time. A combination of all three of the above options is likely to work best in practice.
+Pagination becomes a little trickier when floats are allowed to span multiple columns. For example, if a float whose natural size would lead it to span $n$ columns is encountered in the Galley Structure Tree when there are $(n-1)$ or fewer columns remaining to be typeset on the page, it must be decided how best to handle the situation. Three obvious options present themselves: alter the float to span fewer columns; delay the placement of the float until the start of the next page; or backtrack and check whether there is room to move the float back one or more columns, by shunting non-floatable text lines forwards.
+
+The first option is clearly not ideal behaviour, given that shrinking a float may well reduce its legibility. Additionally, if this becomes a common problem, it is likely to be noticeable that floats spanning into the rightmost column of the page appear shrunken.
+
+The second option (delaying placement until the following page) is a reasonable compromise, though it will increase float-drift (whereby floats become separated from their callout points in the text), which again is not ideal.
+
+The third option (backtracking and shunting) is likely to produce the most desirable output, although some computational overhead will be added. One approach is simply to check whether there is enough space immediately to the left (specifically a gap between other, already placed, floats) into which the current float can be placed, with the displaced lines being shunted forwards. This method will not produce layouts as optimal as methods that use full backtracking and check all possibilities, but will run in much quicker time. A combination of all three of the above options is likely to work best in practice.
 
 
 % \todo{Actually implement some of these pagination schemes, and write something intelligent-sounding about it. Provide some example output (screenshots).}
@@ -270,7 +277,7 @@ The reimplementation of the system in \html{} is not without its pitfalls. One s
 The layouts produced by this system will only retain their quality if they are laid out precisely as specified by the typesetting process. Viewing the malleable documents in Google Chrome and Mozilla Firefox (which use WebKit and Gecko respectively) produces noticeably different results when the user chooses to scale the page up or down. WebKit appears to be inconsistent and non-linear when scaling fonts, whereas Gecko does a better job, and manages to lay out the text as intended by the typesetter. Figure~\ref{fig:craprenderer} shows an example of Gecko's font scaling problem. There is no real way around this issue, other than ensuring that whichever rendering engine is used in the reader device provides the required smooth scaling of fonts.
 
 
-
+In general, however, as a document layout engine, the system produces pleasing-looking layouts that scale to fit on many different screen sizes, and the reimplementation in \textsc{xhtml}, \textsc{css}, and JavaScript provides makes the system much more portable. One stand-out problem remains: that of ballooning filesizes. The next chapter suggests various methods to keep file sizes to a minimum.
 
 
 
