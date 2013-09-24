@@ -40,7 +40,7 @@ In the system described in the previous chapter, the generation of malleable doc
 
 Adding or removing characters to the source of a \gls{pdf} file is no trivial matter, since the \textsc{xref} table, which stores the byte offset of every \gls{COSObject} within a \gls{pdf} file, is no longer valid. (Acrobat does kindly offer to fix this problem if it detects it, but it has the side effect of discarding any PDF data that it does not recognise. Clearly losing the Galley Structure Tree is undesirable.) The \textsc{xref} table can either be fixed programatically, or by a painstaking process involving a hex editor and a lot of \marginpar{Significant lack of patience meant that there was only ever one multiple galley-width test document produced for the previous system.} patience. 
 
-Since the new system no longer relies on \gls{cog}-\gls{pdf}, the reliance on \troff{} and \pdfdit{} is no longer present. Consequently, a sensible approach is to produce a completely bespoke typesetting tool, allowing unneeded features to be removed, and the provision of some finer-grained control over other aspects. For example, it is important for this system that the the line-breaking and hyphenation algorithms can easily be changed.
+Since the new system no longer relies on \gls{cog}-\gls{pdf}, the reliance on \troff{} and \pdfdit{} is no longer present. Consequently, a sensible approach is to produce a completely bespoke typesetting tool, allowing unneeded features to be removed, together with the provision of some finer-grained control over other aspects. For example, it is important for this system that the the line-breaking and hyphenation algorithms can easily be changed.
 
 In the new system, the source document is described in terms of separate logical blocks; a block is either designated as a `float', or as a `paragraph'. (Listing~\ref{lst:sourcedoc} contains an excerpt from a sample source document.) Floats are currently limited to referencing images only (with an optional size parameter). Paragraphs, on the other hand, are described by their desired textual content. This is deliberately simplistic. It is envisaged that in a real system, the source document would have a richer language, perhaps marked up in a form similar to \LaTeX{} source, or in \xml{}.
 
@@ -177,7 +177,7 @@ Finally, once the whole of the source document has been processed, the rendered 
 \section{The Viewer}
 \label{sec:viewer}
 
-In order to circumvent the browser's default text layout algorithm, and to ensure that the ``high quality'' pre-computed text-layout is used, the absolute position of every word on each line must be specified, in a manner not dissimilar to the internals of a PDF file. The Paragraph Splitter described in the previous section ensures that all the information needed to lay the text out is contained within the generated \gls{json} string representing the Galley Structure Tree.
+In order to circumvent the browser's default text-layout algorithm, and to ensure that the ``high quality'' pre-computed text layout is used, the absolute position of every word on each line must be specified, in a manner not dissimilar to the internals of a PDF file. The Paragraph Splitter described in the previous section ensures that all the information needed to lay the text out is contained within the generated \gls{json} string representing the Galley Structure Tree.
 
 
 When the viewer is launched, it decides which is the most appropriate galley rendering to display, based on a metric of which rendering will be most aesthetically pleasing. Since it appears to work well, the metric defined in Chapter~\ref{ch:malleable} is used, which attempts to balance a penalty for excessive inter-column whitespace against a penalty for too many columns. 
@@ -232,7 +232,7 @@ An advantage of this grid-based approach is that it no longer requires the use o
 \begin{figure}
     \captionsetup[subfigure]{justification=raggedright}
     \subfloat[][Lines of text are added to the grid at the leftmost then topmost available position]{\includegraphics[width=0.3\textwidth]{gfx/float2.png}}\hspace{0.04\textwidth}
-    \subfloat[][A float 2-column float is encountered, and is inserted below the text]{\includegraphics[width=0.3\textwidth]{gfx/float3.png}}\hspace{0.04\textwidth}
+    \subfloat[][A 2-column float is encountered, and is inserted below the text]{\includegraphics[width=0.3\textwidth]{gfx/float3.png}}\hspace{0.04\textwidth}
     \subfloat[][More lines of text are laid out]{\includegraphics[width=0.3\textwidth]{gfx/float4.png}}\\
     \subfloat[][A single column float is encountered, but will not fit in the current space]{\includegraphics[width=0.3\textwidth]{gfx/float5.png}}\hspace{0.04\textwidth}
     \subfloat[][The float will also not fit at the top of the next column due to the position of the previous float]{\includegraphics[width=0.3\textwidth]{gfx/float6.png}}\hspace{0.04\textwidth}
@@ -266,18 +266,18 @@ The third option (backtracking and shunting) is likely to produce the most desir
 
 \section{Summary}
 
-The reimplementation of the system in \html{} is not without its pitfalls. One strong advantage of using \pdf{} over \html{} is that any \pdf{} renderer that correctly implements the standard~\cite{Adobe2001} should display any given document in an identical manner to any other renderer. Regrettably (and much to the chagrin of web developers everywhere) this is very much not true of rival web browser layout engines. Though standards do exist, published by the \gls{w3c}, which are largely adhered to by all the major layout engines, there are certain areas that appear to be open to interpretation. One particular problem that is encountered when using the system described in this chapter is that of font scaling. 
+The reimplementation of the system in \html{} is not without its pitfalls. One strong advantage of using \pdf{} over \html{} is that any \pdf{} renderer that correctly implements the standard~\cite{Adobe2001} should display any given document in an identical manner to any other renderer. Regrettably (and much to the chagrin of web developers everywhere) this is very much not true of rival web browser layout engines. Though standards do exist, published by the \gls{w3c}, which are largely adhered to by all the major layout engines, there are certain areas that appear to be open to interpretation. One particular problem that is encountered, when using the system described in this chapter, is that of font scaling. 
 
 \begin{figure}
     \includegraphics[width=\textwidth]{gfx/webkitisshit}
-    \caption[Inconsistent font scaling by WebKit]{Chrome and Safari's layout engine (WebKit) can be inconsistent when scaling fonts. The paragraph to the left is displayed ``correctly'', but the paragraph to the right (scaled up by 1\% by the JavaScript) has clearly not scaled linearly. In contrast, Firefox's layout engine, Gecko, scales smoothly, and behaves as one might expect when zooming in on a \pdf{} file, which was the intended behaviour.}
+    \caption[Inconsistent font scaling by WebKit]{Chrome and Safari's layout engine (WebKit) can be inconsistent when scaling fonts. The paragraph to the left is displayed ``correctly'', but the paragraph to the right (scaled up by 1\% by the JavaScript) has clearly not scaled linearly. In contrast, Firefox's layout engine, Gecko, scales smoothly, and behaves as one might expect when zooming in on a \pdf{} file, which was the intended behaviour. (Output from Gecko is not shown in this figure.)}
     \label{fig:craprenderer}
 \end{figure}
 
-The layouts produced by this system will only retain their quality if they are laid out precisely as specified by the typesetting process. Viewing the malleable documents in Google Chrome and Mozilla Firefox (which use WebKit and Gecko respectively) produces noticeably different results when the user chooses to scale the page up or down. WebKit appears to be inconsistent and non-linear when scaling fonts, whereas Gecko does a better job, and manages to lay out the text as intended by the typesetter. Figure~\ref{fig:craprenderer} shows an example of Gecko's font scaling problem. There is no real way around this issue, other than ensuring that whichever rendering engine is used in the reader device provides the required smooth scaling of fonts.
+The layouts produced by this system will only retain their quality if they are laid out precisely as specified by the typesetting process. Viewing the malleable documents in Google Chrome and Mozilla Firefox (which use WebKit and Gecko respectively) produces noticeably different results when the user chooses to scale the page up or down. WebKit appears to be inconsistent and non-linear when scaling fonts, whereas Gecko does a better job, and manages to lay out the text as intended by the typesetter. Figure~\ref{fig:craprenderer} shows an example of WebKit's font scaling problem. There is no real way around this issue, other than ensuring that whichever rendering engine is used in the reader device provides the required smooth scaling of fonts.
 
 
-In general, however, as a document layout engine, the system produces pleasing-looking layouts that scale to fit on many different screen sizes, and the reimplementation in \textsc{xhtml}, \textsc{css}, and JavaScript provides makes the system much more portable. One stand-out problem remains: that of ballooning filesizes. The next chapter suggests various methods to keep file sizes to a minimum.
+In general, however, as a document layout engine, the system produces pleasing-looking layouts that scale to fit on many different screen sizes, and the reimplementation in \textsc{xhtml}, \textsc{css}, and JavaScript provides makes the system much more portable. One stand-out problem remains: that of bloated filesizes. The next chapter suggests various methods to keep file sizes to a minimum.
 
 
 
