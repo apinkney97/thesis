@@ -149,6 +149,7 @@ Knuth and Plass's line breaking algorithm, in conjunction with Liang's hyphenati
 
 
 \subsection{Microtypographical Techniques}
+\label{sec:microtypography}
 Other techniques employed during hand-type\-set\-t\-ing, and high-qua\-l\-ity electronic typesetting, include the use of what is often termed \emph{micro\-typo\-graphy},~\cite{Hurst2009} such as the use of kerning and ligatures. Kerning involves altering the spacing between certain glyph pairs in order to give the appearance of more consistent letter spacing, and ligatures are sin\-gle-glyph replacements for two or more single glyphs that may otherwise have had clashing components. Some examples of these are shown in Figure~\ref{fig:kern-lig}.
 
 Kerning requires a table of kern-pairs, specific to each font; values from this table must then be looked up for every pair of adjacent glyphs in the document. Ligatures may or may not need to be inserted: if the component characters of the ligature lie over a potential hyphenation point, it cannot be decided whether to replace them with the ligature until it is known whether the hyphenation point needs to be used. \TeX{} handles kerning and insertion of ligatures automatically, but there are still further typographical tweaks that its default typesetting algorithm does not use.
