@@ -2,17 +2,34 @@
 
 \section{Contribution}
 
-\section{Open Research Questions}
+- delayed binding of layout
 
+- can slot in new line breaking algorithms as and when (does not update old books, but will work without updating devices)
+
+- in reality, turn into a caching system: render to device eg itunes-like/cloud interface
+
+
+\section{Extensions}
 The system described in chapter~\ref{ch:floats} has only very basic support for floats. A particular limitation is that unlike paragraphs, each float has only one rendering, which must be scaled up or down as required, to fit across multiples of columns. Whilst for image-based figures or illustrations, this is probably already the desired behaviour, other types of floats, such as tables or code listings, would almost certainly benefit from the inclusion of multiple width renderings, with the choice of which rendering to display to be made at view-time. % Say that these could be differing hand-renderings, or automated from some source? Probably don't need to...
 
-coordinating breakpoints between renderings?
+- avoiding widows/orphans (see chapter \ref{ch:aesthetics})
 
-galley generation techniques
+
+
+\section{Open Research Questions}
+
+- possibility for limited computation at view-time - may need this for cross referencing/signposting \cite{Thimbleby2011}
+
+- coordinating breakpoints between renderings?
+
+- galley generation techniques
+
+- lower level representation \cite{Bagley2010} - machine code? take itunes interface further
 
 
 Since the malleable document and viewer are composed entirely from HTML, CSS, and JavaScript\ed the core technologies behind EPUB\,---\,modifying the system to produce self-contained EPUB files seems an obvious next step.
 
 Linear, primarily text-based documents, such as novels and scientific papers, make up a large proportion of published, typeset documents. These documents typically have their text rendered to fit rectangular apertures, and so long as this text is well-typeset, its precise final layout is not of enormous importance. It is documents that fall into this category that will benefit most from such a system. %Non-linear documents, such as reference books or \textsc{diy} manuals
+
 
 \section{Concluding Remarks}
