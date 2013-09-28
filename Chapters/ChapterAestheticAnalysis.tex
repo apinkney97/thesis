@@ -1,11 +1,11 @@
 \chapter{Aesthetic Analysis}\label{ch:aesthetics}
 
 \section{Placement of Floats}
-Since all text layout is precomputed, the only remaining concern is that the columns of text and floats are laid out in a pleasing manner. Plass~\cite{Plass1981} devised a system to perform optimal placement of floats within text, whereby float placement is penalised by the square of the distance from its intended position. He showed this to be NP-hard, though also showed a similar (but less ``optimal'') system that uses linear penalties can be made to be computationally tractable.
+Since all text layout is precomputed, the only remaining concern is that the columns of text and floats are laid out in a pleasing manner. Plass~\cite{Plass1981} devised a system to perform optimal placement of floats within text, whereby float placement is penalised by the square of the distance from its intended position. He showed this to be NP-hard, though he also showed a similar (but less ``optimal'') system that uses linear penalties can be made to be computationally tractable.
 
-Br\"uggemann-Klein et al.~\cite{Bruggemann-Klein1995} suggest that Plass's method is only optimal for a given value of ``optimal''. They proposed that a superior metric for float placement is to minimise the number of page turns that a reader must perform when reading the document from front to back. This is a desirable characteristic for a pagination algorithm that runs on an \ebook{} reader, because page turns tend to be slow, particularly on devices with electronic paper displays. Unfortunately, the algorithm used runs in quadratic time, and which limits its usefulness to this system.
+Br\"uggemann-Klein et al.~\cite{Bruggemann-Klein1995} suggested that Plass's method is only optimal for a given value of ``optimal''. They proposed that a superior metric for float placement is to minimise the number of page turns that a reader must perform when reading the document from front to back. This is a desirable characteristic for a pagination algorithm that runs on an \ebook{} reader, because page turns tend to be slow, particularly on devices with electronic paper displays. Unfortunately, the algorithm used runs in quadratic time, which limits its usefulness to this system.
 
-In essence, the assumption that Plass's float placement algorithm produces the most optimal layouts may be slightly short-sighted: \emph{other pagination schemes are available!} Clearly, using a computationally intractable algorithm such as Plass's is likely to have significant impact on the demand for computation at view-time. As with many facets of the system described in this thesis, the float placement algorithm was chosen with efficiency in mind.
+In essence, the assumption that Plass's float placement algorithm produces the most optimal layouts may be slightly short-sighted: \emph{other pagination schemes are available!} Clearly, using a computationally intractable algorithm such as Plass's will have significant impact on the demand for computation at view-time. As with many facets of the system described in this thesis, the float placement algorithm was chosen with efficiency in mind.
 
 The float placement algorithm that has been developed for use with the malleable document system also attempts to minimise the distance between the actual and intended positioning of floats: if a float can be placed directly at its intended position, then it will be, otherwise it will be placed in the next available space. (Figure~\ref{fig:gridlayout} on page~\pageref{fig:gridlayout} demonstrates this process.)
 
@@ -66,13 +66,13 @@ In their 2004 paper, Harrington et al.~\cite{Harrington2004} identified nine aes
 
 
 \section{The Importance of Typography}
-Many studies\cite{Hill1999,Bringhurst2008,Voorhees2011,Legge2011} have shown that good typography is the key to readability. In particular, it is stated in \emph{The Magic of Reading}~\cite{Hill1999} that both regularity of whitespace between words and the evenness of line lengths are of importance\ed the only way to achieve this is to use a line-breaking algorithm that attempts to make line lengths as even as possible. Since line-breaking is performed at compile time, it can be ensured that this is optimal when the malleable document is created. Figure~\ref{fig:greek} compares an ``optimal'' algorithm (Knuth-Plass~\cite{Knuth1981}) against the default layout of a web browser (a first fit, greedy approach).
+Many studies~\cite{Hill1999,Bringhurst2008,Voorhees2011,Legge2011} have shown that good typography is the key to readability. In particular, it is stated in \emph{The Magic of Reading}~\cite{Hill1999} that both regularity of whitespace between words and the evenness of line lengths are of importance\ed the only way to achieve this is to use a line-breaking algorithm that attempts to make line lengths as even as possible. Since line-breaking is performed at compile time, it can be ensured that this is optimal when the malleable document is created. Figure~\ref{fig:greek} compares an ``optimal'' algorithm (Knuth-Plass~\cite{Knuth1981}) against the default layout of a web browser (a first fit, greedy approach).
 
 \begin{figure}
 \begin{center}
 \includegraphics[height=0.8\textheight]{gfx/greek}
 \end{center}
-\caption[Knuth-Plass layout versus a first-fit algorithm]{Knuth-Plass layout (left) versus a first-fit algorithm (right). Note that Knuth-Plass results in looser spacing of certain lines where it helps avoid extremely loosely-set lines ahead. Even without using hyphenation (this implementation of Knuth-Plass does not include a hyphenation algorithm) the results are noticeable. }
+\caption[Knuth-Plass layout versus a first-fit algorithm]{Knuth-Plass layout (left) versus a first-fit algorithm (right). The text has been greeked to draw attention to layout rather than content. Note that Knuth-Plass results in looser spacing of certain lines where it helps avoid extremely loosely-set lines ahead. Even without using hyphenation (this implementation of Knuth-Plass does not include a hyphenation algorithm) the differences are noticeable. }
 \label{fig:greek}
 \end{figure}
 
@@ -87,4 +87,4 @@ The malleable document system devised in this thesis was designed to be used for
 
 The layouts produced by this system are visually very similar to those of both newspapers and scientific papers, and can be flowed to fit virtually any page size. For smaller screen sizes, where single- or double-column spreads occur, the layouts closely resemble those of physical books and magazines.
 
-\todo{Sum up a bit better}
+%\todo{Sum up a bit better}

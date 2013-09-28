@@ -1,7 +1,7 @@
 \documentclass[ oneside,openright,titlepage,numbers=noenddot,headinclude,%1headlines,% letterpaper
                 a4paper,
                 footinclude=true,cleardoublepage=empty,abstractoff, % <--- obsolete, remove (todo)
-                BCOR=5mm,paper=a4,fontsize=11pt,%11pt,a4paper,%
+                BCOR=5mm,paper=a4,fontsize=12pt,%11pt,a4paper,%
                 british,%
                 ]{scrreprt}
 
@@ -38,20 +38,20 @@
 % GO!GO!GO! MOVE IT!
 %*******************************************************
 
-\includeonly{
-FrontBackmatter/Titlepage,
-FrontBackmatter/Abstract,
-FrontBackmatter/Contents,
-Chapters/ChapterIntro,
-Chapters/ChapterMalleable,
-Chapters/ChapterFloats,
-Chapters/ChapterBloat,
-Chapters/ChapterTechAnalysis,
-Chapters/ChapterAestheticAnalysis,
-Chapters/ChapterEvaluation,
-%Chapters/ChapterAppendix,
-FrontBackmatter/Bibliography
-}
+% \includeonly{
+% FrontBackmatter/Titlepage,
+% FrontBackmatter/Abstract,
+% FrontBackmatter/Contents,
+% Chapters/ChapterIntro,
+% Chapters/ChapterMalleable,
+% Chapters/ChapterFloats,
+% Chapters/ChapterBloat,
+% Chapters/ChapterTechAnalysis,
+% Chapters/ChapterAestheticAnalysis,
+% Chapters/ChapterEvaluation,
+% %Chapters/ChapterAppendix,
+% FrontBackmatter/Bibliography
+% }
 
 \lstset{literate= % Make my numbers red, you fucker
     *{0}{{{\color{BrickRed}0}}}1
@@ -79,6 +79,7 @@ FrontBackmatter/Bibliography
 %********************************************************************
 % Frontmatter
 %*******************************************************
+\small
 \include{FrontBackmatter/DirtyTitlepage}
 
 \include{FrontBackmatter/Titlepage}
@@ -96,11 +97,14 @@ FrontBackmatter/Bibliography
 
 \pagestyle{scrheadings}
 \doublespacing
+
 \include{FrontBackmatter/Contents}
+
 \singlespacing
 %********************************************************************
 % Mainmatter
 %*******************************************************
+\normalsize
 \pagenumbering{arabic}
 % use \cleardoublepage here to avoid problems with pdfbookmark
 
@@ -134,7 +138,7 @@ FrontBackmatter/Bibliography
 \include{FrontBackmatter/Bibliography}
 \singlespacing
 \include{FrontBackmatter/Colophon}
-\include{FrontBackmatter/Declaration}
+%\include{FrontBackmatter/Declaration}
 % ********************************************************************
 % Game Over: Restore, Restart, or Quit?
 %*******************************************************

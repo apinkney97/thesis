@@ -1,35 +1,76 @@
-\chapter{Conclusions, Evaluation, and Future Work}\label{ch:conclusions}
+\chapter{Final Thoughts}\label{ch:conclusions}
 
 \section{Contribution}
+The intention at the outset of this project was to devise an efficient method to provide flowability to documents whilst maintaining typographic quality\ed to find a middle ground between fixed formats and flowable formats. This approach, as far as the author is aware, is entirely novel.
 
-- delayed binding of layout
+Much research into automated layouts~\cite{Johari1996,Goldenberg2002,Purvis2003,Balinsky2009} has been geared towards static page sizes, and does not provide support for reflow at view-time. Other research into automated layouts that is designed with view-time reflow in mind~\cite{Jacobs2003,Schrier2008} does so at the expense of typesetting: generally, the text must be considered completely flowable in order to fit into the layouts devised by the systems.
 
-- can slot in new line breaking algorithms as and when (does not update old books, but will work without updating devices)
+When text is to be typeset, the choice must be made between \emph{computationally cheap} and \emph{typographically good}. The fact that both computational cheapness and typographical quality are desirable characteristics for \ebook{} readers suggests that \ebook{} readers are not the correct place to compute text layout.
 
-- in reality, turn into a caching system: render to device eg itunes-like/cloud interface
+The system devised in this thesis, whereby line breaking is precomputed but the final binding of layout is delayed until view-time, removes the need to make any compromises on typographical quality. Precomputing multiple variants of line breaking, at differing widths, allows the text to fit to a multitude of screen sizes, by displaying one or more columns of whichever galley width best fits the page.
+
+Since the line breaking is precomputed, the display device does not need any knowledge of the algorithm: the only guarantee that is needed, is that the device must be able to correctly interpret the rendering instructions. Because of this, each individual malleable document can use any text rendering algorithm\ed the system was deliberately designed to be modular, so that the text rendering algorithm could easily be changed.
+
+% can slot in new line breaking algorithms as and when (does not update old books, but will work without updating devices)
 
 
 \section{Extensions}
-The system described in chapter~\ref{ch:floats} has only very basic support for floats. A particular limitation is that unlike paragraphs, each float has only one rendering, which must be scaled up or down as required, to fit across multiples of columns. Whilst for image-based figures or illustrations, this is probably already the desired behaviour, other types of floats, such as tables or code listings, would almost certainly benefit from the inclusion of multiple width renderings, with the choice of which rendering to display to be made at view-time. % Say that these could be differing hand-renderings, or automated from some source? Probably don't need to...
+The concept of the malleable document shows great promise, though the implementation presented here should only be considered a prototype. There are numerous areas in which it could be modified: some reasonably straightforward changes, and some fairly major overhauls.
+%It can be seen from Chapter~\ref{ch:bloat} that the file sizes 
 
-- avoiding widows/orphans (see chapter \ref{ch:aesthetics})
+\subsection{Improved Support for Floats}
+The system described in chapter~\ref{ch:floats} provides only very basic support for floats. A particular limitation is that unlike text, each float has only one rendering, which must be scaled up or down as required, to fit across multiples of columns. Whilst for image-based figures or illustrations, this is probably already the desired behaviour, other types of floats, such as tables or code listings, would almost certainly benefit from the inclusion of multiple width renderings, with the choice of which rendering to display to be made at view-time. As with the text layout, these renderings could be hand-tuned, or produced by some automated process. 
+
+\subsection{Improved Vertical Layout}
+As mentioned in Chapter~\ref{ch:aesthetics}, there are certain problems with the algorithm used for vertical layout, since it does not attempt to avoid orphaned or widowed lines. Kernighan and Van Wyk~\cite{Kernighan1989} described the solution to a similar problem, designed at improving the output of the \troff{} typesetting package, providing better methods of pagination, figure placement, footnote handling, and so on. Care must be taken, of course, that any extensions do not impact upon the computational demands of the system as a whole, but certainly, improvements can be made.
+
+
+\subsection{Postponing Layout}
+\label{sec:postponing}
+Precisely when the precomputed aspects of layout should be precomputed is an interesting question. There are three key points where this could be performed: at the time when the document is created; directly before the document is transferred to an \ebook{} reader device; and directly after the document has been transferred to an \ebook{} reader device. Each offers its own advantages.
+
+If the precomputation is performed at creation time, the publisher and author have full control over all renderings, which may be beneficial from the point of view of quality control. 
+
+The second juncture at which the the precomputation could be performed, is directly before the document is transferred to the reader device. This would allow knowledge of the reader device to be taken into account, allowing the output to be more closely tailored to the device. It is envisaged that such a system would utilise an intermediary program to transparently perform the text layout as the document is transferred to the device, using a similar model to that of Calibre or iTunes, or the model Amazon uses, whereby users can email documents to their Kindle, which then arrive in Kindle format.
+
+The last point at which the precomputation can be performed is on the device itself. At first glance this approach might seem counterproductive, and in conflict with the underlying philosophy of this thesis. Instead of precomputing several variants all at once, the system can be redesigned so that it only computes text layouts when necessary, but, crucially, caches the layout to disk for later reuse. Though the layout would be performed by the \ebook{} reader device itself, it would only ever be calculated once for each rendering of the document.
+
+\subsection{Moving Nearer to the Metal}
+The two implementations of the malleable document system developed in this thesis in Chapters \ref{ch:malleable} and~\ref{ch:floats} were built upon \gls{pdf} and \gls{html} respectively. Both of these require the layout instructions to be parsed and interpreted, and rely upon third-party systems (\ie{} Acrobat and WebKit/Gecko) to display their content.
+
+It has been shown previously~\cite{Bagley2010} that it is possible to compile \gls{pdf} to machine code, which can then be run natively on the processor of the display device. Using a method such as this would dispense with all the unneeded overhead associated with using an off-the-shelf system for display, and in general is likely to run faster. Clearly this would require the output to be tailored to each device (or class of comparable devices), but as is discussed in Section~\ref{sec:postponing}, this is not beyond the realms of possibility.
 
 
 
 \section{Open Research Questions}
 
-- possibility for limited computation at view-time - may need this for cross referencing/signposting \cite{Thimbleby2011}
+More generally, the development of the malleable document system has highlighted a number of questions that may suggest areas for future research:
 
-- coordinating breakpoints between renderings?
+\begin{itemize}
+ \item Pre-rendering text layout necessitates that the typeface is chosen ahead of time. Should each document be rendered in a certain set of typefaces, for example for accessibility purposes? Is there a particular subset of typefaces or classes of typefaces that provides maximum flexibility, both in terms of user preference and accessibility?
 
-- galley generation techniques
+\item In a similar vein, what range of galley renderings provides the best coverage for the best range of screen sizes? How many galley renderings need to be included for each document? Should the sampling frequency within this range be linear, or would some other sampling frequency that attempts to avoid simple multiples result in a smoother ``sawtooth'' penalty graph (such as that in Figure~\ref{fig:sawtooth} on page~\pageref{fig:sawtooth})?
 
-- lower level representation \cite{Bagley2010} - machine code? take itunes interface further
+\item Is there any benefit in attempting to coordinate breakpoints between different galley renderings, to allow switching between different width galley renderings, for example to support floats that span half-columns? Would this cause the typography to suffer, or would it provide more benefits by giving more flexibility to its layouts?
+
+\item Should some limited computation be allowed at view-time, for example to adjust letter-spacing or glyph widths in order to provide a better fit for a galley? How much should be allowed before the benefits are outweighed by the computation itself?
+
+\item Many documents\ed particularly academic work\ed contain cross-references and footnotes. What is the best way to handle these?% \cite{Thimbleby2011}
+
+\end{itemize}
 
 
-Since the malleable document and viewer are composed entirely from HTML, CSS, and JavaScript\ed the core technologies behind EPUB\,---\,modifying the system to produce self-contained EPUB files seems an obvious next step.
+%Since the malleable document and viewer are composed entirely from HTML, CSS, and JavaScript\ed the core technologies behind EPUB\,---\,modifying the system to produce self-contained EPUB files seems an obvious next step.
 
-Linear, primarily text-based documents, such as novels and scientific papers, make up a large proportion of published, typeset documents. These documents typically have their text rendered to fit rectangular apertures, and so long as this text is well-typeset, its precise final layout is not of enormous importance. It is documents that fall into this category that will benefit most from such a system. %Non-linear documents, such as reference books or \textsc{diy} manuals
 
 
 \section{Concluding Remarks}
+
+Linear, primarily text-based documents, such as novels and scientific papers, make up a large proportion of published, typeset documents. These documents typically have their text rendered to fit rectangular apertures, and so long as this text is well-typeset, its precise final layout is not of enormous importance. It is documents that fall into this category that will benefit most from the system described in this thesis.
+
+\vspace{0.4in}
+
+\noindent
+\Ebook{} readers are beginning to reach critical mass. We must ensure that we do not stumble blunderingly into a future where substandard typography has become an accepted norm.
+
+
