@@ -199,7 +199,7 @@ The general algorithm for the processes alluded to in Sections \ref{sec:srcdoc} 
 
 Various key excerpts from a malleable \pdf{} file's internal structure are shown in Listings \ref{lst:pdfstart}, \ref{lst:pdfpartree}, \ref{lst:pdfcog}, and~\ref{lst:pdfpages}
 
-\begin{lstlisting}[label=lst:pdfstart,captionpos=b,language=postscript,float,basicstyle=\ttfamily\footnotesize,caption={[Excerpt from a malleable document \pdf{}]An excerpt from a the start of a malleable document \pdf{} file. A reference to the \texttt{/ParagraphData} object (shown in Listing~\ref{lst:pdfpartree}) has been added to the \pdf{}'s \texttt{/Catalog} object. The \texttt{/Pages} object is also shown\ed{}note that there is only ever one page in a malleable \pdf{}.}]
+\begin{lstlisting}[label=lst:pdfstart,captionpos=b,language=postscript,float,basicstyle=\ttfamily\footnotesize,caption={[Excerpt from a malleable document \textsc{pdf}]An excerpt from the start of a malleable document \pdf{} file. A reference to the \texttt{/ParagraphData} object (shown in Listing~\ref{lst:pdfpartree}) has been added to the \pdf{}'s \texttt{/Catalog} object. The \texttt{/Pages} object is also shown\ed{}note that there is only ever one page in a malleable \pdf{}.}]
 %PDF-1.4
 1 0 obj
 <<
@@ -288,7 +288,7 @@ endobj
 \end{lstlisting}
 
 
-\begin{lstlisting}[label=lst:pdfpages,captionpos=b,language=postscript,float,basicstyle=\ttfamily\footnotesize,caption={[Contents of a \pdf{} \texttt{Page} object]An excerpt from a malleable \pdf{} file showing that the \texttt{/Contents} of a \texttt{/Page} can be an array of content streams rather than one stream. In this case, each of the objects being pointed to are \gls{cog} spacers, as shown in Listing~\ref{lst:pdfcog}. Consequently, when a spacer object is deleted and a new one created (to reposition a \gls{cog} on the page) the \texttt{/Contents} array must be modified to reflect this.}]
+\begin{lstlisting}[label=lst:pdfpages,captionpos=b,language=postscript,float,basicstyle=\ttfamily\footnotesize,caption={[Contents of a \textsc{pdf} \texttt{Page} object]An excerpt from a malleable \pdf{} file showing that the \texttt{/Contents} of a \texttt{/Page} can be an array of content streams rather than one stream. In this case, each of the objects being pointed to are \gls{cog} spacers, as shown in Listing~\ref{lst:pdfcog}. Consequently, when a spacer object is deleted and a new one created (to reposition a \gls{cog} on the page) the \texttt{/Contents} array must be modified to reflect this.}]
 7471 0 obj
 <<
  /Type /Page

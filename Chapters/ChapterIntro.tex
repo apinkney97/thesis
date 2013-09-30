@@ -9,7 +9,7 @@ Project Gutenberg, a digital online library that (at the time of writing) hosts 
 
 \Ebook{} readers have now become a commodity item, and although their displays are becoming increasingly print-like, the typography and formatting that they offer does not meet the high standards of traditionally typeset documents.
 
-Whilst at first glance this may not seem like a difficult problem to solve, the expectation that \ebook{} files should scale to fit many devices, and adapt to the reading preferences of many different users, makes it far from trivial.
+Whilst at first glance this may not seem like a difficult problem to solve, the expectation that \ebook{}s should scale to fit many devices, and adapt to the reading preferences of many different users, makes it far from trivial.
 
 \section{Devices}
 
@@ -42,13 +42,69 @@ As a consequence of this, \ebook{} file formats must be flexible enough that the
 \end{figure}
 
 
+\section{``Good'' typesetting}
+\label{sec:goodtypesetting}
+
+Generally speaking, the better the quality of a document's typography, the less it should be noticed by the reader. Good typography should be transparent, in order that the reader may concentrate upon the content of the document, rather than be distracted by its presentation.
+
+Many studies~\cite{Mittelbach1992,Hill1999,Bringhurst2008,Voorhees2011,Legge2011} have confirmed that the readability of text is inextricably linked to the quality of its typography. In particular, it is stated in \emph{The Magic of Reading}~\cite{Hill1999} that both regularity of whitespace between words and the evenness of line lengths are of importance\ed the only way to achieve this is to use a line-breaking algorithm that attempts to make line lengths as even as possible. Unfortunately, producing well-typeset text can be an extremely complex process.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{gfx/alices2}
+\vspace{-0.2in}
+\caption[Same document displayed on the Kindle]{On the left is the Mobipocket version of Alice in Wonderland (from Figure~\ref{fig:alices1}) displayed on the Kindle. Note that the sizing instructions appear to have been ignored. On the right is the free version of Alice in Wonderland from the Kindle store, displayed on the Kindle. Note that no attempt has been made to render the poem in a ``tail'' shape.}
+\label{fig:alices2}
+\end{figure}
+
+\subsection{Hyphenation and Line-Breaking}
+\Ebook{} readers typically use a ``greedy'' algorithm to lay out their text\ed that is, they place as many words as will fit onto the current line without exceeding it, then start a new line and continue. Although this algorithm is optimal in that it will always fit text onto the fewest possible lines, it often causes consecutive lines to have wildly varying lengths, accentuating either the ``ragged-right'' effect of the text, or, in the case of justified text, the inter-word spacing. In general, \ebook{} readers will only hyphenate in extreme cases\ed indeed the Kindle seems not to do so at all, to the detriment of its typography (see Figure~\ref{fig:crapkindle}).
+
+\begin{figure}
+    \centering
+    \fbox{\includegraphics[width=\textwidth
+]{gfx/screen_shot-42583}}
+    \caption[Poor typography on the Kindle]{The Kindle appears to fully justify its text, falling back to ragged-right when inter-word spacing would become too large. Its lack of a hyphenation algorithm exacerbates this problem.}
+    \label{fig:crapkindle}
+\end{figure}
+
+Donald E. Knuth and Michael F. Plass~\cite{Knuth1981} developed a more advanced line-breaking algorithm (now used by \TeX{}) which attempts to minimise large discrepancies between consecutive lines by considering each paragraph as a whole. \TeX{} also uses the hyphenation algorithm designed by Franklin Liang~\cite{Liang1983} (another of Knuth's grad students) which has been ported to many other applications. Figure~\ref{fig:greek} compares an the Knuth-Plass algorithm against the default layout of a web browser (a first fit, greedy approach).
+
+
+\begin{figure}
+\begin{center}
+\includegraphics[height=0.8\textheight]{gfx/greek}
+\end{center}
+\caption[Knuth-Plass layout versus a first-fit algorithm]{Knuth-Plass layout (left) versus a first-fit algorithm (right). The text has been greeked to draw attention to layout rather than content. Note that Knuth-Plass results in looser spacing of certain lines where it helps avoid extremely loosely-set lines ahead. Even without using hyphenation (this implementation of Knuth-Plass does not include a hyphenation algorithm) the differences are noticeable. }
+\label{fig:greek}
+\end{figure}
+
+Knuth and Plass's line breaking algorithm, in conjunction with Liang's hyphenation algorithm, breaks paragraphs into lines of text to fit a page, resulting in what can be considered an aesthetically optimal configuration. \TeX 's default behaviour is then to alter the spacing between words in order to justify the line to fit the measure of the page. This algorithm nominally runs in $O(n^2)$ time (compared with $O(n)$ for a greedy first-fit approach), although with some pruning, the effective complexity can be reduced to nearer $O(n)$.~\cite{Hirschberg1987,Eppstein1992,Hurst2009} In practice though, large constant factors still make the algorithm slow. In any case, the Knuth-Plass algorithm is certainly not the last word in line-breaking algorithms: for example, it has no mechanism to avoid (nor indeed any knowledge of) vertical rivers of whitespace.~\cite{Mittelbach1992} Inevitably, adding support to avoid rivers, and for any of the other nuances used by hand compositors, would add further complexity.
+
+
+
+\begin{figure}
+ \fbox{\includegraphics[trim=1.8in 6.54in 3.4in 4.25in, clip=true, width=\textwidth]{gfx/kerningetc}}
+ \caption[Examples of microtypographical techniques]{Examples of various letter-pairs and their kerned (left) or ligature (right) equivalents, as typeset by pdf\LaTeX{}. Some further examples of fi ligatures (or not) can be seen in Figure~\ref{fig:screens}.}
+ \label{fig:kern-lig}
+\end{figure}
+
+
+\subsection{Microtypographical Techniques}
+\label{sec:microtypography}
+Other techniques employed during hand-type\-set\-t\-ing, and high-qua\-l\-ity electronic typesetting, include the use of what is often termed \emph{micro\-typo\-graphy},~\cite{Hurst2009} such as the use of kerning and ligatures. Kerning involves altering the spacing between certain glyph pairs in order to give the appearance of more consistent letter spacing, and ligatures are sin\-gle-glyph replacements for two or more single glyphs that may otherwise have had clashing components. Some examples of these are shown in Figure~\ref{fig:kern-lig}.
+
+Kerning requires a table of kern-pairs, specific to each font; values from this table must then be looked up for every pair of adjacent glyphs in the document. Ligatures may or may not need to be inserted: if the component characters of the ligature lie over a potential hyphenation point, it cannot be decided whether to replace them with the ligature until it is known whether the hyphenation point needs to be used. \TeX{} handles kerning and insertion of ligatures automatically, but there are still further typographical tweaks that its default typesetting algorithm does not use.
+
+More\marginpar{\emph{pdf\LaTeX}, used to typeset this thesis, \emph{does} tweak tracking and glyph widths when justifying text} advanced methods than simply stretching or shrinking the word spacing do exist, however. Robert Bringhurst, in \emph{The Elements of Typographic Style},~\cite{Bringhurst2008} suggests that in addition to altering word spacing, subtle changes to inter-character spacing (also known as \gls{tracking}) and to individual glyph widths (in the range of $\pm$ 3\%) can produce more typographically and aesthetically pleasing results.
+
+
 
 
 \section{Paradigms of Document Representation}
 Computer representations of documents can be classified into two distinct paradigms:
 \begin{itemize}
  \item Documents stored in \emph{fixed formats}, such as \pdf{} and PostScript, are designed to be the direct analogues of printed pages
- \item Documents stored in \emph{flowable formats}, such as \html{}, have no fixed presentation associated with them, thus their layouts must be computed each time the documents are displayed
+ \item Documents stored in \emph{flowable formats}, such as the \html{}, have no fixed presentation associated with them, thus their layouts must be computed each time the documents are displayed
 \end{itemize}
 Currently there is no middle ground\ed a document may either be fully rendered to a fixed layout, or completely unrendered, to be laid out at the mercy of a display device's decisions.
 
@@ -56,11 +112,17 @@ Currently there is no middle ground\ed a document may either be fully rendered t
 \label{sec:fixedformats}
 The only fixed document format commonly used for \ebook{}s (or indeed commonly used at all) is \pdf{}, which was originally designed as a way of faithfully reproducing documents both on screen and in print.~\cite{Warnock1991} For this reason, it is almost entirely pre\-s\-en\-ta\-tion-oriented and will not necessarily include any metadata pertaining to the semantic structure of a given document.
 
-The archetypal \pdf{} file consists solely of drawing operators which describe the document pages. There is no compulsion for these drawing operators to render the page in an order that might be considered sensible by a human reader. For example, if a \pdf{} generator program decided to render every character on a page in alphabetical order, or radially outwards from the centre, the resulting file would still be semantically valid, and the result should be imperceptible to the end user.
+The archetypal \pdf{} file consists solely of drawing operators which describe the document pages. There is no compulsion for these drawing operators to render the page in an order that might be considered sensible by a human reader. For example, if a \pdf{} generator program decided to render every character on a page in alphabetical order, or radially outwards from the centre, the resulting file would still be semantically valid, and the result would be imperceptible to the reader.
 
-This lack of imposed semantic structure makes it difficult to infer the best way to ``unpick'' \pdf{} files to allow their content to be reflowed into a new layout. For example, it is not easy to decide programatically whether the line break between adjacent lines of text is explicitly intended to be there, or whether the lines should logically flow together.
+This lack of imposed semantic structure makes it difficult to infer the best way to ``unpick'' \pdf{} files to allow their content to be reflowed into a new layout. For example, it is not easy to decide programatically whether a line break between adjacent lines of text is explicitly intended to be there (for example, the end of a paragraph) or if it is an artefact of the document layout. As an example, the Adobe Reader app for Android cheerfully offers to reflow \pdf{} pages should you require it, but usually results in what can be seen in Figure~\ref{fig:acrobatreflow}.
 
-This is not to say that \pdf{} files \emph{cannot} represent the semantic structure of their content\ed indeed as early as 1999, \pdf{}~1.3 introduced \emph{logical structure} facilities,~\cite{Adobe2001} adding an optional \emph{structure tree} to the \pdf{} specification, and \emph{tagged \pdf{}}, introduced in \pdf{}~1.4 in 2001, provides various extensions to this. \pdf{} documents which actually make good use of these facilities are few and far between, even a decade after their introduction.
+\begin{figure}
+\includegraphics[width=\textwidth]{gfx/acrobatreflow}
+\caption[Reflowed text of a \textsc{pdf} file]{Adobe's Reader app for Android includes an option that allows \pdf{} files to be reflowed, but the lack of semantic structure within most \pdf{} files limits the process to using only what can be inferred from the original layout. This figure shows the start of this chapter reflowed by the app.}
+\label{fig:acrobatreflow}
+\end{figure}
+
+It would be inaccurate to state that \pdf{} files \emph{cannot} represent the semantic structure of their content\ed indeed as early as 1999, \pdf{}~1.3 introduced \emph{logical structure} facilities,~\cite{Adobe2001} adding an optional \emph{structure tree} to the \pdf{} specification, and \emph{tagged \pdf{}}, introduced in \pdf{}~1.4 in 2001, provides various extensions to this. \pdf{} documents which actually make good use of these facilities are few and far between, even a decade after their introduction.
 
 %Unfortunately, even when these facilities to include structural semantics are actually used, it is still not particularly useful in reflowing the content of documents. It is true that it helps to correctly identify the logical order of page components, but 
 
@@ -105,50 +167,6 @@ The Mobipocket specification supports a very limited subset of \html{} and \css{
 \epub{} is a little more flexible, since it supports a more comprehensive range of \xhtml{} and \css{}, has support for \textsc{svg}, and allows for arbitrarily complex styling. \epub{} files are still entirely reliant on the rendering engine of the display device correctly displaying their content, as they have no concrete layout associated with them.
 
 
-
-\section{``Good'' typesetting}
-\label{sec:goodtypesetting}
-
-Generally speaking, the better the quality of a document's typography, the less it should be noticed by the reader. Good typography should be transparent, in order that the reader may concentrate upon the content of the document, rather than be distracted by its presentation.
-
-Many studies~\cite{Mittelbach1992,Hill1999,Bringhurst2008,Voorhees2011,Legge2011} have confirmed that the readability of text is inextricably linked to the quality of its typography. Unfortunately, producing well-typeset text can be an extremely complex process.
-
-\begin{figure}
-\includegraphics[width=\textwidth]{gfx/alices2}
-\vspace{-0.2in}
-\caption[Same document displayed on the Kindle]{On the left is the Mobipocket version of Alice in Wonderland (from Figure~\ref{fig:alices1}) displayed on the Kindle. Note that the sizing instructions appear to have been ignored. On the right is the free version of Alice in Wonderland from the Kindle store, displayed on the Kindle. Note that no attempt has been made to render the poem in a ``tail'' shape.}
-\label{fig:alices2}
-\end{figure}
-
-\subsection{Hyphenation and Line-Breaking}
-\Ebook{} readers typically use a ``greedy'' algorithm to lay out their text\ed that is, they place as many words as will fit onto the current line without exceeding it, then start a new line and continue. Although this algorithm is optimal in that it will always fit text onto the fewest possible lines, it often causes consecutive lines to have wildly varying lengths, accentuating either the ``ragged-right'' effect of the text, or, in the case of justified text, the inter-word spacing. In general, \ebook{} readers will only hyphenate in extreme cases\ed indeed the Kindle seems not to do so at all, to the detriment of its typography (see Figure~\ref{fig:crapkindle}).
-
-Donald E. Knuth and Michael F. Plass~\cite{Knuth1981} developed a more advanced line-breaking algorithm (now used by \TeX{}) which attempts to minimise large discrepancies between consecutive lines by considering each paragraph as a whole. \TeX{} also uses the hyphenation algorithm designed by Franklin Liang~\cite{Liang1983} (another of Knuth's grad students) which has been ported to many other applications.
-
-Knuth and Plass's line breaking algorithm, in conjunction with Liang's hyphenation algorithm, breaks paragraphs into lines of text to fit a page, resulting in what can be considered an aesthetically optimal configuration. \TeX 's default behaviour is then to alter the spacing between words in order to justify the line to fit the measure of the page. This algorithm nominally runs in $O(n^2)$ time (compared with $O(n)$ for a greedy first-fit approach), although with some pruning, the effective complexity can be reduced to nearer $O(n)$.~\cite{Hirschberg1987,Eppstein1992,Hurst2009} In practice though, large constant factors still make the algorithm slow. In any case, the Knuth-Plass algorithm is certainly not the last word in line-breaking algorithms: for example, it has no mechanism to avoid (nor indeed any knowledge of) vertical rivers of whitespace.~\cite{Mittelbach1992} Inevitably, adding support to avoid rivers, and for any of the other nuances used by hand compositors, would add further complexity.
-
-\begin{figure}
-    \centering
-    \fbox{\includegraphics[width=\textwidth
-]{gfx/screen_shot-42583}}
-    \caption[Poor typography on the Kindle]{The Kindle appears to fully justify its text, falling back to ragged-right when inter-word spacing would become too large. Its lack of a hyphenation algorithm exacerbates this problem.}
-    \label{fig:crapkindle}
-\end{figure}
-
-\begin{figure}
- \fbox{\includegraphics[trim=1.8in 6.54in 3.4in 4.25in, clip=true, width=\textwidth]{gfx/kerningetc}}
- \caption[Examples of microtypographical techniques]{Examples of various letter-pairs and their kerned (left) or ligature (right) equivalents, as typeset by pdf\LaTeX{}. Some further examples of fi ligatures (or not) can be seen in Figure~\ref{fig:screens}.}
- \label{fig:kern-lig}
-\end{figure}
-
-
-\subsection{Microtypographical Techniques}
-\label{sec:microtypography}
-Other techniques employed during hand-type\-set\-t\-ing, and high-qua\-l\-ity electronic typesetting, include the use of what is often termed \emph{micro\-typo\-graphy},~\cite{Hurst2009} such as the use of kerning and ligatures. Kerning involves altering the spacing between certain glyph pairs in order to give the appearance of more consistent letter spacing, and ligatures are sin\-gle-glyph replacements for two or more single glyphs that may otherwise have had clashing components. Some examples of these are shown in Figure~\ref{fig:kern-lig}.
-
-Kerning requires a table of kern-pairs, specific to each font; values from this table must then be looked up for every pair of adjacent glyphs in the document. Ligatures may or may not need to be inserted: if the component characters of the ligature lie over a potential hyphenation point, it cannot be decided whether to replace them with the ligature until it is known whether the hyphenation point needs to be used. \TeX{} handles kerning and insertion of ligatures automatically, but there are still further typographical tweaks that its default typesetting algorithm does not use.
-
-More\marginpar{\emph{pdf\LaTeX}, used to typeset this thesis, \emph{does} tweak tracking and glyph widths when justifying text} advanced methods than simply stretching or shrinking the word spacing do exist, however. Robert Bringhurst, in \emph{The Elements of Typographic Style},~\cite{Bringhurst2008} suggests that in addition to altering word spacing, subtle changes to inter-character spacing (also known as \gls{tracking}) and to individual glyph widths (in the range of $\pm$ 3\%) can produce more typographically and aesthetically pleasing results.
 
 
 

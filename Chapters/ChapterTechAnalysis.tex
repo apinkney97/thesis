@@ -16,7 +16,7 @@ foreach (layout instruction) {
 paint the results to the screen;
 \end{lstlisting}
 }
-Crucially, the layout instructions are not parametric, and hence do not permit computation, which ensures that the document is always rendered identically.
+Crucially, the layout instructions are declarative, and do not permit computation, which ensures that the document is always rendered identically.~\cite{Bagley2007}
 
 \newpage
 \section{Flowable Document Formats}
@@ -31,6 +31,8 @@ foreach (flowable block) {
 paint the results to the screen;
 \end{lstlisting}
 }
+
+This process generates information similar to that contained in fixed-format documents, which is then used to drive the painting of contents to the screen.
 
 The line breaking algorithm can be as simple as or complex as desired. In most cases, the line-breaking algorithm used by flowable documents is reasonably simple, and will take a first fit approach. This will be of the form:
 
@@ -52,15 +54,20 @@ As is noted in Section~\ref{sec:goodtypesetting}, first-fit algorithms do not ge
 \newpage
 \section{Malleable Documents}
 
-The layout algorithm for a malleable document is as follows:
+The layout algorithm for a malleable document is as follows. First, the penalties are calculated:
 
 {\singlespacing
 \begin{lstlisting}
 foreach (included galley rendering) {
     compute penalty for the rendering at current page width;
-    select the rendering with the minimum penalty;
 }
-
+select the rendering with the minimum penalty;
+\end{lstlisting}
+}
+\noindent
+Then, using the galley rendering that has the lowest penalty, the content is laid out onto the screen.
+{\singlespacing
+\begin{lstlisting}
 foreach (paragraph-level item in selected galley rendering){
     foreach (line-level item in paragraph) {
         use precomputed data to place words;
@@ -89,7 +96,7 @@ Most importantly, since the line-breaking algorithm has been moved to compile-ti
 
 The grid-based layout system devised in Section~\ref{sec:gridlayout} works in a similar manner to a first-fit line-breaking algorithm, in that it places elements on the page in order, in the first place they will fit. In the case of this system, each element is a floatable figure or line of text. Elements that are the same size as a single grid cell, such as lines of text set in the main point size, can simply be placed in the first empty slot in the current column, or the first empty slot in the next column, should there be no empty spaces.  For the placement of elements that are larger than a single grid cell, there is some overhead required to step through the grid until a suitable position can be found. Once a position has been found, each grid cell that it overlaps must be marked as being reserved.
 
-Whilst this algorithm does have a greater-than-linear time complexity, the problem size is actually reduced in comparison to a first-fit text layout algorithm, since the system uses lines of text as its atomic units, rather than individual words, and there is no need to adjust spacing to perform justification.
+In the worst case, this algorithm does have a greater-than-linear time complexity. In practice, so long as the number of floats does not become excessive (which would cause the grid to be walked many times to search for suitably large gaps) the algorithm runs in linear time.
 
 The placement of floats is subject to certain constraints: they must span integer multiples of columns, and can only be placed aligned to grid cells. This is very different to the model used for floats in \gls{html}, whereby floats may be positioned arbitrarily, and text flowed around them. Although a little more restrictive than \gls{html}, this system is capable of producing layouts that lend themselves to many types of document that are likely to be read on \ebook{} readers. The next chapter discusses this in more detail.
 
