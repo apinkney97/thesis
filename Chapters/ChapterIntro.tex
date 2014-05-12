@@ -49,12 +49,6 @@ Generally speaking, the better the quality of a document's typography, the less 
 
 Many studies~\cite{Mittelbach1992,Hill1999,Bringhurst2008,Voorhees2011,Legge2011} have confirmed that the readability of text is inextricably linked to the quality of its typography. In particular, it is stated in \emph{The Magic of Reading}~\cite{Hill1999} that both regularity of whitespace between words and the evenness of line lengths are of importance\ed the only way to achieve this is to use a line-breaking algorithm that attempts to make line lengths as even as possible. Unfortunately, producing well-typeset text can be an extremely complex process.
 
-\begin{figure}
-\includegraphics[width=\textwidth]{gfx/alices2}
-\vspace{-0.2in}
-\caption[Same document displayed on the Kindle]{On the left is the Mobipocket version of Alice in Wonderland (from Figure~\ref{fig:alices1}) displayed on the Kindle. Note that the sizing instructions appear to have been ignored. On the right is the free version of Alice in Wonderland from the Kindle store, displayed on the Kindle. Note that no attempt has been made to render the poem in a ``tail'' shape.}
-\label{fig:alices2}
-\end{figure}
 
 \subsection{Hyphenation and Line-Breaking}
 \Ebook{} readers typically use a ``greedy'' algorithm to lay out their text\ed that is, they place as many words as will fit onto the current line without exceeding it, then start a new line and continue. Although this algorithm is optimal in that it will always fit text onto the fewest possible lines, it often causes consecutive lines to have wildly varying lengths, accentuating either the ``ragged-right'' effect of the text, or, in the case of justified text, the inter-word spacing. In general, \ebook{} readers will only hyphenate in extreme cases\ed indeed the Kindle seems not to do so at all, to the detriment of its typography (see Figure~\ref{fig:crapkindle}).
@@ -67,7 +61,7 @@ Many studies~\cite{Mittelbach1992,Hill1999,Bringhurst2008,Voorhees2011,Legge2011
     \label{fig:crapkindle}
 \end{figure}
 
-Donald E. Knuth and Michael F. Plass~\cite{Knuth1981} developed a more advanced line-breaking algorithm (now used by \TeX{}) which attempts to minimise large discrepancies between consecutive lines by considering each paragraph as a whole. \TeX{} also uses the hyphenation algorithm designed by Franklin Liang~\cite{Liang1983} (another of Knuth's grad students) which has been ported to many other applications. Figure~\ref{fig:greek} compares an the Knuth-Plass algorithm against the default layout of a web browser (a first fit, greedy approach).
+Donald E. Knuth and Michael F. Plass~\cite{Knuth1981} developed a more advanced line-breaking algorithm (now used by \TeX{}) which attempts to minimise large discrepancies between consecutive lines by considering each paragraph as a whole. \TeX{} also uses the hyphenation algorithm designed by Franklin Liang~\cite{Liang1983} (another of Knuth's grad students) which has been ported to many other applications. Figure~\ref{fig:greek} compares the Knuth-Plass algorithm against the default layout of a web browser (a first fit, greedy approach).
 
 
 \begin{figure}
@@ -117,7 +111,7 @@ The archetypal \pdf{} file consists solely of drawing operators which describe t
 This lack of imposed semantic structure makes it difficult to infer the best way to ``unpick'' \pdf{} files to allow their content to be reflowed into a new layout. For example, it is not easy to decide programatically whether a line break between adjacent lines of text is explicitly intended to be there (for example, the end of a paragraph) or if it is an artefact of the document layout. As an example, the Adobe Reader app for Android cheerfully offers to reflow \pdf{} pages should you require it, but usually results in what can be seen in Figure~\ref{fig:acrobatreflow}.
 
 \begin{figure}
-\includegraphics[width=\textwidth]{gfx/acrobatreflow}
+\fbox{\includegraphics[width=\textwidth]{gfx/acrobatreflow}}
 \caption[Reflowed text of a \textsc{pdf} file]{Adobe's Reader app for Android includes an option that allows \pdf{} files to be reflowed, but the lack of semantic structure within most \pdf{} files limits the process to using only what can be inferred from the original layout. This figure shows the start of this chapter reflowed by the app.}
 \label{fig:acrobatreflow}
 \end{figure}
@@ -161,6 +155,8 @@ The rendering engines of \ebook{} readers use simplistic reflow algorithms\ed bu
 \label{fig:alices1}
 \end{figure}
 
+
+
 The Mobipocket specification supports a very limited subset of \html{} and \css{}, which makes it virtually impossible to achieve complex layouts such as those involving arbitrary indentation or font size changes. Figures \ref{fig:alices1} and~\ref{fig:alices2} demonstrate the well known ``Mouse's Tale'' from Lewis Carroll's \emph{Alice in Wonderland}, and the limitations of various formats.
 
 
@@ -173,6 +169,13 @@ The Mobipocket specification supports a very limited subset of \html{} and \css{
 \section{Summary}
 
 We have so far seen that electronic representations of documents have layouts that are either fully fixed, or fully flowable. Currently there is no middle ground. Documents with fixed layouts may be of arbitrarily high typographic quality, since their layout is fully computed when they are created. Documents with flowable layouts are not provided with any guarantee that their content will be laid out with any semblance of typographic quality. In any case, to compute a high-quality layout in real-time is difficult, especially on a low-powered portable device such as an \ebook{} reader.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{gfx/alices2}
+\vspace{-0.2in}
+\caption[Same document displayed on the Kindle]{On the left is the Mobipocket version of Alice in Wonderland (from Figure~\ref{fig:alices1}) displayed on the Kindle. Note that the sizing instructions appear to have been ignored. On the right is the free version of Alice in Wonderland from the Kindle store, displayed on the Kindle. Note that no attempt has been made to render the poem in a ``tail'' shape.}
+\label{fig:alices2}
+\end{figure}
 
 We have seen that screen technologies for \ebook{} readers have been evolving to become better and better, allowing documents to be displayed in a quality that rivals physical, printed pages. Document representation paradigms have not caught up. They are based on technologies that have been repurposed to be used in ways they were never designed. Fixed layout representations were designed for display on paper. Flowable layout representations were designed for display on such low-resolution screens (\eg{} that in Figure~\ref{fig:scr:calculator}) and underpowered devices that quality typography would have been nothing but a pipe dream.
 
