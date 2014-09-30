@@ -16,7 +16,7 @@ foreach (layout instruction) {
 paint the results to the screen;
 \end{lstlisting}
 }
-Crucially, the layout instructions are declarative, and do not permit computation, which ensures that the document is always rendered identically.~\cite{Bagley2007}
+Crucially, the layout instructions are declarative, and do not permit computation, which ensures that the document is always rendered identically.\cite{Bagley2007}
 
 \newpage
 \section{Flowable Document Formats}
@@ -87,7 +87,7 @@ One step has been added: each included galley rendering must be examined once be
 
 This penalty is calculated by taking the extra required horizontal whitespace (which can be envisaged as slack between columns) and weighting this to further penalise large numbers of columns. This weighting is achieved by multiplying by a smaller-than-linear function of the number of columns, such as a square root or logarithm.
 
-Many low-power processors do not come with floating-point hardware as standard (for example the \textsc{arm} range of processors) which might suggest that these are poor choices of functions since they must be emulated using integer and bitwise operations only. This is not particularly important, for a number of reasons. Firstly, it has been shown previously~\cite{Lomont2003} that it is often possible to use mathematical analysis to find extremely good approximations for such functions. Secondly, the range of inputs to such a function would be limited to integers ranging from 1 to (in an extreme case) about 20, so the values could be pre-computed and stored in a lookup table. Thirdly, the penalty (and hence the root or logarithm) is calculated precisely once for each included galley rendering: in section~\ref{sec:inc-renderings} it is suggested that between three and seven galley renderings should be included in any one document. Given these facts, it is clear that there should be little impact from using such a function in the penalty calculation.
+Many low-power processors do not come with floating-point hardware as standard (for example the \textsc{arm} range of processors) which might suggest that these are poor choices of functions since they must be emulated using integer and bitwise operations only. This is not particularly important, for a number of reasons. Firstly, it has been shown previously\cite{Lomont2003} that it is often possible to use mathematical analysis to find extremely good approximations for such functions. Secondly, the range of inputs to such a function would be limited to integers ranging from 1 to (in an extreme case) about 20, so the values could be pre-computed and stored in a lookup table. Thirdly, the penalty (and hence the root or logarithm) is calculated precisely once for each included galley rendering: in section~\ref{sec:inc-renderings} it is suggested that between three and seven galley renderings should be included in any one document. Given these facts, it is clear that there should be little impact from using such a function in the penalty calculation.
 
 \vspace{2em}
 

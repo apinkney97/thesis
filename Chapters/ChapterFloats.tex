@@ -1,7 +1,7 @@
 \cleardoublepage
 \chapter{Floatable Blocks}\label{ch:floats}
 
-\marginpar{The research in\\ this chapter was previously described in \cite{Pinkney2013}}
+\marginpar{The research in\\ this chapter was previously published in \cite{Pinkney2013}}
 
 % Required implementation:
 % \begin{itemize}
@@ -83,7 +83,7 @@ is serialised, replete with COGs and content tree.
 
 Next, the source document is passed through a program (which will henceforth be referred to as the \emph{Paragraph Splitter}\ed see Appendix~\ref{app:parsplitter}) to produce the output that becomes the malleable document itself.
 
-The Paragraph Splitter passes the text of each paragraph through an implementation of a line-breaking algorithm. The implementation shown in Appendix~\ref{app:parsplitter} uses Knuth-Plass~\cite{Knuth1981} (specifically the program detailed in Appendix~\ref{app:linebreaker}) but this can easily be replaced by any other algorithm that performs line breaking and justification.
+The Paragraph Splitter passes the text of each paragraph through an implementation of a line-breaking algorithm. The implementation shown in Appendix~\ref{app:parsplitter} uses Knuth-Plass\cite{Knuth1981}, but this can easily be replaced by any other algorithm that performs line breaking and justification.
 
 Each paragraph is rendered multiple times, once for each galley width, in order to produce the document's multiple galley renderings. Each line of each rendering of every paragraph is converted into a list of its composite words. All of these words have an associated position offset value, which is later used when drawing the text to ensure that each word is positioned on the line with the correct spacing. The general algorithm used is given in Listing~\ref{lst:parsplitter}.
 
@@ -221,7 +221,7 @@ Whilst this approach does produce reasonable layouts, and handles floats well wi
     \label{fig:gridlayout}
 \end{figure}
 
-One method for allowing parts of a page to be reserved is to break it up into a grid. Grid-based layouts are useful in many situations;~\cite{Collier1991,Bringhurst2008} one example of particular note is that of modern-day newspapers (see figure~\ref{fig:gridlayout}). Following the example set by these newspapers, the grid used in this system is defined to have a row height of the \gls{leading} of the document's body text, and a column width of the \gls{measure} of one text column plus the required gutter space.
+One method for allowing parts of a page to be reserved is to break it up into a grid. Grid-based layouts are useful in many situations;\cite{Collier1991,Bringhurst2008} one example of particular note is that of modern-day newspapers (see figure~\ref{fig:gridlayout}). Following the example set by these newspapers, the grid used in this system is defined to have a row height of the \gls{leading} of the document's body text, and a column width of the \gls{measure} of one text column plus the required gutter space.
 
 
 
@@ -266,7 +266,7 @@ The third option (backtracking and shunting) is likely to produce the most desir
 
 \section{Summary}
 
-The reimplementation of the system in \html{} is not without its pitfalls. One strong advantage of using \pdf{} over \html{} is that any \pdf{} renderer that correctly implements the standard~\cite{Adobe2001} should display any given document in an identical manner to any other renderer. Regrettably (and much to the chagrin of web developers everywhere) this is very much not true of rival web browser layout engines. Though standards do exist, published by the \gls{w3c}, which are largely adhered to by all the major layout engines, there are certain areas that appear to be open to interpretation. One particular problem that is encountered, when using the system described in this chapter, is that of font scaling. 
+The reimplementation of the system in \html{} is not without its pitfalls. One strong advantage of using \pdf{} over \html{} is that any \pdf{} renderer that correctly implements the standard\cite{Adobe2001} should display any given document in an identical manner to any other renderer. Regrettably (and much to the chagrin of web developers everywhere) this is very much not true of rival web browser layout engines. Though standards do exist, published by the \gls{w3c}, which are largely adhered to by all the major layout engines, there are certain areas that appear to be open to interpretation. One particular problem that is encountered, when using the system described in this chapter, is that of font scaling. 
 
 The layouts produced by this system will only retain their quality if they are laid out precisely as specified by the typesetting process. Viewing the malleable documents in Google Chrome and Mozilla Firefox (which use WebKit and Gecko respectively) produces noticeably different results when the user chooses to scale the page up or down. WebKit appears to be inconsistent and non-linear when scaling fonts, whereas Gecko does a better job, and manages to lay out the text as intended by the typesetter. Figure~\ref{fig:craprenderer} shows an example of WebKit's font scaling problem. There is no real way around this issue, other than ensuring that whichever rendering engine is used in the reader device provides the required smooth scaling of fonts.
 
