@@ -27,31 +27,30 @@ The second approach considered was the use of a dictionary to act as a lookup ta
 
 A document's source text itself is likely to contain significant redundancy. In the 1930s, American linguist George Kingsley Zipf proposed \emph{Zipf's law},\cite{zipf1932} which (broadly) states that given a sizeable sample of text in any given language, the frequency of any word is inversely proportional to its rank in the frequency table. Stated another way, the most common word tends to appear twice as often as the second most common word, three times as often as the third most common word, and so on.
 
-\begin{table} \footnotesize
+\begin{sidewaystable} \footnotesize
     \myfloatalign
-  \begin{tabularx}{\textwidth}{rrlrlrlrl} \toprule
-    & \multicolumn{2}{l}{\textsc{Butterley}} & \multicolumn{2}{l}{\cite{Pinkney2011}} & \multicolumn{2}{l}{\textsc{Shakespeare}} & \multicolumn{2}{l}{\textsc{KJV}}\\
+  \begin{tabularx}{\textwidth}{rrlrlrlrlrl} \toprule
+    & \multicolumn{2}{l}{\textsc{Butterley}} & \multicolumn{2}{l}{\cite{Pinkney2011}} & \multicolumn{2}{l}{\textsc{Shakespeare}} & \multicolumn{2}{l}{\textsc{King James Bible}} & \multicolumn{2}{l}{\textsc{British National Corpus}}\\ 
     \midrule
-    & 103 & the & 233 & the & 23197 & the & 62099 & the \\ 
-    & 35 & of & 134 & of & 19540 & I & 38576 & and \\ 
-    & 33 & and & 116 & to & 18263 & and & 34445 & of \\ 
-    & 31 & in & 75 & and & 15592 & to & 13387 & to \\ 
-    & 25 & to & 75 & a & 15507 & of & 12735 & And \\ 
-    & 23 & for & 56 & is & 12516 & a & 12451 & that \\ 
-    & 23 & a & 52 & be & 10825 & my & 12167 & in \\ 
-    & 21 & was & 50 & in & 9565 & in & 9760 & shall \\ 
-    & 19 & company & 34 & as & 9059 & you & 9508 & he \\ 
-    & 17 & Butterley & 32 & document & 7831 & is & 8932 & unto \\ 
+                          & 103  & the       & 233  & the      & 23197  & the & 62099  & the   & 5375304  & the  \\ 
+                          & 35   & of        & 134  & of       & 19540  & I   & 38576  & and   & 3010713  & of   \\ 
+                          & 33   & and       & 116  & to       & 18263  & and & 34445  & of    & 2541227  & to   \\ 
+                          & 31   & in        & 75   & and      & 15592  & to  & 13387  & to    & 2463817  & and  \\ 
+                          & 25   & to        & 75   & a        & 15507  & of  & 12735  & And   & 2015815  & a    \\ 
+                          & 23   & for       & 56   & is       & 12516  & a   & 12451  & that  & 1750205  & in   \\ 
+                          & 23   & a         & 52   & be       & 10825  & my  & 12167  & in    & 949677   & that \\ 
+                          & 21   & was       & 50   & in       & 9565   & in  & 9760   & shall & 924763   & is   \\ 
+                          & 19   & company   & 34   & as       & 9059   & you & 9508   & he    & 838955   & was  \\ 
+                          & 17   & Butterley & 32   & document & 7831   & is  & 8932   & unto  & 816193   & for  \\ 
     \midrule
-    \textsc{total} & \multicolumn{2}{l}{1232} & \multicolumn{2}{l}{3724} & \multicolumn{2}{l}{899595} & \multicolumn{2}{l}{821133} \\ 
+    \textsc{total words}  & 1232 &           & 3724 &          & 899595 &     & 821133 &       & 97087700 &      \\ 
     \midrule
-    \textsc{unique} & \multicolumn{2}{l}{628} & \multicolumn{2}{l}{1436} & \multicolumn{2}{l}{67107} & \multicolumn{2}{l}{33446} \\ 
-    \bottomrule
-    
+    \textsc{unique words} & 628  &           & 1436 &          & 67107  &     & 33446  &       & 1733032  &      \\ 
+    \bottomrule    
   \end{tabularx}
   \caption[Word frequencies in various documents]{Top 10 most frequent words in various documents. The total number of words and total unique words are also shown for each document. The data used to produce this table assumes a word is any contiguous block of (case-sensitive) non-whitespace characters; thus, ``\texttt{\textcolor{red}{and}}'' is distinct from ``\texttt{\textcolor{red}{And}}'', and ``\texttt{\textcolor{red}{document}}'' is distinct from ``\texttt{\textcolor{red}{document.}}''. The rationale behind this is that the data produced is more closely representative of a real dictionary of atomic ``words'' to be typeset in a malleable document.}
   \label{tab:wordfreq}
-\end{table}
+\end{sidewaystable}
 
 \begin{figure}
   \begin{center}
