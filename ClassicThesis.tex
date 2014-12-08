@@ -97,7 +97,7 @@
 \include{FrontBackmatter/Acknowledgments}
 
 \pagestyle{scrheadings}
-\doublespacing
+\onehalfspacing
 
 \include{FrontBackmatter/Contents}
 
@@ -109,7 +109,9 @@
 \pagenumbering{arabic}
 % use \cleardoublepage here to avoid problems with pdfbookmark
 
-\doublespacing
+\onehalfspacing
+\setcounter{chapter}{-1}
+\include{FrontBackmatter/Foreword}
 \part{Motivation}
 \include{Chapters/ChapterIntro}
 \part{Implementation}
@@ -121,7 +123,7 @@
 \include{Chapters/ChapterAestheticAnalysis}
 \include{Chapters/ChapterEvaluation}
 \cleardoublepage
-\doublespacing
+\onehalfspacing
 \include{FrontBackmatter/Bibliography}
 \singlespacing
 
