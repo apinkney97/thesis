@@ -3,7 +3,7 @@
 \section{Contribution}
 The intention at the outset of this project was to devise an efficient method to provide flowability to documents whilst maintaining typographic quality\ed to investigate the middle ground between fixed formats and flowable formats. This area, as far as the author is aware, has previously been left unexplored.
 
-Much research into automated layouts\cite{Johari1996,Goldenberg2002,Purvis2003,Balinsky2009} has been geared towards static page sizes, and does not provide support for reflow at view-time. Other research into automated layouts that is designed with view-time reflow in mind\cite{Jacobs2003,Schrier2008} does so at the expense of typesetting: generally, the text must be considered completely flowable in order to fit into the layouts devised by the systems.
+Much research into automated layouts\hspace{0pt}\cite{Johari1996,Goldenberg2002,Purvis2003,Balinsky2009} has been geared towards static page sizes, and does not provide support for reflow at view-time. Other research into automated layouts that is designed with view-time reflow in mind\hspace{0pt}\cite{Jacobs2003,Schrier2008} does so at the expense of typesetting: generally, the text must be considered completely flowable in order to fit into the layouts devised by the systems.
 
 When text is to be typeset, the choice must be made between \emph{computationally cheap} and \emph{typographically good}. The fact that both computational cheapness and typographical quality are desirable characteristics for \ebook{} readers suggests that \ebook{} readers are not the correct place to compute text layout.
 
@@ -22,7 +22,7 @@ The concept of the malleable document shows great promise, though the implementa
 The system described in chapter~\ref{ch:floats} provides only very basic support for floats. A particular limitation is that unlike text, each float has only one rendering, which must be scaled up or down as required, to fit across multiples of columns. Whilst for image-based figures or illustrations, this is probably already the desired behaviour, other types of floats, such as tables or code listings, would almost certainly benefit from the inclusion of multiple width renderings, with the choice of which rendering to display to be made at view-time. As with the text layout, these renderings could be hand-tuned, or produced by some automated process. 
 
 \subsection{Improved Vertical Layout}
-As mentioned in Chapter~\ref{ch:aesthetics}, a na\"ive algorithm is used for vertical layout, which makes no attempt to avoid orphaned or widowed lines. Kernighan and Van Wyk\cite{Kernighan1989} described the solution to a similar problem, designed at improving the output of the \troff{} typesetting package, providing better methods of pagination, figure placement, footnote handling, and so on. Care must be taken, of course, that any extensions do not impact upon the computational demands of the system as a whole, but certainly, improvements can be made.
+As mentioned in Chapter~\ref{ch:aesthetics}, a na\"ive algorithm is used for vertical layout, which makes no attempt to avoid orphaned or widowed lines. Kernighan and Van Wyk\hspace{0pt}\cite{Kernighan1989} described the solution to a similar problem, designed at improving the output of the \troff{} typesetting package, providing better methods of pagination, figure placement, footnote handling, and so on. Care must be taken, of course, that any extensions do not impact upon the computational demands of the system as a whole, but certainly, improvements can be made.
 
 
 \subsection{Postponing Layout}
@@ -38,7 +38,7 @@ The last point at which the precomputation can be performed is on the device its
 \subsection{Moving Nearer to the Metal}
 The two implementations of the malleable document system developed in this thesis in Chapters \ref{ch:malleable} and~\ref{ch:floats} were built upon \gls{pdf} and \gls{html} respectively. Both of these require the layout instructions to be parsed and interpreted, and rely upon third-party systems (\eg{} Acrobat and WebKit/Gecko) to display their content.
 
-It has been shown previously\cite{Bagley2010} that it is possible to compile \gls{pdf} to machine code, which can then be run natively on the processor of the display device. Using a method such as this would dispense with all the unneeded overhead associated with using an off-the-shelf system for display, and in general would be likely to run faster. Clearly this would require the output to be tailored to each device (or class of comparable devices), but as is discussed in Section~\ref{sec:postponing}, this is not beyond the realms of possibility.
+It has been shown previously\hspace{0pt}\cite{Bagley2010} that it is possible to compile \gls{pdf} to machine code, which can then be run natively on the processor of the display device. Using a method such as this would dispense with all the unneeded overhead associated with using an off-the-shelf system for display, and in general would be likely to run faster. Clearly this would require the output to be tailored to each device (or class of comparable devices), but as is discussed in Section~\ref{sec:postponing}, this is not beyond the realms of possibility.
 
 
 

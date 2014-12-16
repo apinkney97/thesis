@@ -1,9 +1,9 @@
 \chapter{Aesthetic Analysis}\label{ch:aesthetics}
 
 \section{Placement of Floats}
-Since all text layout is precomputed, the only remaining concern is that the columns of text and floats are laid out in a pleasing manner. Plass\cite{Plass1981} devised a system to perform optimal placement of floats within text, whereby float placement is penalised by the square of the distance from its intended position. He showed that this problem was NP-hard, but he also showed that a similar (but less ``optimal'') system using linear penalties could be made computationally tractable.
+Since all text layout is precomputed, the only remaining concern is that the columns of text and floats are laid out in a pleasing manner. Plass\hspace{0pt}\cite{Plass1981} devised a system to perform optimal placement of floats within text, whereby float placement is penalised by the square of the distance from its intended position. He showed that this problem was NP-hard, but he also showed that a similar (but less ``optimal'') system using linear penalties could be made computationally tractable.
 
-Br\"uggemann-Klein et al.\cite{Bruggemann-Klein1995} suggested that Plass's method is only optimal for a given definition of ``optimal''. They proposed that a superior metric for float placement is to minimise the number of page turns that a reader must perform when reading the document from front to back. This is a desirable characteristic for a pagination algorithm that runs on an \ebook{} reader, because page turns tend to be slow, particularly on devices with electronic paper displays. Unfortunately, the algorithm used runs in quadratic time, which limits its usefulness to this system.
+Br\"uggemann-Klein et al.\hspace{0pt}\cite{Bruggemann-Klein1995} suggested that Plass's method is only optimal for a given definition of ``optimal''. They proposed that a superior metric for float placement is to minimise the number of page turns that a reader must perform when reading the document from front to back. This is a desirable characteristic for a pagination algorithm that runs on an \ebook{} reader, because page turns tend to be slow, particularly on devices with electronic paper displays. Unfortunately, the algorithm used runs in quadratic time, which limits its usefulness to this system.
 
 In essence, the assumption that Plass's float placement algorithm produces the most optimal layouts may be slightly short-sighted: \emph{other pagination schemes are available!} Clearly, using a computationally intractable algorithm such as Plass's will have significant impact on the demand for computation at view-time. As with many facets of the system described in this thesis, the float placement algorithm was chosen with efficiency in mind.
 
@@ -88,7 +88,7 @@ As it stands, the algorithm does not avoid widowed or orphaned lines, nor single
 \end{figure}
 
 \section{Measures of Aesthetic Quality}
-In their 2004 paper, Harrington et al.\cite{Harrington2004} identified nine aesthetic measures for automated document layout. A number of these measures (alignment, regularity, uniform separation, white-space free-flow, uniformity) are inherently well satisfied by this system, due to its use of a grid to provide regular layout. 
+In their 2004 paper, Harrington et al.\hspace{0pt}\cite{Harrington2004} identified nine aesthetic measures for automated document layout. A number of these measures (alignment, regularity, uniform separation, white-space free-flow, uniformity) are inherently well satisfied by this system, due to its use of a grid to provide regular layout. 
 
 
 
