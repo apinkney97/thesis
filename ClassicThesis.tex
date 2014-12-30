@@ -106,26 +106,29 @@
 % Mainmatter
 %*******************************************************
 \normalsize
-\pagenumbering{arabic}
 % use \cleardoublepage here to avoid problems with pdfbookmark
 
+\cleardoublepage
 \onehalfspacing
 \setcounter{chapter}{-1}
 \include{FrontBackmatter/Foreword}
-\part{Motivation}
-\include{Chapters/ChapterIntro}
-\part{Implementation}
-\include{Chapters/ChapterMalleable}
-\include{Chapters/ChapterFloats}
-\include{Chapters/ChapterBloat}
-\part{Analysis}
-\include{Chapters/ChapterTechAnalysis}
-\include{Chapters/ChapterAestheticAnalysis}
-\include{Chapters/ChapterEvaluation}
+
+\cleardoublepage \pagenumbering{arabic} \part{Motivation}
+\cleardoublepage \include{Chapters/ChapterIntro}
+
+\cleardoublepage \part{Implementation}
+\cleardoublepage \include{Chapters/ChapterMalleable}
+\cleardoublepage \include{Chapters/ChapterFloats}
+\cleardoublepage \include{Chapters/ChapterBloat}
+
+\cleardoublepage \part{Analysis}
+\cleardoublepage \include{Chapters/ChapterTechAnalysis}
+\cleardoublepage \include{Chapters/ChapterAestheticAnalysis}
+\cleardoublepage \include{Chapters/ChapterEvaluation}
+
 \cleardoublepage
 \onehalfspacing
 \include{FrontBackmatter/Bibliography}
-\singlespacing
 
 % ********************************************************************
 % Backmatter
@@ -133,7 +136,7 @@
 \appendix
 \cleardoublepage
 \part{Appendices}
-
+\singlespacing
 \include{Chapters/ChapterAppendix}
 %********************************************************************
 % Other Stuff in the Back
