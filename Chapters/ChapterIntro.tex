@@ -107,7 +107,11 @@ KPX A G -40
 KPX A C -40
 \end{lstlisting}
 
-Kerning requires a table of kern-pairs, specific to each font; values from this table must then be looked up for every pair of adjacent glyphs in the document. An example of a kern table is shown in listing~\ref{lst:kerntable}. may or may not need to be inserted: if the component characters of the ligature lie over a potential hyphenation point, it cannot be decided whether to replace them with the ligature until it is known whether the hyphenation point needs to be used. \TeX{} handles kerning and insertion of ligatures automatically, but there are still further typographical tweaks that its default typesetting algorithm does not use.
+Kerning requires a table of kern-pairs, specific to each font; values from this table must then be looked up for every pair of adjacent glyphs in the document. An example of a kern table is shown in listing~\ref{lst:kerntable}.
+
+Ligatures may or may not need to be inserted: if the component characters of the ligature lie over a potential hyphenation point, it cannot be decided whether to replace them with the ligature until it is known whether the hyphenation point needs to be used.
+
+\TeX{} handles kerning and insertion of ligatures automatically, but there are still further typographical tweaks that its default typesetting algorithm does not use.
 
 More\marginpar{\emph{pdf\LaTeX}, used to typeset this document, \emph{does} tweak tracking and glyph widths when justifying text} advanced methods than simply stretching or shrinking the word spacing do exist, however. Robert Bringhurst, in \emph{The Elements of Typographic Style},\hspace{0pt}\cite{Bringhurst2008} suggests that in addition to altering word spacing, subtle changes to inter-character spacing (also known as \gls{tracking}) and to individual glyph widths (in the range of $\pm$ 3\%) can produce more typographically and aesthetically pleasing results.
 
@@ -151,7 +155,7 @@ The\marginpar{Amazon's proprietary Kindle format is derived from Mobipocket; \pd
 
 Whilst the use of these \html{}-like formats allows the semantic structure of documents to be very well defined, in general their presentation can only be specified in a very loose manner. On an \ebook{} reader (or in \ebook{} reading software) the user is often presented with a choice of typefaces and point sizes, which gives the e-reader software some scope for rendering the document in arbitrary ways.
 
-Since a document stored in a flowable format has no concrete presentation associated with it, each time the document is displayed, its layout must be recomputed. For an \ebook{} reader to maximise its battery life, this computation must be as simple as possible. As a consequence, the algorithm used must not be too complex, since the more \textsc{cpu} cycles spent executing it, the less time the \textsc{cpu} can spend idle, and thus the greater the drain on the device's battery.\hspace{0pt}\cite{Pinkney2011}
+Since a document stored in a flowable format does not have any concrete presentation associated with it, each time the document is displayed, its layout must be recomputed. For an \ebook{} reader to maximise its battery life, this computation must be as simple as possible. As a consequence, the algorithm used must not be too complex, since the more \textsc{cpu} cycles spent executing it, the less time the \textsc{cpu} can spend idle, and thus the greater the drain on the device's battery.\hspace{0pt}\cite{Pinkney2011}
 
 
 \section{Limitations of Current Formats}
@@ -207,9 +211,9 @@ We have seen that screen technologies for \ebook{} readers have been evolving to
 It is clearly time for a new document representation paradigm to be devised, in order to catch up with contemporary document display technologies\ed it is time for the introduction of a more \emph{malleable} document format. There has been little research into this area in the past. Much effort has been put into high-quality typesetting for documents with fixed layouts. Much effort has been put into providing styling for documents with flowable layouts\ed notably via css\ed but virtually no consideration has been given to producing well-typeset output on the fly, particularly with the minimum required computation.
 
 \subsection{Scope}
-In this thesis, such a novel document representation paradigm, geared towards use on portable devices, is proposed and implemented. The desired malleability is afforded to documents by precomputing key parts of the typesetting process, which allows their content to be gently coaxed to fit any page size, without compromising the quality of their typography.
-
-
+In this thesis, such a novel document representation paradigm, geared towards use on portable devices, is proposed and implemented. The desired malleability is afforded to documents by precomputing key parts of the typesetting process, which allows their content to be gently coaxed to fit any page size, without compromising the quality of their typography. To ensure maximum portability for a single codebase, the implementation is designed to run within any modern JavaScript enabled web browser, and can therefore be used on virtually any modern web-enabled device, including desktops, mobiles, and tablets.
 
 \subsection{Limits}
-\todo{write this too}
+For many devices, JavaScript running within a web browser will not be most efficient way to display text and images. Some other, more lightweight, native implementation tailored to the specific device will almost certainly provide a more computationally- and battery-efficient solution. Within this thesis, no attempt will be made to implement such a program, though all algorithms described are applicable to other languages and concrete implementations.
+
+Other aspects of the proposed system that will only partially be explored are those described in Sections \ref{sec:inc-renderings}~and~\ref{sec:layout}. These areas cover the more qualitative aspects: respectively, how to choose the range of galley renderings at document compile-time, and how to choose the ``best'' single galley rendering to display at document view-time. These two areas contain so many variables that fine-tuning them is almost a research project in itself (and certainly outside the author's area of expertise). On this basis, both the initial choice of range of renderings, and the algorithm to choose which rendering to show at view-time, were developed by trial and error by the author, in conjunction with a user study that provided feedback from a wider range of participants.
