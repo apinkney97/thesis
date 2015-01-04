@@ -1,7 +1,7 @@
 \chapter{The rise of \ebook{}s} \label{ch:intro}
 
 \summary{
-\todo{Write this}
+In this chapter we look in depth at the status quo of the electronic document world: we examine the hardware used to display documents, we examine the paradigms used to represent documents, we examine what is considered to be good typesetting, and then in the context of this information, we examine the limitations currently enforced upon us.
 }
 
 In the past five years, the surge in popularity of tablets and dedicated \ebook{} readers has vastly increased the sale and distribution of \ebook{}s. In August 2012, it was widely reported in the media that Amazon's Kindle Store sales were outstripping print book sales by 114 to 100.\hspace{0pt}\cite{hexus.net2012} This figure does not include free \ebook{}s ``sold'' through the Kindle Store, which would skew the figures significantly further.
@@ -209,10 +209,22 @@ We have seen that screen technologies for \ebook{} readers have been evolving to
 
 It is clearly time for a new document representation paradigm to be devised, in order to catch up with contemporary document display technologies\ed it is time for the introduction of a more \emph{malleable} document format. There has been little research into this area in the past. Much effort has been put into high-quality typesetting for documents with fixed layouts. Much effort has been put into providing styling for documents with flowable layouts\ed notably via css\ed but virtually no consideration has been given to producing well-typeset output on the fly, particularly with the minimum required computation.
 
+In this thesis, such a novel document representation paradigm, geared towards use on portable devices, is proposed and implemented. The desired malleability is afforded to documents by precomputing key parts of the typesetting process, which allows their content to be gently coaxed to fit any page size, without compromising the quality of their typography.
+
+
 \subsection{Scope}
-In this thesis, such a novel document representation paradigm, geared towards use on portable devices, is proposed and implemented. The desired malleability is afforded to documents by precomputing key parts of the typesetting process, which allows their content to be gently coaxed to fit any page size, without compromising the quality of their typography. To ensure maximum portability for a single codebase, the implementation is designed to run within any modern JavaScript enabled web browser, and can therefore be used on virtually any modern web-enabled device, including desktops, mobiles, and tablets.
+\todo{make this into a paragraph or two}
+\begin{itemize}
+ \item devise ``malleable'' document system
+ \item allow varying sized blocks whose absolute placement is unimportant (``floats'')
+ \item ensure filesize does not balloon to much
+ \item establish minimum no of galleys (and range) to fit ``most'' screen sizes
+\end{itemize}
+
+
 
 \subsection{Limits}
-For many devices, JavaScript running within a web browser will not be most efficient way to display text and images. Some other, more lightweight, native implementation tailored to the specific device will almost certainly provide a more computationally- and battery-efficient solution. Within this thesis, no attempt will be made to implement such a program, though all algorithms described are applicable to other languages and concrete implementations.
+
+To ensure maximum portability for a single codebase, the final implementation is designed to run within any modern JavaScript enabled web browser, and can therefore be used on virtually any modern web-enabled device, including desktops, mobiles, and tablets. However, for many devices, JavaScript running within a web browser will not be most efficient way to display text and images. Some other, more lightweight, native implementation tailored to the specific device will almost certainly provide a more computationally- and battery-efficient solution. Within this thesis, no attempt will be made to implement such a program, though all algorithms described herein are applicable to other languages and concrete implementations.
 
 Other aspects of the proposed system that will only partially be explored are those described in Sections \ref{sec:inc-renderings}~and~\ref{sec:layout}. These areas cover the more qualitative aspects: respectively, how to choose the range of galley renderings at document compile-time, and how to choose the ``best'' single galley rendering to display at document view-time. These two areas contain so many variables that fine-tuning them is almost a research project in itself (and certainly outside the author's area of expertise). On this basis, both the initial choice of range of renderings, and the algorithm to choose which rendering to show at view-time, were developed by trial and error by the author, in conjunction with a user study that provided feedback from a wider range of participants.
