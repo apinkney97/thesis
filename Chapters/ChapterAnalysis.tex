@@ -109,6 +109,7 @@ The placement of floats is subject to certain constraints: they must span intege
 
 
 \section{Qualitative}
+\label{sec:aesthetics}
 
 \subsection{Placement of Floats}
 Since all text layout is precomputed, the only remaining concern is that the columns of text and floats are laid out in a pleasing manner. Plass\hspace{0pt}\cite{Plass1981} devised a system to perform optimal placement of floats within text, whereby float placement is penalised by the square of the distance from its intended position. He showed that this problem was NP-hard, but he also showed that a similar (but less ``optimal'') system using linear penalties could be made computationally tractable.
@@ -199,6 +200,29 @@ As it stands, the algorithm does not avoid widowed or orphaned lines, nor single
 
 \subsection{Measures of Aesthetic Quality}
 In their 2004 paper, Harrington et al.\hspace{0pt}\cite{Harrington2004} identified nine aesthetic measures for automated document layout. A number of these measures (alignment, regularity, uniform separation, white-space free-flow, uniformity) are inherently well satisfied by this system, due to its use of a grid to provide regular layout. 
+
+\subsection{User Study}
+
+\begin{sidewaystable}
+  \footnotesize
+  \myfloatalign
+  \begin{tabular}{cccc|ccccccc}
+    \toprule
+    rendering id & range & step & \# & respondents & q1 & q2 & q3 & q4 & q5 \\
+    \midrule
+    $0$ & $2-3$ & $1$   & $3$  & $9$ & $6.8$ & $6.3$ & $5.7$ & $7.1$ & $6.8$ \\
+    $1$ & $2-4$ & $1$   & $4$  & $6$ & $7.7$ & $6.7$ & $6.0$ & $6.3$ & $5.8$ \\
+    $2$ & $2-6$ & $1$   & $6$  & $8$ & $7.1$ & $6.6$ & $4.5$ & $6.0$ & $5.8$ \\
+    $3$ & $2-4$ & $0.5$ & $6$  & $7$ & $8.1$ & $7.7$ & $5.9$ & $5.9$ & $7.4$ \\
+    $4$ & $2-6$ & $0.5$ & $10$ & $5$ & $8.6$ & $8.0$ & $8.6$ & $8.0$ & $8.4$ \\
+    $5$ & $2-6$ & $2$   & $4$  & $6$ & $6.5$ & $7.2$ & $5.3$ & $7.0$ & $8.0$ \\
+    \bottomrule
+\end{tabular}
+  \caption[Short Caption]{Long Caption}
+  \label{tab:studyavgs}
+\end{sidewaystable}
+
+
 
 
 
