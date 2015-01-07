@@ -133,8 +133,6 @@ The archetypal \pdf{} file consists solely of drawing operators that describe th
 
 This lack of imposed semantic structure makes it difficult to infer the best way to ``unpick'' \pdf{} files to allow their content to be reflowed into a new layout.\hspace{0pt}\cite{Lovegrove1995, Bagley2005} For example, it is not easy to decide programatically whether a line break between adjacent lines of text is explicitly intended to be there (for example, the end of a paragraph) or if it is an artefact of the document layout. As an example, the Adobe Reader app for Android cheerfully offers to reflow \pdf{} pages should you require it, but usually results in what can be seen in Figure~\ref{fig:acrobatreflow}.
 
-\todo{UPDATE THIS FIGURE}
-
 \begin{figure}
 \fbox{\includegraphics[width=0.98\textwidth]{gfx/acrobatreflow}}
 \caption[Reflowed text of a \textsc{pdf} file]{Adobe's Reader app for Android includes an option that allows \pdf{} files to be reflowed, but the lack of semantic structure within most \pdf{} files limits the process to using only what can be inferred from the original layout. This figure shows the start of this chapter reflowed by the app\ed{}see page~\pageref{ch:intro}.}
