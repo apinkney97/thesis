@@ -7,8 +7,7 @@ set term pdf size 7.6in, 4.66in font "Palatino"
 set output "survey.pdf"
 
 set yrange[-0.1:10.1]
-set ytics nomirror out
-set xtics out
+set xtics nomirror out
 set ylabel 'User Rating'
 set xlabel 'Rendering ID'
 

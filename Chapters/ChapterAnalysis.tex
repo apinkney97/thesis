@@ -198,31 +198,43 @@ As it stands, the algorithm does not avoid widowed or orphaned lines, nor single
 \label{fig:example-html}
 \end{figure}
 
+\todo{Put android screenshots here}
+
 \subsection{Measures of Aesthetic Quality}
 In their 2004 paper, Harrington et al.\hspace{0pt}\cite{Harrington2004} identified nine aesthetic measures for automated document layout. A number of these measures (alignment, regularity, uniform separation, white-space free-flow, uniformity) are inherently well satisfied by this system, due to its use of a grid to provide regular layout. 
 
 \subsection{User Study}
 
+In order to establish the most appropriate range of galleys to include in a malleable document, as discussed in Section~\ref{sec:inc-renderings}, a user study was conducted. This was also used as a chance to get some general feedback about the malleable document system from a wide range of real-world users.
+
+
+
 \begin{sidewaystable}
   \footnotesize
   \myfloatalign
-  \begin{tabular}{cccc|ccccccc}
+  \begin{tabular}{ccccccccccc}
     \toprule
-    rendering id & range & step & \# & respondents & q1 & q2 & q3 & q4 & q5 \\
+    rendering id & range & step & n & respondents & q1 & q2 & q3 & q4 & q5 \\
     \midrule
-    $0$ & $2-3$ & $1$   & $3$  & $9$ & $6.8$ & $6.3$ & $5.7$ & $7.1$ & $6.8$ \\
-    $1$ & $2-4$ & $1$   & $4$  & $6$ & $7.7$ & $6.7$ & $6.0$ & $6.3$ & $5.8$ \\
-    $2$ & $2-6$ & $1$   & $6$  & $8$ & $7.1$ & $6.6$ & $4.5$ & $6.0$ & $5.8$ \\
-    $3$ & $2-4$ & $0.5$ & $6$  & $7$ & $8.1$ & $7.7$ & $5.9$ & $5.9$ & $7.4$ \\
-    $4$ & $2-6$ & $0.5$ & $10$ & $5$ & $8.6$ & $8.0$ & $8.6$ & $8.0$ & $8.4$ \\
-    $5$ & $2-6$ & $2$   & $4$  & $6$ & $6.5$ & $7.2$ & $5.3$ & $7.0$ & $8.0$ \\
+    A & $2-3$ & $1$   & $3$  & $9$ & $6.8$ & $6.3$ & $5.7$ & $7.1$ & $6.8$ \\
+    B & $2-4$ & $1$   & $4$  & $6$ & $7.7$ & $6.7$ & $6.0$ & $6.3$ & $5.8$ \\
+    C & $2-6$ & $1$   & $6$  & $8$ & $7.1$ & $6.6$ & $4.5$ & $6.0$ & $5.8$ \\
+    D & $2-4$ & $0.5$ & $6$  & $7$ & $8.1$ & $7.7$ & $5.9$ & $5.9$ & $7.4$ \\
+    E & $2-6$ & $0.5$ & $10$ & $5$ & $8.6$ & $8.0$ & $8.6$ & $8.0$ & $8.4$ \\
+    F & $2-6$ & $2$   & $4$  & $6$ & $6.5$ & $7.2$ & $5.3$ & $7.0$ & $8.0$ \\
     \bottomrule
 \end{tabular}
   \caption[Short Caption]{Long Caption}
   \label{tab:studyavgs}
 \end{sidewaystable}
 
-
+\begin{sidewaysfigure}
+  \begin{center}
+  \includegraphics[height=0.5\textheight]{gnuplot/survey.pdf}
+  \end{center}
+  \caption[Short Caption]{Loooooooong caption}
+  \label{fig:survey}
+\end{sidewaysfigure}
 
 
 
