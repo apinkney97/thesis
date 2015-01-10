@@ -12,9 +12,9 @@ Project Gutenberg, a digital online library that (as of December 2014) hosts ove
 
 Whilst at first glance this may not seem like a difficult problem to solve, the expectation that \ebook{}s should scale to fit many devices, and adapt to the reading preferences of many different users, makes it far from trivial, as we shall see further on in this chapter.
 
-\section{Devices}
+\section{Devices}\marginpar{Amazon distributes software that allows Kindle format books to be read on Android and iOS tablets and smartphones, and on Windows and OS~X, in addition to its own range of Kindle hardware}
 
-In addition to dedicated \ebook{} readers, such as the Amazon Kindle and the Kobo eReader,\marginpar{Amazon distributes software that allows Kindle format books to be read on Android and iOS tablets and smartphones, and on Windows and OS~X, in addition to its own range of Kindle hardware} many other devices, such as tablets, mobile phones, laptops, and desktop PCs, can be equipped to read \ebook{} files. Indeed, virtually every modern device with a screen can be equipped to read \ebook{}s.
+In addition to dedicated \ebook{} readers, such as the Amazon Kindle and the Kobo eReader, many other devices, such as tablets, mobile phones, laptops, and desktop PCs, can be equipped to read \ebook{} files. Indeed, virtually every modern device with a screen can be equipped to read \ebook{}s.
 
 The screen technologies used in these devices have vastly improved over the past decade or so, from the introduction of electronic paper displays that provide a reading experience very similar to that of real paper, to the enormous advances in \textsc{lcd} and \textsc{oled} screens, which now often have resolutions high enough that it is difficult to resolve individual pixels with the naked eye. Figure~\ref{fig:screens} shows some examples of document display technologies\ed note the visual similarity of the ``real'' print (Figure \ref{fig:scr:print} and~\ref{fig:scr:laser}) to the electronic paper displays (Figure \ref{fig:scr:kobo} and~\ref{fig:scr:kindle}).
 
@@ -207,17 +207,21 @@ We have seen that screen technologies for \ebook{} readers have been evolving to
 
 It is clearly time for a new document representation paradigm to be devised, in order to catch up with contemporary document display technologies\ed it is time for the introduction of a more \emph{malleable} document format. There has been little research into this area in the past. Much effort has been put into high-quality typesetting for documents with fixed layouts. Much effort has been put into providing styling for documents with flowable layouts\ed notably via css\ed but virtually no consideration has been given to producing well-typeset output on the fly, particularly with the minimum required computation.
 
-In this thesis, such a novel document representation paradigm, geared towards use on portable devices, is proposed and implemented. The desired malleability is afforded to documents by precomputing key parts of the typesetting process, which allows their content to be gently coaxed to fit any page size, without compromising the quality of their typography.
-
-
 \subsection{Scope}
-\todo{make this into a paragraph or two}
-\begin{itemize}
- \item devise ``malleable'' document system
- \item allow varying sized blocks whose absolute placement is unimportant (``floats'')
- \item ensure filesize does not balloon to much
- \item establish minimum no of galleys (and range) to fit ``most'' screen sizes
-\end{itemize}
+% \todo{make this into a paragraph or two}
+% \begin{itemize}
+ % \item devise ``malleable'' document system
+ % \item allow varying sized blocks whose absolute placement is unimportant (``floats'')
+ % \item ensure filesize does not balloon to much
+ % \item establish minimum no of galleys (and range) to fit ``most'' screen sizes
+% \end{itemize}
+
+In this thesis, such a novel document representation paradigm, geared towards use on portable devices, is proposed and implemented. The desired malleability is afforded to documents by precomputing key parts of the typesetting process, which allows their content to be gently coaxed to fit any page size, without needing to make any compromises the quality of their typography.
+
+It is shown how the system can be extended from supporting straightforward sequential content to allowing ``floating'' blocks of varying sizes whose absolute placement is unimportant. With this addition, the system becomes capable of rendering its documents into layouts resembling those of newspapers, magazines, and academic journals.
+
+Despite focusing mainly on reducing computational complexity at view-time, attention also must be paid to the filesize of the resultant documents, to ensure that space is not being wasted unnecessarily. To address this issue, a computationally-light compression scheme is developed.
+
 
 
 

@@ -1,7 +1,9 @@
 \chapter{Dealing with File Bloat}\label{ch:bloat}
 
 \summary{
-\todo{Write this}
+In Chapter~\ref{ch:floats} we converted the implementation of our previously developed system into one that uses \html{}, \css{}, and JavaScript in place of \gls{pdf} and Adobe Acrobat, which vastly increases its portability. We also added support for floating items, which allows us to produce document layouts that are extremly similar to those used in newspapers, magazines, and academic journals.
+
+In this chapter, we turn around and address the elephant in the room: what effect does the inclusion of all these renderings have upon file size, and what can we do about it?
 }
 
 \section{Rationale}
@@ -9,18 +11,18 @@ In the system described so far, the emphasis has been firmly upon reducing the c
 
 %\todo{Put in some pdfdump output comparing ``normal'' pdfs with my malleable ones (maybe as an appendix)}
 
-The tradeoff between filesize and required computation has previously been justified on the basis that storage is cheap,\marginpar{as of 2013, one US dollar will buy around two gigabytes of \textsc{nand} flash memory} light, and small, and that batteries, although relatively inexpensive, already comprise a significant portion of the overall mass and volume of most portable devices that are suitable for reading \ebook{}s. The consequence of this is that adding more storage would have little impact upon devices' aesthetics, but adding extra battery life (emerging nanotube battery technology notwithstanding) would result in vast increases in devices' overall bulk and mass.
+The tradeoff between filesize and required computation has previously been justified on the basis that storage is cheap,\marginpar{as of 2015, one US dollar will buy around three gigabytes of \textsc{nand} flash memory} light, and small, and that batteries, although relatively inexpensive, already comprise a significant portion of the overall mass and volume of most portable devices that are suitable for reading \ebook{}s. The consequence of this is that adding more storage would have little impact upon devices' aesthetics, but adding extra battery life (emerging nanotube battery technology notwithstanding) would result in vast increases in devices' overall bulk and mass.
 
 Despite this, it seems perverse to make no attempt at all to keep filesizes as small as possible, as long as there are no (or limited) impacts upon the required computation at view-time.
 
-Much like typesetting algorithms, few compression algorithms are designed with the minimisation of computation in mind. Consequently, the result of compressing the data using some generic algorithm is likely to require significantly more computation to decompress than a carefully designed bespoke algorithm. The following section describes describes work towards such an algorithm.
+Much like typesetting algorithms, few compression algorithms are designed with the minimisation of computation in mind. Consequently, the result of compressing the data using some generic algorithm is likely to require significantly more computation to decompress than a carefully designed bespoke algorithm. The following section describes work towards such an algorithm.
 
 
 \section{Implementation}
 The most obvious saving that can be made is with the duplication of a document's textual content. The systems described in Chapters \ref{ch:malleable}~and~\ref{ch:floats} both contain as many copies of the document text as there are pre-rendered galleys. In practice, there is no real need for more than one copy to be present in the file. Two approaches to this problem were considered.
 
 \subsection{Pointers into the Source Text}
-The first approach to be considered was to include the text of the document in its entirety, and for each rendering to contain only pointers to the relevant sections of text, instead of the words themselves. These pointers can either be absolute (in the form of a character offset from the start of the text) or logical (in the form \emph{paragraph m, word n}). If the document text is to be included as a plaintext string, absolute pointers are easier to use than logical: logical pointers either require an auxiliary data structure to map the logical pointers to absolute ones, or for the document text to be stored in a format reflecting the logical structure, \ie{} not in plain text.
+The first approach to be considered was to include the text of the document in its entirety, and for each rendering to contain only pointers to the relevant sections of text, instead of the words themselves. These pointers can either be absolute (in the form of a character offset from the start of the text) or logical (in the form \emph{paragraph m, word n}). If the document text is to be included as a plaintext string, absolute pointers are easier to use than logical: logical pointers require either an auxiliary data structure to map the logical pointers to absolute ones, or for the document text to be stored in a format reflecting the logical structure, \ie{} not in plain text.
 
 The principal drawback of using this approach is that on occasion, the output of the linebreaking process does not precisely match the input: for example in the case where words are hyphenated (requiring one word to be broken into two parts, and the addition of a hyphen) or where certain glyphs may be substituted for others (such as with the use of ligatures, where a glyph pair or triplet may be replaced with a single glyph). For this reason, this approach was not considered further.
 
@@ -29,7 +31,7 @@ The principal drawback of using this approach is that on occasion, the output of
 \label{sec:dictionary}
 The second approach considered was the use of a dictionary to act as a lookup table for each word-level item produced by the linebreaking process.
 
-A document's source text itself is likely to contain significant redundancy. In the 1930s, American linguist George Kingsley Zipf proposed \emph{Zipf's law},\hspace{0pt}\cite{zipf1932} which (broadly) states that given a sizeable sample of text in any given language, the frequency of any word is inversely proportional to its rank in the frequency table. Stated another way, the most common word tends to appear twice as often as the second most common word, three times as often as the third most common word, and so on.
+A document's source text itself is likely to contain significant redundancy. In the 1930s, American linguist George Kingsley Zipf proposed \emph{Zipf's law},\hspace{0pt}\cite{zipf1932} which (broadly) states that given a sizeable sample of text in any given language, the frequency of any word is inversely proportional to its rank in the frequency table. Stated another way, the most common word tends to appear twice as often as the second most common word, three times as often as the third most common word, and so on. There have been many subsequent studies on redundancy in English that have come to related conclusions, for example Claude Shannon estimated the redundancy of written English to be around 50\%.\hspace{0pt}\cite{Shannon1951, Hirst1988}
 
 \begin{sidewaystable} \footnotesize
     \myfloatalign
@@ -64,12 +66,12 @@ A document's source text itself is likely to contain significant redundancy. In 
   \label{fig:wordfreq}
 \end{figure}
 
-Table~\ref{tab:wordfreq} shows the ten most frequent words in four separate documents: the Wikipedia page for the \emph{Butterley Company}\footnote{\texttt{http://en.wikipedia.org/wiki/Butterley\_Company}}, the author's 2011 paper \emph{Reflowable Documents Composed from Pre-rendered Atomic Components}\hspace{0pt}\cite{Pinkney2011}, the Complete Works of Shakespeare,\marginpar{both Shakespeare and The Bible were obtained as plain text files from Project Gutenberg} and the King James Version of the Bible. Figure~\ref{fig:wordfreq} shows the word frequency data for the same documents plotted on a log-log scale. At the extremities, the data does not conform perfectly to Zipf's Law, though despite their hugely varying lengths, each document does display a clear Zipfian distribution.
+Table~\ref{tab:wordfreq} shows the ten most frequent words in four separate documents and for the British National Corpus\hspace{0pt}\cite{BNCConsortium2007} as a whole.\footnote{The British National Corpus describes itself as \emph{``a 100 million word collection of samples of written and spoken language from a wide range of sources, designed to represent a wide cross-section of British English from the later part of the 20th century, both spoken and written''} and is available freely online at \url{http://www.natcorp.ox.ac.uk/}} The four document used are the Wikipedia page for the \emph{Butterley Company}\footnote{\url{http://en.wikipedia.org/wiki/Butterley\_Company}}, the author's 2011 paper \emph{Reflowable Documents Composed from Pre-rendered Atomic Components}\hspace{0pt}\cite{Pinkney2011}, the Complete Works of Shakespeare,\marginpar{both Shakespeare and The Bible were obtained as plain text files from Project Gutenberg} and the King James Version of the Bible. Figure~\ref{fig:wordfreq} shows the word frequency data for the same documents plotted on a log-log scale. At the extremities, the data does not conform perfectly to Zipf's Law, though despite their hugely varying lengths, each document does display a clear Zipfian distribution.
 
 
 This inherent redundancy in natural language can be exploited to produce a simple compression scheme through use of a dictionary. If, for example, the word ``shall'' appears multiple times in a document (in the King James Version of the Bible it appears 9760 times, and in the complete works of Shakespeare 3016 times) it is only stored once in the dictionary. As long as on average (\ie{} over every occurrence of every word) each word's key is lexicographically shorter than the word itself, it can be guaranteed that some redundancy has been removed from the data.
 
-The \gls{html} and JavaScript system described in Chapter~\ref{ch:floats} can be altered to use a dictionary-based lookup table with fairly few modifications. Firstly, since the data for the malleable document must be represented in \gls{json}, some means of including the dictionary must be devised. \gls{json} supports two types of collection. The first is the \emph{object}, which is defined formally as \emph{an \mbox{unordered} set of name/value pairs}. This acts much like an associative array, though there is no guarantee of order of elements.  The second collection type supported by \gls{json} is the \emph{array}, defined as \emph{an ordered collection of values}. Since both must be declared literally (in the forms \texttt{\{\textquotedbl key1\textquotedbl:\textquotedbl word1\textquotedbl,\textquotedbl key2\textquotedbl:\textquotedbl word2\textquotedbl\}} and \texttt{[\textquotedbl word1\textquotedbl,\textquotedbl word2\textquotedbl]} respectively\ed see \texttt{http://www.json.org/} for full details) rather than being populated programatically, using a plain array for the dictionary allows us to omit the keys from the dictionary itself, as they are implied by the order of the elements in the array. Additionally, since this forces the use of integers as keys, the Galley Structure Tree will not require the use of quote marks when the dictionary keys are referenced. If the keys were string values, each use of each key in the Galley Structure Tree would therefore necessitate two extra characters (\eg{} \texttt{\textquotedbl key\textquotedbl} versus \texttt{401}).
+The \gls{html} and JavaScript system described in Chapter~\ref{ch:floats} can be altered to use a dictionary-based lookup table with fairly few modifications. Firstly, since the data for the malleable document must be represented in \gls{json},\footnote{see \url{http://www.json.org/} for full details} some means of including the dictionary must be devised. \gls{json} supports two types of collection. The first is the \emph{object}, which is defined formally as \emph{an \mbox{unordered} set of name/value pairs}. This acts much like an associative array, though there it does not guarantee the order of its elements. The second collection type supported by \gls{json} is the \emph{array}, defined as \emph{an ordered collection of values}. Since both must be declared literally (in the forms \texttt{\{\textquotedbl key1\textquotedbl:\textquotedbl word1\textquotedbl,\textquotedbl key2\textquotedbl:\textquotedbl word2\textquotedbl\}} and \texttt{[\textquotedbl word1\textquotedbl,\textquotedbl word2\textquotedbl]} respectively) rather than being populated programatically, using a plain array for the dictionary allows us to omit the keys from the dictionary itself, as they are implied by the order of the elements in the array. Additionally, since this forces the use of integers as keys, the Galley Structure Tree will not require the use of quote marks when the dictionary keys are referenced. If the keys were string values, each use of each key in the Galley Structure Tree would therefore necessitate two extra characters (\eg{} \texttt{\textquotedbl key\textquotedbl} versus \texttt{401}).
 
 It should also be noted that using integers as keys in \gls{json} has different implications to using integers as keys in some more compact binary format. \gls{json} is always stored in some textual encoding (perhaps \textsc{ascii}, perhaps \textsc{utf-8}), and there is no support for numeric representation in any base other than decimal. What might take up one 32 bit integer (\ie{} 4 bytes) in a compiled language such as C might take as many as ten textual characters (10 bytes, assuming that whichever character encoding system is used represents low-\textsc{ascii} characters with only one byte). Conversely, textual representation of integers can be more compact under certain conditions: namely, for values that use three or fewer characters, \ie{} the numbers 0--999.
 
@@ -77,22 +79,22 @@ It should also be noted that using integers as keys in \gls{json} has different 
   \begin{center}
   \includegraphics[width=\textwidth]{gnuplot/cumulative}
   \end{center}
-  \caption[Cumulative distribution of word frequencies]{Cumulative distribution of word frequencies in various documents. (The x-axis uses a logarithmic scale so that the data for the two shorter documents is more clearly visible.)}
+  \caption[Cumulative distribution of word frequencies]{Cumulative distribution of word frequencies in various documents. }
   \label{fig:cumulative}
 \end{figure}
 
-Referring back to Figure \ref{fig:wordfreq}, to Figure~\ref{fig:cumulative}, and to Zipf's law, it can be seen that even for extremely long documents, the number of words that are ranked in the top 1000 exceeds 60\%, and so in fact, as long as the order of words in the dictionary is chosen carefully, using a textual representation of integers can be more compact than a na\"ive binary representation.
+Referring back to Figure \ref{fig:wordfreq}, to Figure~\ref{fig:cumulative}, and to Zipf's law, it can be seen that even for extremely long documents, the number of words that are ranked in the top 1000 exceeds 60\%, and so as long as the order of words in the dictionary is chosen carefully, using a textual representation of integers can be more compact than a na\"ive binary representation.
 
-It was therefore decided to store the dictionary as an array, ordered so that the most frequently occurring words have the smallest keys.
+It was therefore decided to store the dictionary as an array, ordered such that the most frequently occurring words have the shortest keys.
 
 \subsection{Further Compression Possibilities}
 \label{sec:deltas}
 
-The techniques discussed thus far have focused mostly upon exploiting the inherent redundancy in natural language (specifically redundancy in written English, though some non-rigorous research suggests this is also true in many other written languages). A fairly large part of the data contained within the Galley Structure Tree has been overlooked: the typesetting data itself.
+The techniques discussed thus far have focused mostly upon exploiting the inherent redundancy in natural language. A fairly large part of the data contained within the Galley Structure Tree has been overlooked: the typesetting data itself.
 
-All of the aforementioned encoding systems have used an absolute value for the x-position of each word on each line; that is, each occurrence of each word has an associated value representing the required distance of its placement, in \glspl{point}, from the start of the line. An example of this can be seen in Listing~\ref{lst:datajs} on page~\pageref{lst:datajs}.
+All of the aforementioned encoding systems have used an absolute value for the x position of each word on each line; that is, each occurrence of each word has an associated value representing the required distance of its placement, in \glspl{point}, from the start of the line. An example of this can be seen in Listing~\ref{lst:datajs} on page~\pageref{lst:datajs}.
 
-With a vague view to producing data that would be more easily compressible by a generic compression algorithm (that would perhaps be useful if HTTP compression or similar is used to transfer the document data to a device) it was decided to investigate a different approach to storing this data.
+With a view to producing data that would be more easily compressible by a generic compression algorithm (that would perhaps be useful if \textsc{HTTP} compression or similar is used to transfer the document data to a device) it was decided to investigate a different approach to storing this data.
 
 In any typeset document, most (if not all) occurrences of the same word will typeset identically upon the page. In particular, the amount of horizontal space reserved for a word will be the same for each occurrence of the word. Similarly, if a document's text is fully justified, the space between words on each individual line will be identical. If the document is left-justified, then each space between each pair of words on \emph{every} line will be identical. This redundancy is present within all the previous encodings, but cannot be picked up by a generic compression algorithm, since it requires knowledge of the typesetting process. By separating the word widths from the spacing, this redundancy can be made more explicit, and therefore easier for a generic compression algorithm to take advantage of.
 
@@ -152,9 +154,8 @@ The following pages show the evolution of the encoding system, and how the files
 
  \item Figure~\ref{fig:size-deltas} (page~\pageref{fig:size-deltas}) shows the encoding system described in Section~\ref{sec:deltas}, which not only uses a dictionary ordered such that the most frequently occurring words have the shortest keys, but also stores the width of each word in the dictionary, so that the Galley Structure Tree contains deltas rather than absolute positioning data.
  
- \item Figure~\ref{fig:size-all-b} on page~\pageref{fig:size-all-b} shows a comparison of the filesizes produced by all encodings, and Figure~\ref{fig:size-all-gz} on page~\pageref{fig:size-all-gz} shows the resultant filesizes when each rendering is further compressed with \texttt{gzip}.
+ \item Figure~\ref{fig:size-all-b} (page~\pageref{fig:size-all-b}) shows a comparison of the filesizes produced by all encodings, and Figure~\ref{fig:size-all-gz} (page~\pageref{fig:size-all-gz}) shows the resultant filesizes when each rendering is further compressed with \texttt{gzip}.
 \end{itemize}
-
 
 
 \begin{figure}
@@ -233,6 +234,9 @@ The following pages show the evolution of the encoding system, and how the files
 %   \end{tabularx}
 %   \caption[Comparison of filesizes]{Comparison of filesizes using various encoding methods}  \label{tab:filesize}
 % \end{table}
+
+
+\clearpage
 
 
 \subsection{Discussion}
