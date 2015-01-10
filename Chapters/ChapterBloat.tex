@@ -36,20 +36,20 @@ A document's source text itself is likely to contain significant redundancy. In 
   \begin{tabular}{rrlrlrlrlrl} \toprule
     & \multicolumn{2}{l}{\textsc{Butterley}} & \multicolumn{2}{l}{\cite{Pinkney2011}} & \multicolumn{2}{l}{\textsc{Shakespeare}} & \multicolumn{2}{l}{\textsc{King James Bible}} & \multicolumn{2}{l}{\textsc{British National Corpus}}\\ 
     \midrule
-                          & $103$  & the       & $233$  & the      & $23197$  & the & $62099$  & the   & $5375304$  & the  \\ 
-                          & $35$   & of        & $134$  & of       & $19540$  & I   & $38576$  & and   & $3010713$  & of   \\ 
-                          & $33$   & and       & $116$  & to       & $18263$  & and & $34445$  & of    & $2541227$  & to   \\ 
-                          & $31$   & in        & $75$   & and      & $15592$  & to  & $13387$  & to    & $2463817$  & and  \\ 
-                          & $25$   & to        & $75$   & a        & $15507$  & of  & $12735$  & And   & $2015815$  & a    \\ 
-                          & $23$   & for       & $56$   & is       & $12516$  & a   & $12451$  & that  & $1750205$  & in   \\ 
-                          & $23$   & a         & $52$   & be       & $10825$  & my  & $12167$  & in    & $949677$   & that \\ 
-                          & $21$   & was       & $50$   & in       & $9565$   & in  & $9760$   & shall & $924763$   & is   \\ 
-                          & $19$   & company   & $34$   & as       & $9059$   & you & $9508$   & he    & $838955$   & was  \\ 
-                          & $17$   & Butterley & $32$   & document & $7831$   & is  & $8932$   & unto  & $816193$   & for  \\ 
+		& $\numprint{103}$  & the       & $\numprint{233}$  & the      & $\numprint{23197}$  & the & $\numprint{62099}$  & the   & $\numprint{5375304}$  & the  \\ 
+		& $\numprint{35}$   & of        & $\numprint{134}$  & of       & $\numprint{19540}$  & I   & $\numprint{38576}$  & and   & $\numprint{3010713}$  & of   \\ 
+		& $\numprint{33}$   & and       & $\numprint{116}$  & to       & $\numprint{18263}$  & and & $\numprint{34445}$  & of    & $\numprint{2541227}$  & to   \\ 
+		& $\numprint{31}$   & in        & $\numprint{75}$   & and      & $\numprint{15592}$  & to  & $\numprint{13387}$  & to    & $\numprint{2463817}$  & and  \\ 
+		& $\numprint{25}$   & to        & $\numprint{75}$   & a        & $\numprint{15507}$  & of  & $\numprint{12735}$  & And   & $\numprint{2015815}$  & a    \\ 
+		& $\numprint{23}$   & for       & $\numprint{56}$   & is       & $\numprint{12516}$  & a   & $\numprint{12451}$  & that  & $\numprint{1750205}$  & in   \\ 
+		& $\numprint{23}$   & a         & $\numprint{52}$   & be       & $\numprint{10825}$  & my  & $\numprint{12167}$  & in    & $\numprint{949677}$   & that \\ 
+		& $\numprint{21}$   & was       & $\numprint{50}$   & in       & $\numprint{9565}$   & in  & $\numprint{9760}$   & shall & $\numprint{924763}$   & is   \\ 
+		& $\numprint{19}$   & company   & $\numprint{34}$   & as       & $\numprint{9059}$   & you & $\numprint{9508}$   & he    & $\numprint{838955}$   & was  \\ 
+		& $\numprint{17}$   & Butterley & $\numprint{32}$   & document & $\numprint{7831}$   & is  & $\numprint{8932}$   & unto  & $\numprint{816193}$   & for  \\ 
     \midrule
-    \textsc{total words}  & $1232$ &           & $3724$ &          & $899595$ &     & $821133$ &       & $97087700$ &      \\ 
+    \textsc{total words}  & $\numprint{1232}$ & & $\numprint{3724}$ & & $\numprint{899595}$ & & $\numprint{821133}$ & & $\numprint{97087700}$ & \\ 
     \midrule
-    \textsc{unique words} & $628$  &           & $1436$ &          & $67107$  &     & $33446$  &       & $1733032$  &      \\ 
+    \textsc{unique words} & $\numprint{628}$  & & $\numprint{1436}$ & & $\numprint{67107}$  & & $\numprint{33446}$  & & $\numprint{1733032}$  & \\ 
     \bottomrule    
   \end{tabular}
   \caption[Word frequencies in various documents]{Top 10 most frequent words in various documents. The total number of words and total unique words are also shown for each document. The data used to produce this table assumes a word is any contiguous block of (case-sensitive) non-whitespace characters; thus, ``\texttt{\textcolor{red}{and}}'' is distinct from ``\texttt{\textcolor{red}{And}}'', and ``\texttt{\textcolor{red}{document}}'' is distinct from ``\texttt{\textcolor{red}{document.}}''. The rationale behind this is that the data produced is more closely representative of a real dictionary of atomic ``words'' to be typeset in a malleable document.}
