@@ -248,20 +248,20 @@ order=3
 
 [item:ClassicThesis.tex]
 archive=true
-column=31
+column=19
 encoding=UTF-8
 highlight=LaTeX
-line=113
+line=0
 mode=LaTeX
 open=true
 order=0
 
 [item:FrontBackmatter/Abstract.tex]
 archive=true
-column=0
+column=26
 encoding=UTF-8
 highlight=LaTeX
-line=0
+line=1
 mode=LaTeX
 open=false
 order=1
@@ -278,10 +278,10 @@ order=-1
 
 [item:FrontBackmatter/Bibliography.tex]
 archive=true
-column=14
+column=0
 encoding=UTF-8
 highlight=LaTeX
-line=15
+line=7
 mode=LaTeX
 open=false
 order=5
@@ -301,7 +301,7 @@ archive=true
 column=16
 encoding=UTF-8
 highlight=LaTeX
-line=11
+line=0
 mode=LaTeX
 open=false
 order=-1
@@ -634,17 +634,17 @@ JumpList=
 ViMarks=
 
 [view-settings,view=0,item:ClassicThesis.tex]
-CursorColumn=31
-CursorLine=113
+CursorColumn=19
+CursorLine=0
 JumpList=
-ViMarks=.,5,16,[,5,16,],5,16
+ViMarks=.,0,18,[,0,16,],0,18
 ViRegisterContents=felt,\\,
 ViRegisterFlags=0,0
 ViRegisterNames=-,^
 
 [view-settings,view=0,item:FrontBackmatter/Abstract.tex]
-CursorColumn=6
-CursorLine=22
+CursorColumn=26
+CursorLine=1
 JumpList=
 ViMarks=.,13,138,[,13,138,],13,138
 
@@ -655,10 +655,10 @@ JumpList=
 ViMarks=
 
 [view-settings,view=0,item:FrontBackmatter/Bibliography.tex]
-CursorColumn=14
-CursorLine=15
+CursorColumn=0
+CursorLine=7
 JumpList=
-ViMarks=
+ViMarks=.,6,69,[,6,69,],6,69
 
 [view-settings,view=0,item:FrontBackmatter/Colophon.tex]
 CursorColumn=0
@@ -668,9 +668,9 @@ ViMarks=
 
 [view-settings,view=0,item:FrontBackmatter/Contents.tex]
 CursorColumn=16
-CursorLine=11
+CursorLine=0
 JumpList=
-ViMarks=
+ViMarks=.,0,0,[,0,0,],0,15
 
 [view-settings,view=0,item:FrontBackmatter/Declaration.tex]
 CursorColumn=16

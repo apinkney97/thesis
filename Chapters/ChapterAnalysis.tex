@@ -124,81 +124,7 @@ Whilst this algorithm does not perform any lookahead or backtracking in order to
 
 As it stands, the algorithm does not avoid widowed or orphaned lines, nor single lines directly before or after floats. This can be seen clearly in Figure~\ref{fig:example-ereader} at the top of the fourth page, where the float has spanned both columns and taken up all the space on the page, with the exception of one line at the top of each column. It would not be too difficult to add a constraint that states that single lines of text at the top or bottom of the page should never be allowed, which could be enforced by leaving extra lines blank, pushing the text forward, though it is possible that this may harm the balance of the page if it causes columns to have uneven lengths.
 
-\begin{figure}
-\begin{center}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.47\textwidth]{gfx/p1}}\hspace{0.01\textwidth}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.47\textwidth]{gfx/p2}}
-
-\vspace{0.2in}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.47\textwidth]{gfx/p3}}\hspace{0.01\textwidth}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.47\textwidth]{gfx/p4}}
-\end{center}
-\caption[A sample of document layout]{\cite{Pinkney2011} laid out by the malleable document system, running in Mozilla Firefox. The page size has been selected to resemble that of A4 paper in a portrait orientation.}
-\label{fig:example-portrait}
-\end{figure}
-
-\begin{sidewaysfigure}
-\begin{center}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.45\textwidth]{gfx/q1}}\hspace{0.05\textwidth}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.45\textwidth]{gfx/q2}}
-
-\vspace{0.2in}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.45\textwidth]{gfx/q3}}\hspace{0.05\textwidth}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.45\textwidth]{gfx/q4}}
-\end{center}
-\caption[A sample of document layout]{\cite{Pinkney2011} laid out by the malleable document system, running in Mozilla Firefox. The page size has been selected to resemble that of A4 paper in a landscape orientation.}
-\label{fig:example-landscape}
-\end{sidewaysfigure}
-
-\begin{figure}
-\begin{center}
-\newlength{\imgwid} \setlength{\imgwid}{0.29\textwidth}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/r1}}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/r2}}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/r3}}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/r4}}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/r5}}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/r6}}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/r7}}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/r8}}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/r9}}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/r10}}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/r11}}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/r12}}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/r13}}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/r14}}
-\end{center}
-\caption[A sample of document layout]{\cite{Pinkney2011} laid out by the malleable document system, running in Mozilla Firefox. The page size has been selected to resemble that of an \ebook{} reader in a portrait orientation.}
-\label{fig:example-ereader}
-\end{figure}
-
-\begin{figure}
-\begin{center}
-\fbox{\includegraphics[trim=0.1in 2in 0.1in 1in, clip=true, width=0.47\textwidth]{gfx/pbb11-1}}\hspace{0.01\textwidth}
-\fbox{\includegraphics[trim=0.1in 2in 0.1in 1in, clip=true, width=0.47\textwidth]{gfx/pbb11-2}}
-
-\vspace{0.2in}
-\fbox{\includegraphics[trim=0.1in 2in 0.1in 1in, clip=true, width=0.47\textwidth]{gfx/pbb11-3}}\hspace{0.01\textwidth}
-\fbox{\includegraphics[trim=0.1in 2in 0.1in 1in, clip=true, width=0.47\textwidth]{gfx/pbb11-4}}
-\end{center}
-\caption[A document laid out by \LaTeX]{\cite{Pinkney2011} as rendered by \LaTeX. The layout is very similar to that shown in Figure~\ref{fig:example-portrait}, though \LaTeX{} favours placing floats at the top of columns, rather than directly at their logical position.}
-\label{fig:example-latex}
-\end{figure}
-
-\begin{figure}
-\begin{center}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.47\textwidth]{gfx/html1}}\hspace{0.01\textwidth}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.47\textwidth]{gfx/html2}}
-
-\vspace{0.2in}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.47\textwidth]{gfx/html3}}\hspace{0.01\textwidth}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.47\textwidth]{gfx/html4}}
-\end{center}
-\caption[A document laid out by Mozilla Firefox]{\gls{html} version of \cite{Pinkney2011}, as rendered by Mozilla Firefox, scaled to fit multiple screen sizes. Though \gls{html} can stretch to any screen size, it tends to produce typographically inferior results, for example lines that are too long, or line breaking that results in extremely uneven spacing between adjacent lines.}
-\label{fig:example-html}
-\end{figure}
-
-\todo{Put android screenshots here}
+\todo{link to appendix for sample layouts}
 
 \subsection{Measures of Aesthetic Quality}
 In their 2004 paper, Harrington et al.\hspace{0pt}\cite{Harrington2004} identified nine aesthetic measures for automated document layout. A number of these measures (alignment, regularity, uniform separation, white-space free-flow, uniformity) are inherently well satisfied by this system, due to its use of a grid to provide regular layout. 
@@ -207,9 +133,25 @@ In their 2004 paper, Harrington et al.\hspace{0pt}\cite{Harrington2004} identifi
 
 In order to establish the most appropriate range of galleys to include in a malleable document, as discussed in Section~\ref{sec:inc-renderings}, a user study was conducted. This was also used as a chance to get some general feedback about the malleable document system from a wide range of real-world users.
 
+\todo{the following}
+
+* state rationale, number of respondents etc (overview)
+
+* state questions \& intentions from them
+
+* state method of comparing different variants
+
+* state reasoning behind choice of renderings (cite chapter 2)
+
+* Mention extra data recorded
+
+* Pick some decent comments
+
+* Pick some interesting stats from tScreenSize
 
 
-\begin{sidewaystable}
+
+\begin{table}
   \footnotesize
   \myfloatalign
   \begin{tabular}{ccccccccccc}
@@ -226,7 +168,7 @@ In order to establish the most appropriate range of galleys to include in a mall
 \end{tabular}
   \caption[Short Caption]{Long Caption}
   \label{tab:studyavgs}
-\end{sidewaystable}
+\end{table}
 
 \begin{sidewaysfigure}
   \begin{center}
