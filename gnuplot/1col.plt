@@ -7,4 +7,4 @@ set xlabel "Page width (as a multiple of galley width)"
 set ylabel "Additional horizontal whitespace\n(as a multiple of galley width)"
 set yrange [0:1.2]
 
-plot [0:20] x - floor(x) title "absolute", (x - floor(x)) / floor(x) title "per column" lc rgb "#0000FF"
+plot [0:10] x - floor(x) title "absolute", (x - floor(x)) / floor(x) title "per column" lc rgb "#0000FF"
