@@ -21,15 +21,16 @@
 % \end{itemize}
 
 \summary{
-The system described in Chapter~\ref{ch:malleable} supports only simple documents that are composed solely from text. Most documents contain figures, diagrams, illustrations, or tables, and so we must give consideration towards how these should be handled. In this chapter, we extend the work of the previous chapter to allow floatable graphical blocks, whose absolute position within a document's text may vary depending upon the layout.
+The system described in Chapter~\ref{ch:malleable} supports only simple documents that are composed solely from text. Most documents contain figures, diagrams, illustrations, or tables, and so we must give consideration towards how these should be handled.
 
-Furthermore, we reimplement the system described in the previous chapter, moving away from \pdf{} and Adobe Acrobat, towards a more system based in \html{}, \css{} and JavaScript that is much more portable and as such can be used on ebook hardware.
+In this chapter, we extend the work of the previous chapter to allow floatable graphical blocks, whose absolute position within a document's text may vary depending upon the layout.
+
+Furthermore, we reimplement the system described in the previous chapter, moving away from \pdf{} and Adobe Acrobat, towards a new system based in \html{}, \css{} and JavaScript that is much more portable and as such can be used on ebook hardware.
 }
 
 %\section{Implementation}
 
 The implementation of the system described in the previous chapter is deeply rooted within \gls{pdf}, and requires a custom-written plugin for Adobe Acrobat (see Section~\ref{sec:acroplugin}) to view the documents. Consequently, it is difficult to test that particular implementation on any device that is not running Microsoft Windows and does not have a fully licensed version of Adobe Acrobat, which effectively rules out any mobile \ebook{} readers.
-
 Almost all \ebook{} readers support the \epub{} format,\marginpar{Amazon's \emph{Kindle} is one of the few contemporary devices that do not support \epub{}} which is principally built upon \html{}, \css{}, and JavaScript. With this in mind, it was decided that the system should be  reimplemented using these technologies, in order that it could be deployed on \ebook{} hardware. 
 
 
@@ -37,9 +38,9 @@ Almost all \ebook{} readers support the \epub{} format,\marginpar{Amazon's \emph
 \section{Document Generation}
 \label{sec:docgen}
 
-In the system described in the previous chapter, the generation of malleable documents was a rather labour-intensive process, involving the processing of the source document through \ditroff{} and \pdfdit{}. In the case of documents with galleys of more than one width, modifications needed to be made, by hand, to the Galley Structure Tree of the resultant \gls{pdf} files.
+%In the system described in the previous chapter, the generation of malleable documents was a rather labour-intensive process, involving the processing of the source document through \ditroff{} and \pdfdit{}. In the case of documents with galleys of more than one width, modifications needed to be made, by hand, to the Galley Structure Tree of the resultant \gls{pdf} files.
 
-Adding or removing characters to the source of a \gls{pdf} file is no trivial matter, since the \textsc{xref} table, which stores the byte offset of every \gls{COSObject} within a \gls{pdf} file, is no longer valid. (Acrobat does kindly offer to fix this problem if it detects it, but it has the side effect of discarding any \gls{pdf} data that it does not recognise, presumably in the name of optimisation. Clearly losing the Galley Structure Tree is undesirable.) The \textsc{xref} table can either be fixed programatically, or by a painstaking process involving a hex editor and a lot of patience. 
+%Adding or removing characters to the source of a \gls{pdf} file is no trivial matter, since the \textsc{xref} table, which stores the byte offset of every \gls{COSObject} within a \gls{pdf} file, is no longer valid. (Acrobat does kindly offer to fix this problem if it detects it, but it has the side effect of discarding any \gls{pdf} data that it does not recognise, presumably in the name of optimisation. Clearly losing the Galley Structure Tree is undesirable.) The \textsc{xref} table can either be fixed programatically, or by a painstaking process involving a hex editor and a lot of patience. 
 
 Since the new system no longer relies on \gls{cog}-\gls{pdf}, the reliance on \troff{} and \pdfdit{} is no longer present. Consequently, a sensible approach is to produce a completely bespoke typesetting tool, allowing unneeded features to be removed, together with the provision of some finer-grained control over other aspects. For example, it is important for this system that the the line-breaking and hyphenation algorithms can easily be changed.
 
@@ -82,11 +83,11 @@ is serialised, replete with COGs and content tree.
 \end{lstlisting}
 
 
-Next, the source document is passed through a program (which will henceforth be referred to as the \emph{Paragraph Splitter}) to produce the output that becomes the malleable document itself.
+Next, the source document is passed through a program termed the \emph{Paragraph Splitter} to produce the output that becomes the malleable document itself.
 
-The Paragraph Splitter passes the text of each paragraph through an implementation of a line-breaking algorithm. The Knuth-Plass algorithm\hspace{0pt}\cite{Knuth1981} was used by the Paragaph Splitter instance that produced the layouts shown in Appendix~\ref{app:layouts}, though this can easily be replaced by any other line-breaking algorithm.
+The Paragraph Splitter passes the text of each paragraph through an implementation of a line-breaking algorithm. The Knuth-Plass algorithm\hspace{0pt}\cite{Knuth1981} was used by the Paragaph Splitter instance that produced the layouts shown in Appendix~\ref{app:layouts}, though it is trivial to replace this with any other line-breaking algorithm.
 
-Each paragraph is rendered multiple times, once for each galley width, in order to produce the document's multiple galley renderings. Each line of each rendering of every paragraph is converted into a list of its composite words. All of these words have an associated position offset value, which is later used when drawing the text, to ensure that each word is positioned on the line with the correct spacing. The general algorithm used is given in Listing~\ref{lst:parsplitter}.
+Each paragraph is rendered multiple times, once for each galley width, in order to produce the document's multiple galley renderings. Each line of each rendering of every paragraph is converted into a list of its composite words. All of these words have an associated position offset value (as shown in Listing~\ref{lst:datajs}) which is later used when drawing the text, to ensure that each word is positioned on the line with the correct spacing. The general algorithm used is given in Listing~\ref{lst:parsplitter}.
 
 
 \begin{lstlisting}[label=lst:parsplitter,language=c,captionpos=b,float,basicstyle=\ttfamily\footnotesize,caption={[Algorithm used by the Paragraph Splitter]The algorithm followed by the Paragraph Splitter. Firstly the source of the document is parsed to break it into its initial logical blocks: one block per paragraph and one block per float, in the order encountered in the document source. These blocks are then processed further depending on their type. Floats may be probed for their pixel dimensions if no size was specified, and are then added to the Galley Structure Tree. Paragraphs have their content passed through a line breaking algorithm, once for each specified width.}]
@@ -181,7 +182,7 @@ Finally, once the whole of the source document has been processed, the rendered 
 In order to circumvent the web browser's default text-layout algorithm, and to ensure that the ``high quality'' pre-computed text layout is used, the absolute position of every word on each line must be specified, in a manner not dissimilar to the internals of a PDF file. The Paragraph Splitter described in the previous section ensures that all the information needed to lay out the text is contained within the generated \gls{json} string representing the Galley Structure Tree.
 
 
-When the viewer is launched, it decides which is the most appropriate galley rendering to display, based on a metric of which rendering will be most aesthetically pleasing. Since it works well, the metric defined in Chapter~\ref{ch:malleable} is used, which attempts to balance a penalty for excessive inter-column whitespace against a penalty for too many columns.
+When the viewer is launched, it decides which is the most appropriate galley rendering to display, based on a metric of which rendering will be most aesthetically pleasing. Since it works well, the metric defined in Chapter~\ref{ch:malleable} is used, which balances a penalty for excessive inter-column whitespace against a penalty for too many columns.
 
 Although every galley is rendered in the same point size, this can be scaled up or down at view-time, based on the preference of the user, to simulate point-size changes. All dimensions other than the page size, such as the gaps between words, are scaled proportionally, to allow the text to remain correctly justified.
 
@@ -190,7 +191,7 @@ Although every galley is rendered in the same point size, this can be scaled up 
 
 \subsection{Floats with a Queue}
 \label{sec:floatqueue}
-The first approach taken towards supporting floats took inspiration from \TeX, which places floats into a queue until it finds somewhere it deems appropriate to place the first float. In order to emulate this, two queues were defined: the \emph{float queue}, and the \emph{line queue}.
+The first approach taken towards supporting floats took inspiration from \TeX, which places floats into a queue until it finds somewhere it deems appropriate to place the first float.\hspace{0pt}\cite{Plass1981, Knuth1984} In order to emulate this, two queues were defined: the \emph{float queue}, and the \emph{line queue}.
 
 
 If both queues are empty, as they will be at the start of the layout process, the Galley Structure Tree is traversed, and when the first paragraph-level item (see figure~\ref{fig:tree}) is encountered, its subcomponents (of the chosen galley rendering) are added to the requisite queue: lines to the line queue, and floats to the float queue.
@@ -259,7 +260,7 @@ The first option is clearly not ideal behaviour, given that shrinking a float ma
 
 The second option (delaying placement until the following page) is a reasonable compromise, though it will increase float-drift (whereby floats become separated from their callout points in the text), which again is not ideal.
 
-The third option (backtracking and shunting) is likely to produce the most desirable output, although some computational overhead will be added. One approach is simply to check whether there is enough space immediately to the left (specifically a gap between other, already placed, floats) into which the current float can be placed, with the displaced lines of text being shunted forwards. This method will not produce layouts as optimal as methods that use full backtracking and check all possibilities, but will run in much quicker time. A combination of all three of the above options is likely to work best in practice, but this is beyond the scope of this thesis.
+The third option (backtracking and shunting) is likely to produce the most desirable output, although some computational overhead will be added. One approach is simply to check whether there is enough space immediately to the left (specifically a gap between other, already placed, floats) into which the current float can be placed, with the displaced lines of text being shunted forwards. This method will not produce layouts as optimal as methods that use full backtracking and check all possibilities, but will run in much quicker time. A combination of all three of the above options is likely to work best in practice.
 
 
 % \todo{Actually implement some of these pagination schemes, and write something intelligent-sounding about it. Provide some example output (screenshots).}
