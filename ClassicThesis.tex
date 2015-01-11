@@ -71,6 +71,8 @@
     {.}{{{\color{BrickRed}.}}}1
 }
 
+\includeonly{Chapters/ChapterAnalysis,Chapters/ChapterEvaluation,Chapters/ChapterAppendix,FrontBackmatter/Bibliography}
+
 \begin{document}
 \frenchspacing
 \raggedbottom
@@ -131,6 +133,10 @@
 \onehalfspacing
 \include{FrontBackmatter/Bibliography}
 
+\cleardoublepage
+\markboth{\spacedlowsmallcaps{Glossary}}{\spacedlowsmallcaps{Glossary}}
+\printglossaries
+
 % ********************************************************************
 % Backmatter
 %*******************************************************
@@ -142,9 +148,7 @@
 %********************************************************************
 % Other Stuff in the Back
 %*******************************************************
-\markboth{\spacedlowsmallcaps{Glossary}}{\spacedlowsmallcaps{Glossary}}
-\printglossaries
-\newpage
+\cleardoublepage
 \include{FrontBackmatter/Colophon}
 %\include{FrontBackmatter/Declaration}
 % ********************************************************************
