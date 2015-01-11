@@ -39,38 +39,59 @@ This is the full rendering of a reasonably short document (the Wikipedia entry f
 \emph{the layout data of the document itself}
 %\lstinputlisting[nolol,language=c,tabsize=4,stringstyle=\color{blue},basicstyle=\ttfamily\tiny]{..//JSReflow/butterley.js}
 
+
+
+
+
+
 \cleardoublepage
 \chapter{Sample Layouts}
 \label{app:layouts}
-\begin{figure}
+
+\section{Layout by the Malleable Document System}
+
+\newlength{\imgwid}
+
+\subsection{Rendered by Mozilla Firefox}
+\label{app:layout-ff}
+
+\cite{Pinkney2011} laid out by the malleable document system, running in Mozilla Firefox. The page size has been selected to resemble that of A4 paper in a portrait orientation.
+
 \begin{center}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.47\textwidth]{gfx/p1}}\hspace{0.01\textwidth}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.47\textwidth]{gfx/p2}}
+\setlength{\imgwid}{0.47\textwidth}
+\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/p1}}\hspace{0.01\textwidth}
+\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/p2}}
 
 \vspace{0.2in}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.47\textwidth]{gfx/p3}}\hspace{0.01\textwidth}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.47\textwidth]{gfx/p4}}
+\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/p3}}\hspace{0.01\textwidth}
+\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/p4}}
 \end{center}
-\caption[A sample of document layout]{\cite{Pinkney2011} laid out by the malleable document system, running in Mozilla Firefox. The page size has been selected to resemble that of A4 paper in a portrait orientation.}
-\label{fig:example-portrait}
-\end{figure}
 
-\begin{sidewaysfigure}
+
+\clearpage
+
+
+\cite{Pinkney2011} laid out by the malleable document system, running in Mozilla Firefox. The page size has been selected to resemble that of A4 paper in a landscape orientation.
+
 \begin{center}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.45\textwidth]{gfx/q1}}\hspace{0.05\textwidth}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.45\textwidth]{gfx/q2}}
+\setlength{\imgwid}{0.45\textwidth}
+\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, angle=90, width=\imgwid]{gfx/q2}}\hspace{0.05\textwidth}
+\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, angle=90, width=\imgwid]{gfx/q4}}
 
 \vspace{0.2in}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.45\textwidth]{gfx/q3}}\hspace{0.05\textwidth}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.45\textwidth]{gfx/q4}}
+\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, angle=90, width=\imgwid]{gfx/q1}}\hspace{0.05\textwidth}
+\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, angle=90, width=\imgwid]{gfx/q3}}
 \end{center}
-\caption[A sample of document layout]{\cite{Pinkney2011} laid out by the malleable document system, running in Mozilla Firefox. The page size has been selected to resemble that of A4 paper in a landscape orientation.}
-\label{fig:example-landscape}
-\end{sidewaysfigure}
 
-\begin{figure}
+
+\clearpage
+
+
+\cite{Pinkney2011} laid out by the malleable document system, running in Mozilla Firefox. The page size has been selected to resemble that of an \ebook{} reader in a portrait orientation.
+
+\label{app:p:layout-ff-ereader}
 \begin{center}
-\newlength{\imgwid} \setlength{\imgwid}{0.29\textwidth}
+\setlength{\imgwid}{0.26\textwidth}
 \fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/r1}}
 \fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/r2}}
 \fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/r3}}
@@ -86,34 +107,94 @@ This is the full rendering of a reasonably short document (the Wikipedia entry f
 \fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/r13}}
 \fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/r14}}
 \end{center}
-\caption[A sample of document layout]{\cite{Pinkney2011} laid out by the malleable document system, running in Mozilla Firefox. The page size has been selected to resemble that of an \ebook{} reader in a portrait orientation.}
-\label{fig:example-ereader}
-\end{figure}
 
-\begin{figure}
+
+\clearpage
+
+
+\subsection{Chrome on an Android Phone}
+\label{app:layout-android}
+
+
+\cite{Pinkney2011} laid out by the malleable document system, running in Chrome on an Android phone. This example shows a point size that is a little on the small side, but is still readable.
+
 \begin{center}
-\fbox{\includegraphics[trim=0.1in 2in 0.1in 1in, clip=true, width=0.47\textwidth]{gfx/pbb11-1}}\hspace{0.01\textwidth}
-\fbox{\includegraphics[trim=0.1in 2in 0.1in 1in, clip=true, width=0.47\textwidth]{gfx/pbb11-2}}
+\setlength{\imgwid}{0.3\textwidth}
+\fbox{\includegraphics[width=\imgwid]{gfx/n5_1_01}}
+\fbox{\includegraphics[width=\imgwid]{gfx/n5_1_02}}
+\fbox{\includegraphics[width=\imgwid]{gfx/n5_1_03}}
+\fbox{\includegraphics[width=\imgwid]{gfx/n5_1_04}}
+\fbox{\includegraphics[width=\imgwid]{gfx/n5_1_05}}
+\fbox{\includegraphics[width=\imgwid]{gfx/n5_1_06}}
+\fbox{\includegraphics[width=\imgwid]{gfx/n5_1_07}}
+\fbox{\includegraphics[width=\imgwid]{gfx/n5_1_08}}
+\end{center}
+ 
+
+\clearpage
+
+\cite{Pinkney2011} laid out by the malleable document system, running in Chrome on an Android phone, in portrait and in landscape. This example uses a point size that is likely to be readable by a greater range of people. For brevity's sake, only the first three pages of each rendering are shown.
+
+\begin{center}
+\setlength{\imgwid}{0.3\textwidth}
+\fbox{\includegraphics[width=\imgwid]{gfx/n5_p_1}}
+\fbox{\includegraphics[width=\imgwid]{gfx/n5_p_2}}
+\fbox{\includegraphics[width=\imgwid]{gfx/n5_p_3}}
+
+\vspace{2em}
+
+\fbox{\includegraphics[height=\imgwid]{gfx/n5_l_1}}
+\fbox{\includegraphics[height=\imgwid]{gfx/n5_l_2}}
+\fbox{\includegraphics[height=\imgwid]{gfx/n5_l_3}}
+\end{center}
+
+
+\clearpage
+
+
+\subsection{Safari on an iPad}
+\label{app:layout-ipad}
+\todo{screenshots here}
+
+
+\clearpage
+
+
+\section{Other systems}
+\label{app:layout-other}
+
+\subsection{\LaTeX}
+
+\cite{Pinkney2011} as rendered by \LaTeX. The layout is very similar to that produced by the malleable document system (see \ref{app:layout-ff}) though \LaTeX{} favours placing floats at the top of columns, rather than directly at their logical position.
+
+\begin{center}
+\setlength{\imgwid}{0.47\textwidth}
+\fbox{\includegraphics[trim=0.1in 2in 0.1in 1in, clip=true, width=\imgwid]{gfx/pbb11-1}}\hspace{0.01\textwidth}
+\fbox{\includegraphics[trim=0.1in 2in 0.1in 1in, clip=true, width=\imgwid]{gfx/pbb11-2}}
 
 \vspace{0.2in}
-\fbox{\includegraphics[trim=0.1in 2in 0.1in 1in, clip=true, width=0.47\textwidth]{gfx/pbb11-3}}\hspace{0.01\textwidth}
-\fbox{\includegraphics[trim=0.1in 2in 0.1in 1in, clip=true, width=0.47\textwidth]{gfx/pbb11-4}}
+\fbox{\includegraphics[trim=0.1in 2in 0.1in 1in, clip=true, width=\imgwid]{gfx/pbb11-3}}\hspace{0.01\textwidth}
+\fbox{\includegraphics[trim=0.1in 2in 0.1in 1in, clip=true, width=\imgwid]{gfx/pbb11-4}}
 \end{center}
-\caption[A document laid out by \LaTeX]{\cite{Pinkney2011} as rendered by \LaTeX. The layout is very similar to that shown in Figure~\ref{fig:example-portrait}, though \LaTeX{} favours placing floats at the top of columns, rather than directly at their logical position.}
-\label{fig:example-latex}
-\end{figure}
 
-\begin{figure}
+
+
+\clearpage
+
+
+
+\subsection{\textsc{html}}
+
+\gls{html} version of \cite{Pinkney2011}, as rendered by Mozilla Firefox, scaled to fit multiple screen sizes. Though \gls{html} can stretch to any screen size, it tends to produce typographically inferior results, for example lines that are too long, or line breaking that results in extremely uneven spacing between adjacent lines.
+
 \begin{center}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.47\textwidth]{gfx/html1}}\hspace{0.01\textwidth}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.47\textwidth]{gfx/html2}}
+\setlength{\imgwid}{0.47\textwidth}
+\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/html1}}\hspace{0.01\textwidth}
+\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/html2}}
 
 \vspace{0.2in}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.47\textwidth]{gfx/html3}}\hspace{0.01\textwidth}
-\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=0.47\textwidth]{gfx/html4}}
+\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/html3}}\hspace{0.01\textwidth}
+\fbox{\includegraphics[trim=0in 0in 0in 1.2in, clip=true, width=\imgwid]{gfx/html4}}
 \end{center}
-\caption[A document laid out by Mozilla Firefox]{\gls{html} version of \cite{Pinkney2011}, as rendered by Mozilla Firefox, scaled to fit multiple screen sizes. Though \gls{html} can stretch to any screen size, it tends to produce typographically inferior results, for example lines that are too long, or line breaking that results in extremely uneven spacing between adjacent lines.}
-\label{fig:example-html}
-\end{figure}
 
-\todo{Put android screenshots here}
+
