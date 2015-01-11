@@ -1,14 +1,14 @@
 \chapter{Analysis}\label{ch:analysis}
 
 \summary{
-We have now devised a fully-fledged document layout system that works across many platforms. In this chapter we analyse the system both quantitatively and qualitatively to answer the question, ``is it any good?''
+We have now devised a fully-fledged document layout system that works across many platforms. In this chapter we analyse the system both quantitatively and qualitatively to answer the question: ``is it any good?''
 }
 
 %\section{View-time Operations}
 
 \section{Quantitative}
 
-Chapter~\ref{ch:intro} (and in particular Section~\ref{sec:goodtypesetting}) provides an overview of some of the operations required when laying out a document. This chapter goes into a little more detail, and contrasts the operations required to view fixed and flowable documents against the operations required to view malleable documents.
+Chapter~\ref{ch:intro} (and in particular Section~\ref{sec:goodtypesetting}) provides an overview of some of the operations required when laying out a document. This section examines this in further depth, and contrasts the operations required to view fixed and flowable documents against the operations required to view malleable documents.
 
 \subsection{Fixed Document Formats}
 Documents in a fixed format are rendered in a manner similar to the following:
@@ -21,7 +21,7 @@ foreach (layout instruction) {
 paint the results to the screen;
 \end{lstlisting}
 }
-Crucially, the layout instructions are declarative, and do not permit computation, which ensures that the document is always rendered identically.\hspace{0pt}\cite{Bagley2007}
+With the notable exception of PostScript, which is turing complete, the majority of fixed document formats have only declarative layout instructions, and do not permit computation. This helps ensure that the document is always rendered identically.\hspace{0pt}\cite{Bagley2007}
 
 \newpage
 \subsection{Flowable Document Formats}
@@ -75,7 +75,7 @@ Then, using the galley rendering that has the lowest penalty, the content is lai
 
 {\singlespacing
 \begin{lstlisting}
-foreach (paragraph-level item in selected galley rendering){
+foreach (paragraph-level item in selected galley rendering) {
     foreach (line-level item in paragraph) {
         use precomputed data to place words;
     }
@@ -86,15 +86,14 @@ paint the results to the screen;
 Crucially, a number of complex steps have been moved from view-time to compile-time (as they are for fixed-format documents) but without flowability being sacrificed:
 \begin{itemize}
  \item The source is already parsed into a form optimised for layout
- \item The line-breaking algorithm has been entirely precomputed
+ \item The line-breaking has been entirely precomputed
 \end{itemize}
 One step has been added: each included galley rendering must be examined once before layout, in order to ascertain its ``penalty'' for use. The penalty is based entirely on the width of the page, and the \gls{measure} (width) of the galley rendering.%, and is described in more detail in Section~\ref{sec:layout}.
 
 This penalty is calculated by taking the extra required horizontal whitespace (which can be envisaged as slack between columns) and weighting this to further penalise large numbers of columns. This weighting is achieved by multiplying by a smaller-than-linear function of the number of columns, such as a square root or logarithm.
 
-Many low-power processors do not come with floating-point hardware as standard (for example the \textsc{arm} range of processors) which might suggest that these are poor choices of functions since they must be emulated using integer and bitwise operations only. This is not particularly important, for a number of reasons. Firstly, it has been shown previously\hspace{0pt}\cite{Lomont2003} that it is often possible to use mathematical analysis to find extremely good approximations for such functions. Secondly, the range of inputs to such a function would be limited to integers ranging from 1 to (in an extreme case) about 20, so the values could be pre-computed and stored in a lookup table. Thirdly, the penalty (and hence the root or logarithm) is calculated precisely once for each included galley rendering: in section~\ref{sec:inc-renderings} it is suggested that between three and seven galley renderings should be included in any one document. Given these facts, it is clear that there should be little impact from using such a function in the penalty calculation.
+Many low-power processors do not come with floating-point hardware as standard (for example the \textsc{arm} range of processors) which might suggest that these are poor choices of functions since they must be emulated using integer and bitwise operations only. This is not particularly important, for a number of reasons. Firstly, it has been shown previously\hspace{0pt}\cite{Lomont2003} that it is often possible to use mathematical analysis to find extremely good approximations for such functions. Secondly, the range of inputs to such a function would be limited to integers ranging from 1 to (in an extreme case) about 20, so the values could be pre-computed and stored in a lookup table. Thirdly, the penalty (and hence the root or logarithm) is calculated precisely once for each included galley rendering: in Sections \ref{sec:inc-renderings}~and~\ref{sec:survey} it is suggested that between three and ten galley renderings should be included in any one document. Given these facts, it is clear that there should be little impact from using such a function in the penalty calculation.
 
-\vspace{2em}
 
 Most importantly, since the line-breaking algorithm has been moved to compile-time, there is no longer any requirement to limit its complexity. In fact, should the need (or desire) arise, the text layout can be hand-tuned, or \emph{entirely hand-typeset}, with no consequences at view-time.
 
@@ -105,32 +104,36 @@ The grid-based layout system devised in Section~\ref{sec:gridlayout} works in a 
 
 In the worst case, this algorithm does have a greater-than-linear time complexity. In practice, so long as the number of floats does not become excessive (which would cause the grid to be walked many times to search for suitably large gaps) the algorithm runs in linear time.
 
-The placement of floats is subject to certain constraints: they must span integer multiples of columns, and can only be placed aligned to grid cells. This is very different to the model used for floats in \gls{html}, whereby floats may be positioned arbitrarily, and text flowed around them. Although a little more restrictive than \gls{html}, this system is capable of producing layouts that lend themselves to many types of document that are likely to be read on \ebook{} readers. The next chapter discusses this in more detail.
+The placement of floats is subject to certain constraints: they must span integer multiples of columns, and can only be placed aligned to grid cells. This is very different to the model used for floats in \gls{html}, whereby floats may be positioned arbitrarily, and text flowed around them. Although a little more restrictive than \gls{html}, this system is capable of producing layouts that lend themselves to many types of document that are likely to be read on \ebook{} readers. This is discussed in more detail in the next section.
 
 
 \section{Qualitative}
 \label{sec:aesthetics}
 
 \subsection{Placement of Floats}
-Since all text layout is precomputed, the only remaining concern is that the columns of text and floats are laid out in a pleasing manner. Plass\hspace{0pt}\cite{Plass1981} devised a system to perform optimal placement of floats within text, whereby float placement is penalised by the square of the distance from its intended position. He showed that this problem was NP-hard, but he also showed that a similar (but less ``optimal'') system using linear penalties could be made computationally tractable.
+Since all text layout is precomputed, the only remaining concern is that the columns of text and floats are laid out in a pleasing manner.
 
-Br\"uggemann-Klein et al.\hspace{0pt}\cite{Bruggemann-Klein1995} suggested that Plass's method is only optimal for a given definition of ``optimal''. They proposed that a superior metric for float placement is to minimise the number of page turns that a reader must perform when reading the document from front to back. This is a desirable characteristic for a pagination algorithm that runs on an \ebook{} reader, because page turns tend to be slow, particularly on devices with electronic paper displays. Unfortunately, the algorithm used runs in quadratic time, which limits its usefulness to this system.
+Plass\hspace{0pt}\cite{Plass1981} devised a system to perform optimal placement of floats within text, whereby float placement is penalised by the square of the distance from its intended position. He showed that this problem was NP-hard, but he also showed that a similar (but less ``optimal'') system using linear penalties could be made computationally tractable.
+
+Br\"uggemann-Klein et al.\hspace{0pt}\cite{Bruggemann-Klein1995} suggested that Plass's method is only optimal if one agrees with Plass's definition of ``optimal''. They proposed that a superior metric for float placement is to minimise the number of page turns that a reader must perform when reading the document from front to back. This is a desirable characteristic for a pagination algorithm that runs on an \ebook{} reader, because page turns tend to be slow, particularly on devices with electronic paper displays. Unfortunately, the algorithm used runs in quadratic time, which limits its usefulness to this system.
 
 In essence, the assumption that Plass's float placement algorithm produces the most optimal layouts may be slightly short-sighted: \emph{other pagination schemes are available!} Clearly, using a computationally intractable algorithm such as Plass's will have significant impact on the demand for computation at view-time. As with many facets of the system described in this thesis, the float placement algorithm was chosen with efficiency in mind.
 
-The float placement algorithm that has been developed for use with the malleable document system also attempts to minimise the distance between the actual and intended positioning of floats: if a float can be placed directly at its intended position, then it will be, otherwise it will be placed in the next available space. (Figure~\ref{fig:gridlayout} on page~\pageref{fig:gridlayout} demonstrates this process.)
+The float placement algorithm that has been developed for use with the malleable document system also aims to minimise the distance between the actual and intended positioning of floats: if a float can be placed directly at its intended position, then it will be, otherwise it will be placed in the next available space. (Figure~\ref{fig:floatlayout} on page~\pageref{fig:floatlayout} demonstrates this process.)
 
-Whilst this algorithm does not perform any lookahead or backtracking in order to place floats optimally, experiments have shown that in most cases, floats are placed directly in their intended positions or at the top of adjacent columns, and are only occasionally moved across page boundaries. Figures \ref{fig:example-portrait}, \ref{fig:example-landscape}, and~\ref{fig:example-ereader} show some examples of layouts produced using this algorithm, and Figures \ref{fig:example-latex} and~\ref{fig:example-html} show some comparative renderings of the same document, produced by \LaTeX{} and a web browser respectively. The output of the malleable document system looks very similar to that of \LaTeX, and very different from that of the web browser.
+Whilst this algorithm does not perform any lookahead or backtracking in order to place floats optimally, anecdotal evidence gained from using the system in practice has shown that in most cases, floats are placed directly in their intended positions or at the top of adjacent columns, and are rarely moved across page boundaries. Appendix~\ref{app:layouts} showcases some examples of layouts produced using this algorithm, alongside some comparative renderings of the same document, rendered in \LaTeX{} and \html{}. The output of the malleable document system looks very similar to that of \LaTeX, and very different from that of the web browser.
 
-As it stands, the algorithm does not avoid widowed or orphaned lines, nor single lines directly before or after floats. This can be seen clearly in Figure~\ref{fig:example-ereader} at the top of the fourth page, where the float has spanned both columns and taken up all the space on the page, with the exception of one line at the top of each column. It would not be too difficult to add a constraint that states that single lines of text at the top or bottom of the page should never be allowed, which could be enforced by leaving extra lines blank, pushing the text forward, though it is possible that this may harm the balance of the page if it causes columns to have uneven lengths.
+As it stands, the algorithm does not avoid widowed or orphaned lines, nor single lines directly before or after floats. This can be seen clearly in the example in Appendix~\ref{app:layout-ff} on the e-reader example (page~\pageref{app:p:layout-ff-ereader}) at the top of the fourth page, where the float has spanned both columns and taken up all the space on the page, with the exception of one line at the top of each column. It would not be too difficult to add a constraint that states that single lines of text at the top or bottom of the page should never be allowed, which could be enforced by leaving extra lines blank, pushing the text forward, though it is possible that this may harm the balance of the page if it causes columns to have uneven lengths.
 
 \todo{link to appendix for sample layouts}
 
 \subsection{Measures of Aesthetic Quality}
-In their 2004 paper, Harrington et al.\hspace{0pt}\cite{Harrington2004} identified nine aesthetic measures for automated document layout. A number of these measures (alignment, regularity, uniform separation, white-space free-flow, uniformity) are inherently well satisfied by this system, due to its use of a grid to provide regular layout. 
+In their 2004 paper, Harrington et al.\hspace{0pt}\cite{Harrington2004} identified nine aesthetic measures for automated document layout. A number of these measures (alignment, regularity, uniform separation, white-space free-flow, uniformity) are inherently well satisfied by this system, due to its use of a grid to provide regular layout.
+
+\todo{Expand the fuck out of this}
 
 \subsection{User Study}
-
+\label{sec:survey}
 In order to establish the most appropriate range of galleys to include in a malleable document, as discussed in Section~\ref{sec:inc-renderings}, a user study was conducted. This was also used as a chance to get some general feedback about the malleable document system from a wide range of real-world users.
 
 \todo{the following}
@@ -152,13 +155,13 @@ In order to establish the most appropriate range of galleys to include in a mall
 Please rate the following statements based on how closely you agree or disagree with them.
 
 For each, choose a number from 0 to 10, where 0 is "I strongly disagree", 5 is neutral, and 10 is "I strongly agree".
-\begin{itemize}
+\begin{enumerate}
 \item The document layouts produced were well-adapted to fit my screen.
 \item I could adequately customise the document layout to suit my personal reading preferences.
 \item I would preferentially choose a document layout system like this to read long text-based web pages.
 \item I would preferentially choose a document layout system like this to read PDFs.
 \item I would preferentially choose a document layout system like this to read ebooks.
-\end{itemize}
+\end{enumerate}
 
 
 \begin{table}
