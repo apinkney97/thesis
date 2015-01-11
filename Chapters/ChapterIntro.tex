@@ -4,17 +4,17 @@
 In this chapter we look in depth at the status quo of the electronic document world: we examine the hardware used to display documents, we examine the paradigms used to represent documents, we examine what is considered to be good typesetting, and then in the context of this information, we examine the limitations currently enforced upon us.
 }
 
-In the past five years, the surge in popularity of tablets and dedicated \ebook{} readers has vastly increased the sale and distribution of \ebook{}s. In August 2012, it was widely reported in the media that Amazon's Kindle Store sales were outstripping print book sales by 114 to 100.\hspace{0pt}\cite{hexus.net2012} This figure does not include free \ebook{}s ``sold'' through the Kindle Store, which would skew the figures significantly further.
+In the past five years, the surge in popularity of tablets and dedicated \ebook{} readers has vastly increased the sale and distribution of \ebook{}s. In August 2012, it was widely reported in the media\hspace{0pt}\cite{hexus.net2012} that Amazon's Kindle Store sales were outstripping print book sales by 114 to 100. This figure does not include free \ebook{}s ``sold'' through the Kindle Store, which would skew the figures significantly further.
 
-Project Gutenberg, a digital online library that (as of December 2014) hosts over 46,000 freely downloadable \ebook{}s, regularly exceeds 150,000 downloads \emph{per day}.\footnote{See \url{http://www.gutenberg.org/browse/scores/pretty-pictures} for up-to-date statistics.}
+Project Gutenberg, a digital online library that (as of January 2015) hosts over 46,000 freely downloadable \ebook{}s, regularly exceeds 150,000 downloads \emph{per day}.\footnote{See \url{http://www.gutenberg.org/browse/scores/pretty-pictures} for up-to-date statistics.}
 
 \Ebook{} readers have now become a commodity item, and although their displays are becoming increasingly print-like, the typography and formatting that they offer does not meet the high standards of traditionally typeset documents.
 
-Whilst at first glance this may not seem like a difficult problem to solve, the expectation that \ebook{}s should scale to fit many devices, and adapt to the reading preferences of many different users, makes it far from trivial, as we shall see further on in this chapter.
+Whilst at first glance this may not seem like a difficult problem to solve, the expectation that \ebook{}s should scale to fit many devices and adapt to the reading preferences of many different users makes it far from trivial, as we shall see further on in this chapter.
 
 \section{Devices}\marginpar{Amazon distributes software that allows Kindle format books to be read on Android and iOS tablets and smartphones, and on Windows and OS~X, in addition to its own range of Kindle hardware}
 
-In addition to dedicated \ebook{} readers, such as the Amazon Kindle and the Kobo eReader, many other devices, such as tablets, mobile phones, laptops, and desktop PCs, can be equipped to read \ebook{} files. Indeed, virtually every modern device with a screen can be equipped to read \ebook{}s.
+In addition to dedicated \ebook{} readers, such as the Amazon Kindle and the Kobo eReader, many other devices\ed such as tablets, mobile phones, laptops, and desktop PCs\ed can be equipped to read \ebook{} files. Indeed, virtually every modern device with a screen can be equipped to read \ebook{}s.
 
 The screen technologies used in these devices have vastly improved over the past decade or so, from the introduction of electronic paper displays that provide a reading experience very similar to that of real paper, to the enormous advances in \textsc{lcd} and \textsc{oled} screens, which now often have resolutions high enough that it is difficult to resolve individual pixels with the naked eye. Figure~\ref{fig:screens} shows some examples of document display technologies\ed note the visual similarity of the ``real'' print (Figure \ref{fig:scr:print} and~\ref{fig:scr:laser}) to the electronic paper displays (Figure \ref{fig:scr:kobo} and~\ref{fig:scr:kindle}).
 
@@ -30,7 +30,7 @@ As a consequence of this, \ebook{} file formats must be flexible enough that the
 
         \subfloat[][A \textsc{tft} \textsc{lcd} monitor]{\includegraphics[width=0.31\textwidth]{gfx/sc-tft1}} \hspace{1mm} 
         \subfloat[][Another \textsc{tft} \textsc{lcd} monitor]{\includegraphics[width=0.31\textwidth]{gfx/sc-tft2}} \hspace{1mm} 
-        \subfloat[][A \textsc{tft} \textsc{lcd} on a Kindle Fire HD]{\includegraphics[width=0.31\textwidth]{gfx/sc-fire}} 
+        \subfloat[][A \textsc{tft} \textsc{lcd} on a Kindle Fire HD tablet]{\includegraphics[width=0.31\textwidth]{gfx/sc-fire}} 
 
         \subfloat[][A Super \textsc{amoled} display on a Galaxy Nexus smartphone]{\includegraphics[width=0.31\textwidth]{gfx/sc-gnex}} \hspace{1mm} 
         \subfloat[][An electronic paper display on a Kobo eReader]{\includegraphics[width=0.31\textwidth]{gfx/sc-kobo}\label{fig:scr:kobo}} \hspace{1mm} 
@@ -38,7 +38,7 @@ As a consequence of this, \ebook{} file formats must be flexible enough that the
 
     \end{centering}
 
-    \caption[Examples of document display technologies]{Examples of some document display technologies, magnified about 25 times (top halves of images) and 350 times (bottom halves). Note that the resolutions of the screens in (f) and (g) are close to that of the microscope used to capture the image, hence the aliasing effect.}
+    \caption[Examples of document display technologies]{Examples of some document display technologies, magnified about 25 times (top halves of images) and 350 times (bottom halves). These images were all captured with a £25 \textsc{usb} microscope purchased from Amazon. Note that the resolutions of the screens in (f) and (g) are close to that of the microscope used to capture the image, hence the aliasing effect.}
     \label{fig:screens}
 \end{figure}
 
@@ -48,7 +48,7 @@ As a consequence of this, \ebook{} file formats must be flexible enough that the
 
 Generally speaking, the better the quality of a document's typography, the less it should be noticed by the reader. Good typography should be transparent, in order that the reader may concentrate upon the content of the document, rather than be distracted by its presentation.
 
-Many studies\hspace{0pt}\cite{Mittelbach1992,Hill1999,Bringhurst2008,Voorhees2011,Legge2011} conclude that the readability of text is inextricably linked to the quality of its typography. In particular, it is stated in \emph{The Magic of Reading}\hspace{0pt}\cite{Hill1999} that both regularity of whitespace between words and the evenness of line lengths are of importance\ed the only way to achieve this is to use a line-breaking algorithm that attempts to make line lengths as even as possible. Unfortunately, producing well-typeset text can be an extremely complex process.\hspace{0pt}\cite{Hurst2009}
+Many studies\hspace{0pt}\cite{Mittelbach1992,Hill1999,Bringhurst2008,Voorhees2011,Legge2011} conclude that the readability of text is inextricably linked to the quality of its typography. In particular, it is stated in \emph{The Magic of Reading}\hspace{0pt}\cite{Hill1999} that both regularity of whitespace between words and the evenness of line lengths are of importance\ed and the only way to achieve this is to use a line-breaking algorithm that attempts to make line lengths as even as possible. Unfortunately, producing well-typeset text can be an extremely complex process.\hspace{0pt}\cite{Hurst2009}
 
 
 \subsection{Hyphenation and Line-Breaking}
@@ -78,7 +78,7 @@ Knuth and Plass's line breaking algorithm, in conjunction with Liang's hyphenati
 
 \begin{figure}
  \fbox{\includegraphics[trim=1.8in 5.8in 3.4in 4.25in, clip=true, width=0.98\textwidth]{gfx/kerningetc}}
- \caption[Examples of microtypographical techniques]{Examples of various letter-pairs and their kerned (left) or ligature (right) equivalents, as typeset by pdf\LaTeX{}. Some further examples of fi ligatures (or not!) can be seen in Figure~\ref{fig:screens} on page~\ref{fig:screens}.}
+ \caption[Examples of microtypographical techniques]{Examples of various letter-pairs and their kerned (left) or ligature (right) equivalents, as typeset by pdf\LaTeX{}. Some further examples of fi ligatures (or not!) can be seen in Figure~\ref{fig:screens} on page~\pageref{fig:screens}.}
  \label{fig:kern-lig}
 \end{figure}
 
@@ -87,7 +87,7 @@ Knuth and Plass's line breaking algorithm, in conjunction with Liang's hyphenati
 \label{sec:microtypography}
 Other techniques employed during hand-type\-set\-t\-ing, and high-qua\-l\-ity electronic typesetting, include the use of what is often termed \emph{micro\-typo\-graphy},\hspace{0pt}\cite{Hurst2009} such as the use of kerning and ligatures. Kerning involves altering the spacing between certain glyph pairs in order to give the appearance of more consistent letter spacing, and ligatures are sin\-gle-glyph replacements for two or more single glyphs that may otherwise have had clashing components. Some examples of these are shown in Figure~\ref{fig:kern-lig}.
 
-\begin{lstlisting}[label=lst:kerntable,captionpos=b,float,basicstyle=\ttfamily\footnotesize,caption={[Excerpt from a kern table]An excerpt from a kern table for Times Roman, showing kern pairs beginning with \texttt{A} only. This is taken from an AFM (Adobe Font Metrics) file, where the units are (according to the specification\cite{ASI1998}) \emph{equal to 1/1000 of the scale factor (point size) of the font being used}.}]
+\begin{lstlisting}[label=lst:kerntable,captionpos=b,float,basicstyle=\ttfamily\footnotesize,caption={[Excerpt from a kern table]An excerpt from a kern table for Times Roman, showing kern pairs beginning with \texttt{A} only. This is taken from an AFM (Adobe Font Metrics) file, where the units are (according to the specification\cite{ASI1998}) ``\emph{equal to 1/1000 of the scale factor (point size) of the font being used}''.}]
 KPX A y -92
 KPX A w -92
 KPX A v -74
@@ -127,7 +127,7 @@ Currently there is no middle ground\ed a document may either be fully rendered t
 
 \subsection{Fixed Formats}
 \label{sec:fixedformats}
-The only fixed document format commonly used for \ebook{}s (or indeed commonly used at all) is \pdf{}, which was originally designed as a way of faithfully reproducing documents both on screen and in print.\hspace{0pt}\cite{Warnock1991} For this reason, it is almost entirely pre\-s\-en\-ta\-tion-oriented and will not necessarily include any metadata pertaining to the semantic structure of a given document.
+The only fixed document format commonly used for \ebook{}s (or indeed commonly used at all) is \pdf{},\hspace{0pt}\cite{ASI2001} which was originally designed as a way of faithfully reproducing documents both on screen and in print.\hspace{0pt}\cite{Warnock1991} For this reason, it is almost entirely pre\-s\-en\-ta\-tion-oriented and will not necessarily include any metadata pertaining to the semantic structure of a given document.
 
 The archetypal \pdf{} file consists solely of drawing operators that describe the document pages. There is no compulsion for these drawing operators to render the page in an order that might be considered sensible by a human reader. For example, if a \pdf{} generator program decided to render every character on a page in alphabetical order, or radially outwards from the centre, the resulting file would still be semantically valid, and the result would be imperceptible to the reader.
 
@@ -148,7 +148,7 @@ It would be inaccurate to state that \pdf{} files \emph{cannot} represent the se
 \subsection{Flowable Formats}
 \label{sec:flowableformats}
 
-The\marginpar{Amazon's proprietary Kindle format is derived from Mobipocket; \pdf{} and \epub{} are open standards} two most common flowable \ebook{} formats are \epub{} and Mobipocket, both of which are largely based on \html{}. \html{} was chosen not only because of its inherent support for reflow, but also because it allows document content to be semantically marked up into paragraphs, various levels of headers, and so on. At the time, this was an enormous improvement over \ebook{}s stored as plain text, which consequently had neither formatting nor semantic structure. 
+The\marginpar{Amazon's proprietary Kindle format is derived from Mobipocket; \pdf{} and \epub{} are open standards} two most common flowable \ebook{} formats are \epub{} and Mobipocket, both of which are largely based on \html{}.\hspace{0pt}\cite{IDPF2011} \html{} was chosen not only because of its inherent support for reflow, but also because it allows document content to be semantically marked up into paragraphs, various levels of headers, and so on. At the time, this was an enormous improvement over \ebook{}s stored as plain text, which consequently had neither formatting nor semantic structure. 
 
 Whilst the use of these \html{}-like formats allows the semantic structure of documents to be very well defined, in general their presentation can only be specified in a very loose manner. On an \ebook{} reader (or in \ebook{} reading software) the user is often presented with a choice of typefaces and point sizes, which gives the e-reader software some scope for rendering the document in arbitrary ways.
 
@@ -216,11 +216,11 @@ It is clearly time for a new document representation paradigm to be devised, in 
  % \item establish minimum no of galleys (and range) to fit ``most'' screen sizes
 % \end{itemize}
 
-In this thesis, such a novel document representation paradigm, geared towards use on portable devices, is proposed and implemented. The desired malleability is afforded to documents by precomputing key parts of the typesetting process, which allows their content to be gently coaxed to fit any page size, without needing to make any compromises the quality of their typography.
+In this thesis, such a novel document representation paradigm, geared towards use on portable devices, is proposed and implemented. The desired malleability is afforded to documents by precomputing key parts of the typesetting process, which allows their content to be gently coaxed to fit any page size, without needing to make any compromises in the quality of their typography.
 
-It is shown how the system can be extended from supporting straightforward sequential content to allowing ``floating'' blocks of varying sizes whose absolute placement is unimportant. With this addition, the system becomes capable of rendering its documents into layouts resembling those of newspapers, magazines, and academic journals.
+It is shown how the system can be extended from supporting straightforward sequential content to allowing ``floating'' blocks of varying sizes whose absolute placement is unimportant. With this addition, the system becomes capable of rendering its documents into layouts reminiscent of those of newspapers, magazines, and academic journals.
 
-Despite focusing mainly on reducing computational complexity at view-time, attention also must be paid to the filesize of the resultant documents, to ensure that space is not being wasted unnecessarily. To address this issue, a computationally-light compression scheme is developed.
+Despite focusing mainly on reducing computational complexity at view-time, attention also must be paid to the filesize of the resultant documents, to ensure that storage space is not being wasted unnecessarily. To address this issue, a computationally-light compression scheme is developed.
 
 
 
@@ -229,4 +229,4 @@ Despite focusing mainly on reducing computational complexity at view-time, atten
 
 To ensure maximum portability for a single codebase, the final implementation is designed to run within any modern JavaScript enabled web browser, and can therefore be used on virtually any modern web-enabled device, including desktops, mobiles, and tablets. However, for many devices, JavaScript running within a web browser will not be most efficient way to display text and images. Some other, more lightweight, native implementation tailored to the specific device will almost certainly provide a more computationally- and battery-efficient solution. Within this thesis, no attempt will be made to implement such a program, though all algorithms described herein are applicable to other languages and concrete implementations.
 
-Other aspects of the proposed system that will only partially be explored are those described in Sections \ref{sec:inc-renderings}~and~\ref{sec:layout}. These areas cover the more qualitative aspects: respectively, how to choose the range of galley renderings at document compile-time, and how to choose the ``best'' single galley rendering to display at document view-time. These two areas contain so many variables that fine-tuning them is almost a research project in itself (and certainly outside the author's area of expertise). On this basis, both the initial choice of range of renderings, and the algorithm to choose which rendering to show at view-time, were developed by trial and error by the author, in conjunction with a user study that provided feedback from a wider range of participants.
+Other aspects of the proposed system that will only partially be explored are those described in Sections \ref{sec:inc-renderings}~and~\ref{sec:layout}. These areas cover the more qualitative aspects: respectively, how to choose the range of galley renderings at document compile-time, and how to choose the ``best'' single galley rendering to display at document view-time. These two areas contain so many variables that fine-tuning them is almost a research project in itself. On this basis, both the initial choice of range of renderings, and the algorithm to choose which rendering to show at view-time, were developed by trial and error by the author, in conjunction with a user study that provided feedback from a wider range of participants.
