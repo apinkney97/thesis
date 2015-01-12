@@ -1,7 +1,7 @@
 \chapter{Analysis}\label{ch:analysis}
 
 \summary{
-We have now devised a fully-fledged document layout system that works across many platforms. In this chapter we analyse the system both quantitatively and qualitatively to answer the question: ``is it any good?''
+We have now devised a fully-fledged document layout system that works across many platforms. In this chapter we analyse the system both quantitatively and qualitatively to answer the question: is it any good?
 }
 
 %\section{View-time Operations}
@@ -21,7 +21,7 @@ foreach (layout instruction) {
 paint the results to the screen;
 \end{lstlisting}
 }
-With the notable exception of PostScript, which is turing complete, the majority of fixed document formats have only declarative layout instructions, and do not permit computation. This helps ensure that the document is always rendered identically.\hspace{0pt}\cite{Bagley2007}
+With the notable exception of PostScript, which is Turing complete, the majority of fixed document formats have only declarative layout instructions, and do not permit computation. This helps ensure that the document is always rendered identically.\hspace{0pt}\cite{Bagley2007}
 
 \newpage
 \subsection{Flowable Document Formats}
@@ -54,7 +54,7 @@ while (non-breakable items remain to be laid out) {
 \end{lstlisting}
 }
 
-As is noted in Section~\ref{sec:goodtypesetting}, first-fit algorithms do not generally result in well-typeset output. The simplest of these algorithms will not attempt to identify potential hyphenation points. More complex layout algorithms that search for ``optimal'' layouts usually require a considerable amount of backtracking.
+As is noted in Section~\ref{sec:goodtypesetting}, first-fit algorithms do not generally result in well-typeset output. The simplest of these algorithms will not attempt to identify potential hyphenation points. More complex layout algorithms that search for ``optimal'' layouts usually require a considerable amount of backtracking and are thus more computationally demanding.
 
 \newpage
 \subsection{Malleable Documents}
@@ -92,20 +92,23 @@ One step has been added: each included galley rendering must be examined once be
 
 This penalty is calculated by taking the extra required horizontal whitespace (which can be envisaged as slack between columns) and weighting this to further penalise large numbers of columns. This weighting is achieved by multiplying by a smaller-than-linear function of the number of columns, such as a square root or logarithm.
 
-Many low-power processors do not come with floating-point hardware as standard (for example the \textsc{arm} range of processors) which might suggest that these are poor choices of functions since they must be emulated using integer and bitwise operations only. This is not particularly important, for a number of reasons. Firstly, it has been shown previously\hspace{0pt}\cite{Lomont2003} that it is often possible to use mathematical analysis to find extremely good approximations for such functions. Secondly, the range of inputs to such a function would be limited to integers ranging from 1 to (in an extreme case) about 20, so the values could be pre-computed and stored in a lookup table. Thirdly, the penalty (and hence the root or logarithm) is calculated precisely once for each included galley rendering: in Sections \ref{sec:inc-renderings}~and~\ref{sec:survey} it is suggested that between three and ten galley renderings should be included in any one document. Given these facts, it is clear that there should be little impact from using such a function in the penalty calculation.
+Many low-power processors do not come with floating-point hardware as standard (for example the \textsc{arm} range of processors) which might suggest that these are poor choices of functions since they must be emulated using integer and bitwise operations only. This is not particularly important, for a number of reasons. Firstly, it has been shown previously\hspace{0pt}\cite{Lomont2003} that it is often possible to use mathematical analysis to find extremely good approximations for such functions. Secondly, the range of inputs to such a function would be limited to integers ranging from 1 to (in an extreme case) about 20, so the values could be pre-computed and stored in a lookup table. Thirdly, the penalty (and hence the root or logarithm) is calculated precisely once for each included galley rendering: in Sections \ref{sec:inc-renderings}~and~\ref{sec:survey} it is suggested that between three and ten galley renderings should be included in any one document. Given these facts, it is clear that there will be little impact from using such a function in the penalty calculation. In any case, as Don Knuth famously (and perhaps a little overdramatically) stated: ``\emph{premature optimization is the root of all evil}''.\hspace{0pt}\cite{Knuth1974}
 
 
 Most importantly, since the line-breaking algorithm has been moved to compile-time, there is no longer any requirement to limit its complexity. In fact, should the need (or desire) arise, the text layout can be hand-tuned, or \emph{entirely hand-typeset}, with no consequences at view-time.
 
 
 \subsection{Handling of Floats}
+\label{sec:quant-floats}
 
 The grid-based layout system devised in Section~\ref{sec:gridlayout} works in a similar manner to a first-fit line-breaking algorithm, in that it places elements on the page in order, in the first place they will fit. In the case of this system, each element is a floatable figure or line of text. Elements that are the same size as a single grid cell, such as lines of text set in the main point size, can simply be placed in the first empty slot in the current column, or the first empty slot in the next column, should there be no empty spaces.  For the placement of elements that are larger than a single grid cell, there is some overhead required to step through the grid until a suitable position can be found. Once a position has been found, each grid cell that it overlaps must be marked as being reserved.
 
 In the worst case, this algorithm does have a greater-than-linear time complexity. In practice, so long as the number of floats does not become excessive (which would cause the grid to be walked many times to search for suitably large gaps) the algorithm runs in linear time.
 
-The placement of floats is subject to certain constraints: they must span integer multiples of columns, and can only be placed aligned to grid cells. This is very different to the model used for floats in \gls{html}, whereby floats may be positioned arbitrarily, and text flowed around them. Although a little more restrictive than \gls{html}, this system is capable of producing layouts that lend themselves to many types of document that are likely to be read on \ebook{} readers. This is discussed in more detail in the next section.
+The placement of floats is subject to certain constraints: they must span integer multiples of columns, and can only be placed aligned to grid cells. This is very different to the model used for floats in \gls{html}, whereby floats may be positioned arbitrarily, and text flowed around them. The result of this imposed ``restrictiveness'' on float placement (in comparison with that of \gls{html}) is that the produced layouts are more regular and each produced document as a whole fits together much better.
 
+
+\newpage
 
 \section{Qualitative}
 \label{sec:aesthetics}
@@ -130,13 +133,13 @@ As it stands, the algorithm does not avoid widowed or orphaned lines, nor single
 \subsection{Measures of Aesthetic Quality}
 In their 2004 paper, Harrington et al.\hspace{0pt}\cite{Harrington2004} identified nine aesthetic measures for automated document layout. A number of these measures (alignment, regularity, uniform separation, white-space free-flow, uniformity) are inherently well satisfied by this system, due to its use of a grid to provide regular layout.
 
-\todo{Expand the fuck out of this}
+\todo{Expand this and link back to assertion at the end of \label{sec:quant-floats} (also probably link from there to here)}
 
 \subsection{User Study}
 \label{sec:survey}
 In order to establish the most appropriate range of galleys to include in a malleable document, as discussed in Section~\ref{sec:inc-renderings}, a user study was conducted. This was also used as a chance to get some general feedback about the malleable document system from a wide range of real-world users.
 
-\todo{the following}
+\todo{write up the following}
 
 * state rationale, number of respondents etc (overview)
 
