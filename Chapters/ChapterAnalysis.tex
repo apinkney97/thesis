@@ -1,7 +1,7 @@
 \chapter{Analysis}\label{ch:analysis}
 
 \summary{
-We have now devised a fully-fledged document layout system that works across many platforms. In this chapter we analyse the system both quantitatively and qualitatively to answer the question: is it any good?
+We have now devised a fully-fledged document layout system that works across many platforms. In this chapter we discuss the layouts produced by the system both quantitatively and qualitatively, and put the system to the test in a user study.
 }
 
 %\section{View-time Operations}
@@ -146,11 +146,64 @@ In their 2004 paper, Harrington et al.\hspace{0pt}\cite{Harrington2004} identifi
 \vspace{2em}
 Examining the grid layout float placement algorithm specified in Section~\ref{sec:gridlayout} (in conjunction with the sample layouts shown in Appendix~\ref{app:layouts}) it can clearly be observed that all these properties are satisfied by the malleable document system.
 
-\subsection{User Study}
+\newpage
+\section{User Study}
 \label{sec:survey}
-In order to establish the most appropriate range of galleys to include in a malleable document, as discussed in Section~\ref{sec:inc-renderings}, a user study was conducted. This was also used as a chance to get some general feedback about the malleable document system from a wide range of real-world users.
+In order to establish the most appropriate range of galleys to include in a malleable document, as discussed in Section~\ref{sec:inc-renderings}, a user study was conducted. This was also used as a chance to get some general feedback about the malleable document system from a large pool of real-world users.
 
-\todo{write up the following}
+\subsection{Participants}
+The study was carried out entirely online. Participants were recruited via email circulated around the researchers mailing list at the School of Computer Science, and via a number of posts on the web. No personal data was collected from any participants, though due to the recruitment method, it is a reasonable assumption to make that the majority of the participants had prior experience in reading electronic documents on a screen. In all, the study had 41 participants.
+
+\subsection{Methodology}
+Obtaining data that can be interpreted quantitatively from a process that is inherently qualitative can be a challenge. It can be difficult to turn \emph{how good did you think this was?} and \emph{which one of these is better?} into something from which statistical significance can be taken, though with enough respondents and the use of some cunning, this can certainly be achieved.
+
+In this user study, each participant was given a malleable document to read, and then asked for their feedback. Each participant was randomly assigned into one of six groups, labelled from A to F. Participants were not made aware that they had been assigned to a group. Each group was presented with a separate instance of a malleable document. These contained different ranges of galley renderings.
+
+As mentioned in Section~\ref{sec:inc-renderings}, from a professional typographer's viewpoint, on average, lines of text should not be fewer than 40 characters wide, nor wider than 75. For this reason, the groups were assigned documents with the following properties:
+
+\begin{table}
+\begin{tabular}{rrr}
+\toprule
+inches & pica & characters \\
+\midrule
+1.5 & 9 & 22 \\
+2 & 12 & 28 \\
+2.5 & 15 & 35 \\
+3 & 18 & 42 \\
+3.5 & 21 & 49 \\
+4 & 24 & 56 \\
+4.5 & 27 & 63 \\
+5 & 30 & 70 \\
+5.5 & 33 & 77 \\
+6 & 36 & 84 \\
+\bottomrule
+\end{tabular}
+\caption[short]{long}
+\end{table}
+
+
+\begin{quote}
+{\slshape
+This study is designed to evaluate a variety of document layouts, and the way these layouts are interacted with by users. You will be asked to read a short document with a particular layout, and then fill in a questionnaire about your reading experience. Don't worry, this is not a comprehension exercise! You may use any device with a modern web browser (eg desktop, laptop, tablet, mobile phone) \emph{though it is preferable that you use a mobile phone or tablet, since this is primarily aimed at portable devices with small screens}. For this reason, if you're using a laptop or desktop, you may find it helpful if your web browser window is not maximised.
+
+Very shortly, you'll be given some text to read (taken from the Wikipedia article on The Great Fire of London) that will be customised to fit the screen you're reading it on. Feel free to try changing your browser window size (or screen orientation if you're using a phone or tablet). If you don't want to read the whole document, it's fine to stop once you feel you have looked through it enough to be able to answer some questions on the document's layout.
+
+Before you begin, here are some quick instructions:
+
+If you're using a laptop/desktop computer with a keyboard:
+\begin{itemize}
+\item Use the up/down arrow keys to increase/decrease the font size
+\item Use the right/left arrow keys to turn to the next/previous page
+\end{itemize}
+
+If you're using a device with a touchscreen (phone/tablet etc)
+\begin{itemize}
+\item Swipe up/down on the screen to decrease/increase the font size
+\item Swipe left/right turn to the next/previous page
+\end{itemize}
+}
+\end{quote}
+
 
 * state rationale, number of respondents etc (overview)
 
@@ -169,13 +222,12 @@ In order to establish the most appropriate range of galleys to include in a mall
 Please rate the following statements based on how closely you agree or disagree with them.
 
 For each, choose a number from 0 to 10, where 0 is "I strongly disagree", 5 is neutral, and 10 is "I strongly agree".
-\begin{enumerate}
-\item The document layouts produced were well-adapted to fit my screen.
-\item I could adequately customise the document layout to suit my personal reading preferences.
-\item I would preferentially choose a document layout system like this to read long text-based web pages.
-\item I would preferentially choose a document layout system like this to read PDFs.
-\item I would preferentially choose a document layout system like this to read ebooks.
-\end{enumerate}
+
+The document layouts produced were well-adapted to fit my screen.\\
+I could adequately customise the document layout to suit my personal reading preferences.\\
+I would preferentially choose a document layout system like this to read long text-based web pages.\\
+I would preferentially choose a document layout system like this to read PDFs.\\
+I would preferentially choose a document layout system like this to read ebooks.\\
 
 
 \begin{table}
