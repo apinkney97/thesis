@@ -105,7 +105,7 @@ The grid-based layout system devised in Section~\ref{sec:gridlayout} works in a 
 
 In the worst case, this algorithm does have a greater-than-linear time complexity. In practice, so long as the number of floats does not become excessive (which would cause the grid to be walked many times to search for suitably large gaps) the algorithm runs in linear time.
 
-The placement of floats is subject to certain constraints: they must span integer multiples of columns, and can only be placed aligned to grid cells. This is very different to the model used for floats in \gls{html}, whereby floats may be positioned arbitrarily, and text flowed around them. The result of this imposed ``restrictiveness'' on float placement (in comparison with that of \gls{html}) is that the produced layouts are more regular and each produced document as a whole fits together much better.
+The placement of floats is subject to certain constraints: they must span integer multiples of columns, and can only be placed aligned to grid cells. This is very different to the model used for floats in \gls{html}, whereby floats may be positioned arbitrarily, and text flowed around them. The result of this imposed ``restrictiveness'' on float placement (in comparison with that of \gls{html}) is that the produced layouts are more regular. Each produced document as a whole fits together much better, as we shall see in Section~\ref{sec:aesthetic-quality}.
 
 
 \newpage
@@ -120,20 +120,31 @@ Plass\hspace{0pt}\cite{Plass1981} devised a system to perform optimal placement 
 
 Br\"uggemann-Klein et al.\hspace{0pt}\cite{Bruggemann-Klein1995} suggested that Plass's method is only optimal if one agrees with Plass's definition of ``optimal''. They proposed that a superior metric for float placement is to minimise the number of page turns that a reader must perform when reading the document from front to back. This is a desirable characteristic for a pagination algorithm that runs on an \ebook{} reader, because page turns tend to be slow, particularly on devices with electronic paper displays. Unfortunately, the algorithm used runs in quadratic time, which limits its usefulness to this system.
 
-In essence, the assumption that Plass's float placement algorithm produces the most optimal layouts may be slightly short-sighted: \emph{other pagination schemes are available!} Clearly, using a computationally intractable algorithm such as Plass's will have significant impact on the demand for computation at view-time. As with many facets of the system described in this thesis, the float placement algorithm was chosen with efficiency in mind.
+In essence, the assumption that Plass's float placement algorithm produces the most optimal layouts may be slightly short-sighted: \emph{other pagination schemes are available!} Clearly, using computationally complex algorithms such as those devised by Plass and Br\"uggemann-Klein et al. will have a significant impact on the demand for computation at view-time. As with many facets of the system described in this thesis, the float placement algorithm was chosen with efficiency in mind.
 
 The float placement algorithm that has been developed for use with the malleable document system also aims to minimise the distance between the actual and intended positioning of floats: if a float can be placed directly at its intended position, then it will be, otherwise it will be placed in the next available space. (Figure~\ref{fig:floatlayout} on page~\pageref{fig:floatlayout} demonstrates this process.)
 
 Whilst this algorithm does not perform any lookahead or backtracking in order to place floats optimally, anecdotal evidence gained from using the system in practice has shown that in most cases, floats are placed directly in their intended positions or at the top of adjacent columns, and are rarely moved across page boundaries. Appendix~\ref{app:layouts} showcases some examples of layouts produced using this algorithm, alongside some comparative renderings of the same document, rendered in \LaTeX{} and \html{}. The output of the malleable document system looks very similar to that of \LaTeX, and very different from that of the web browser.
 
-As it stands, the algorithm does not avoid widowed or orphaned lines, nor single lines directly before or after floats. This can be seen clearly in the example in Appendix~\ref{app:layout-ff} on the e-reader example (page~\pageref{app:p:layout-ff-ereader}) at the top of the fourth page, where the float has spanned both columns and taken up all the space on the page, with the exception of one line at the top of each column. It would not be too difficult to add a constraint that states that single lines of text at the top or bottom of the page should never be allowed, which could be enforced by leaving extra lines blank, pushing the text forward, though it is possible that this may harm the balance of the page if it causes columns to have uneven lengths.
+As it stands, the algorithm does not avoid widowed or orphaned lines, nor single lines directly before or after floats. This can be seen clearly in the example in Appendix~\ref{app:layout-ff} on the e-reader example (page~\pageref{app:p:layout-ff-ereader}) at the top of the fourth page, where the float has spanned both columns and taken up all the space on the page, with the exception of one line at the top of each column. It would be simple to add a constraint that states that single lines of text at the top or bottom of the page must never be allowed, which could be enforced by leaving extra lines blank, pushing the text forward, though it is possible that this may harm the balance of the page if it causes columns to have uneven lengths.
 
-\todo{link to appendix for sample layouts}
 
 \subsection{Measures of Aesthetic Quality}
-In their 2004 paper, Harrington et al.\hspace{0pt}\cite{Harrington2004} identified nine aesthetic measures for automated document layout. A number of these measures (alignment, regularity, uniform separation, white-space free-flow, uniformity) are inherently well satisfied by this system, due to its use of a grid to provide regular layout.
+\label{sec:aesthetic-quality}
+In their 2004 paper, Harrington et al.\hspace{0pt}\cite{Harrington2004} identified a number of aesthetic properties against which automated document layout systems may be measured. Many of these properties are inherently well satisfied by this system, due to its use of a grid to provide regular layout:
 
-\todo{Expand this and link back to assertion at the end of \label{sec:quant-floats} (also probably link from there to here)}
+\paragraph{Alignment} This property states that all content objects must have some commonality of alignment, based on their edges and/or centreline. Aligning content objects to a grid enforces this.
+
+\paragraph{Regularity} This property states that alignment positions must be regularly spaced\ed an inherent property of a grid.
+
+\paragraph{Balance} This property states that a page's visual weighting should ideally be around the centre of the page, and also that the page must be well balanced between left and right. Since the malleable document system produces pages with uniform density\ed there are no gaps left until the content has all been laid out\ed this property is satisfied.
+
+\paragraph{Whitespace Free-flow} This property states that whitespace should always be connected to the margins, and that there should never be islands of whitespace. The grid-based columnar layouts produced by the malleable document system ensure that any non-margin whitespace (for example the gaps between paragraphs or before and after floats) is always directly connected to the margin whitespace.
+
+\paragraph{Uniformity} This property states that the visual density of the page should be consistent, \ie{} that content objects should be distributed uniformly. The combination of the above measures (alignment, regularity, balance, and whitespace free-flow) mean that the page's visual density is inherently uniform.
+
+\vspace{2em}
+Examining the grid layout float placement algorithm specified in Section~\ref{sec:gridlayout} (in conjunction with the sample layouts shown in Appendix~\ref{app:layouts}) it can clearly be observed that all these properties are satisfied by the malleable document system.
 
 \subsection{User Study}
 \label{sec:survey}
