@@ -71,7 +71,7 @@ The algorithm described above was prototyped using existing tools from the Unive
 
 \subsection{The \textsc{cog} Model}
 %summary of cogs, what I've changed, ie line-level rather than default paragraph level. Put in tree to retain par details
-The \gls{cog} model was developed to enable the reuse of semantic components within \pdf{} documents, by breaking the traditional graphically-monolithic \pdf{} page into a series of distinct, encapsulated graphical blocks, termed \glspl{cog}. Initial work on what later became the \gls{cog} model was conducted in the mid-1990s,\hspace{0pt}\cite{Smith1995} and further developed throughout the 2000s.\hspace{0pt}\cite{Bagley2003,Bagley2004a,Bagley2005,Macdonald2005,Bagley2006,Bagley2007} The \gls{cog} model, as described in the previous citations, does not account for any relationship between individual \glspl{cog}\,---\,it was simply designed as a method with which document components could be easily reused, reordered, or extracted. The \glspl{cog} generated are largely at the granularity of a paragraph, but there is still no directive to image them onto the page in any particular order (for example in reading order).
+The \gls{cog} model was developed to enable the reuse of semantic components within \pdf{} documents, by breaking the traditional graph\-i\-cal\-ly-mono\-lith\-ic \pdf{} page into a series of distinct, encapsulated graphical blocks, termed \glspl{cog}. Initial work on what later became the \gls{cog} model was conducted in the mid-1990s,\hspace{0pt}\cite{Smith1995} and further developed throughout the 2000s.\hspace{0pt}\cite{Bagley2003,Bagley2004a,Bagley2005,Macdonald2005,Bagley2006,Bagley2007} The \gls{cog} model, as described in the previous citations, does not account for any relationship between individual \glspl{cog}\,---\,it was simply designed as a method with which document components could be easily reused, reordered, or extracted. The \glspl{cog} generated are largely at the granularity of a paragraph, but there is still no directive to image them onto the page in any particular order (for example in reading order).
 
 In order to implement a galley-based design, it was necessary to change the granularity at which the \glspl{cog} were produced, such that each line of text is represented by a separate \gls{cog}. However, it was also important to maintain the semantic structure of documents. This is crucial for the process of layout at view-time: not only must the logical order of the document content be preserved, but also the relationship between each component of the content, such as which line belongs to which paragraph, whether a certain item is floatable, and so on.
 
@@ -388,7 +388,7 @@ PDPageAddCosContents(page, newContents);
 \label{sec:inc-renderings}
 In order for a document to achieve optimal fit on every device of every conceivable size, we must produce one galley rendering of every conceivable width. Clearly, this is infeasible, both in terms of space and time. For reasons of practicality, we are therefore forced choose some finite subset of galley widths to include within a document.
 
-In \emph{The Elements of Typographic Style},\cite{Bringhurst2008} typographer Robert Bringhurst states that lines that range in length between 45 and 75 characters (including both letters and spaces) produce satisfactory layouts for a single-column page, and further that the 66-character line is widely regarded as ideal. He also asserts that an average of 40--50 characters is reasonable for multiple-column work. Furthermore, he states that line lengths exceeding 75--80 characters make continuous reading difficult, and that at the other end of the spectrum, lines shorter than 38--40 characters are unlikely to be easy to fully justify, and should therefore in most cases be set \gls{raggedright}. Below 30 characters, Bringhurst states, even \gls{raggedright} text beginsto look ``anorexic''.
+In \emph{The Elements of Typographic Style},\cite{Bringhurst2008} typographer Robert Bringhurst states that lines that range in length between 45 and 75 characters (including both letters and spaces) produce satisfactory layouts for a single-column page, and further that the 66-character line is widely regarded as ideal. He also asserts that an average of 40--50 characters is reasonable for multiple-column work. Furthermore, he states that line lengths exceeding 75--80 characters make continuous reading difficult, and that at the other end of the spectrum, lines shorter than 38--40 characters are unlikely to be easy to fully justify, and should therefore in most cases be set \gls{raggedright}. Below 30 characters, Bringhurst states, even \gls{raggedright} text begins to look ``anorexic''.
 
 On this basis, the choice of galleys to display should range from a minimum of 40 characters to a maximum of 75. To account for smaller screens or larger font sizes, it may be necessary to include galley renderings narrower than 40 characters. These galleys would be reserved for use only when the screen size is so narrow as to mandate it.
 
@@ -399,11 +399,11 @@ In order to establish a suitable range of galleys to include within these limits
 
 As discussed in Sections \ref{sec:galleys}, \ref{sec:singlegalleymetric}, and~\ref{sec:multigalleymetric}, galleys of text lend themselves to being used in a columnar format, and therefore a method of fitting columns appropriately to the available page width must be devised.
 
-A sensible first approach is simply to calculate how many columns of each galley rendering will fit, by adding the galley width to a specified minimum inter-column spacing, and dividing the page width by the result. The remainder of this division will then specify the amount of additional horizontal whitespace required, which can then divided up and inserted between the columns.
+A sensible first approach is simply to calculate how many columns of each galley rendering will fit, by adding the galley width to a specified minimum inter-col\-umn spacing, and dividing the page width by the result. The remainder of this division will then specify the amount of additional horizontal whitespace required, which can then divided up and inserted between the columns.
 
 A simple measure of aesthetic quality here is to apply a linear penalty for any extra whitespace required, as we seek to keep page margins and column gutters to a minimum.
 
-Equations \ref{eqn:numcols} and~\ref{eqn:extraws} below show the formulae used to calculate the number of columns that will fit ($N_\text{cols}$), and the requisite extra whitespace ($S_\text{extra}$). $W_\text{page}$ is the total width of the page, $W_\text{galley}$ is the width of the current galley, and $W_\text{ICS}$ is the width of the minimum required inter-column spacing.
+Equations \ref{eqn:numcols} and~\ref{eqn:extraws} below show the formulae used to calculate the number of columns that will fit ($N_\text{cols}$), and the requisite extra whitespace ($S_\text{extra}$). $W_\text{page}$ is the total width of the page, $W_\text{galley}$ is the width of the current galley, and $W_\text{ICS}$ is the width of the minimum required inter-col\-umn spacing.
 \begin{equation}\label{eqn:numcols}
 N_\text{cols}=\left\lfloor\frac{W_\text{page}}{W_\text{galley}+W_\text{ICS}}\right\rfloor
 \end{equation}
@@ -411,7 +411,7 @@ N_\text{cols}=\left\lfloor\frac{W_\text{page}}{W_\text{galley}+W_\text{ICS}}\rig
 S_\text{extra}=W_\text{page}\!\!\mod \left(W_\text{galley}+W_\text{ICS}\right)
 \end{equation}
 
-As the page width increases, so must the widths of the inter-column gutters. In accordance with the extra-whitespace penalty, each galley rendering will produce penalties which vary in a sawtooth manner as the width of the page is increased. With a careful choice of galley widths, when these sawtooth penalties are overlaid, and the galley producing the minimum penalty chosen at each page width, a flatter and finer-toothed penalty graph emerges, as shown in Figure~\ref{fig:penaltygraph}.
+As the page width increases, so must the widths of the inter-col\-umn gutters. In accordance with the extra-whitespace penalty, each galley rendering will produce penalties which vary in a sawtooth manner as the width of the page is increased. With a careful choice of galley widths, when these sawtooth penalties are overlaid, and the galley producing the minimum penalty chosen at each page width, a flatter and finer-toothed penalty graph emerges, as shown in Figure~\ref{fig:penaltygraph}.
 
 \begin{sidewaysfigure}
  \includegraphics[width=\textwidth]{gfx/graph-em}
@@ -447,7 +447,7 @@ The malleable document system described in this chapter produces documents layou
 
 The drawbacks of this system are that the filesize is necessarily increased (since data for multiple layouts must be included), and that the galley rendering that is displayed may not fit the available page width as snugly as an algorithm that has been run on the fly (which would therefore be specifically tailored to the dimensions of the page).
 
-The implementation of this algorithm within Adobe Acrobat is somewhat clunky\ed and certainly impractical to deploy on a real \ebook{} platform\ed but it demonstrates that the concept of pre-rendering several variants is a viable means to producing well-typeset flowable layouts.
+The implementation of this algorithm within Adobe Acrobat is somewhat clunky\ed and certainly impractical to deploy on a real \ebook{} platform\ed but it demonstrates that the concept of pre-ren\-der\-ing several variants is a viable means to producing well-typeset flowable layouts.
 
 The one notable omission from this chapter is support for floating blocks (such as figures)\ed only non-floating blocks are supported. In the next chapter, both of these issues are addressed.
 
