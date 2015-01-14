@@ -157,98 +157,129 @@ The study was carried out entirely online. Participants were recruited via email
 \subsection{Methodology}
 Obtaining data that can be interpreted quantitatively from a process that is inherently qualitative can be a challenge. It can be difficult to turn \emph{how good did you think this was?} and \emph{which one of these is better?} into something from which statistical significance can be taken, though with enough respondents and the use of some cunning, this can certainly be achieved.
 
-In this user study, each participant was given a malleable document to read, and then asked for their feedback. Each participant was randomly assigned into one of six groups, labelled from A to F. Participants were not made aware that they had been assigned to a group. Each group was presented with a separate instance of a malleable document. These contained different ranges of galley renderings.
+In this user study, each participant was given a malleable document to read, and then asked for their feedback. Each participant was randomly assigned into one of six groups, labelled from A to F. Participants were not made aware that they had been assigned to a group. Each group was presented with a separate instance of a malleable document. These all had the same textual and graphical content, but contained different ranges of galley renderings.
 
-As mentioned in Section~\ref{sec:inc-renderings}, according to professional typographers, lines of text should not normally be fewer than 30 characters wide, nor wider than 75. The pool of galley widths from which each malleable document instance's included renderings were chosen is shown in Table~\ref{tab:galleypool}.
+As mentioned in Section~\ref{sec:inc-renderings}, according to professional typographers, lines of text should not normally be less than 30 characters wide, nor wider than 75, and that 40--50 characters is reasonable for multi-column work. The pool of galley widths from which each malleable document instance's included renderings were chosen is shown in Table~\ref{tab:galleypool}. These were chosen to extend slightly beyond this range, whilst providing good coverage across it. The table also shows which of these renderings was included in each group's document.
 
 \begin{table}
 \begin{center}
- \begin{tabular}{rrc}
+\begin{tabular}{rcccccccccc}
 \toprule
-inches & pica & characters \\
+inches&1.5&2.0&2.5&3.0&3.5&4.0&4.5&5.0&5.5&6.0 \\
+characters&22&28&35&42&49&56&63&70&77&84\\
 \midrule
-1.5 & 9 & 22 \\
-2.0 & 12 & 28 \\
-2.5 & 15 & 35 \\
-3.0 & 18 & 42 \\
-3.5 & 21 & 49 \\
-4.0 & 24 & 56 \\
-4.5 & 27 & 63 \\
-5.0 & 30 & 70 \\
-5.5 & 33 & 77 \\
-6.0 & 36 & 84 \\
+A\hspace{1em}$315$~\textsc{kb}& \checkmark & \checkmark & & \checkmark \\
+B\hspace{1em}$392$~\textsc{kb}& \checkmark & \checkmark & & \checkmark & & \checkmark \\
+C\hspace{1em}$538$~\textsc{kb}& \checkmark & \checkmark & & \checkmark & & \checkmark & & \checkmark & & \checkmark \\
+D\hspace{1em}$549$~\textsc{kb}& \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+E\hspace{1em}$839$~\textsc{kb}& \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+F\hspace{1em}$386$~\textsc{kb}& \checkmark & \checkmark & & & & \checkmark & & & & \checkmark \\
 \bottomrule
 \end{tabular}
 \end{center}
-\caption[Pool of galley widths used in the user study]{This table enumerates the pool of galley widths that were used in the generation of malleable document instances A--F. Each document instance contained a different combination, as outlined in Table~\ref{tab:sampledocs}. The values in the right-hand column of this table are taken from a lookup table in \emph{The Elements of Typographic Style}\hspace{0pt}\cite{Bringhurst2008}. These values are for 12 point Times Roman.}
+\caption[Galley widths used in documents in the user study]{This table shows both the pool of galley widths that were used in the generation of malleable document instances A--F, which renderings each instance contained, and the filesize of each instance. The number of characters corresponding to the width in inches has been taken from a lookup table in \emph{The Elements of Typographic Style}\hspace{0pt}\cite{Bringhurst2008}. These values are for 12 point Times Roman.}
 \label{tab:galleypool}
 \end{table}
 
+All documents contained the narrowest two galley renderings. This was to ensure that it would be possible to display the document on an extremely narrow screen and/or with a high scaling factor.
 
-\begin{quote}
-{\slshape
-This study is designed to evaluate a variety of document layouts, and the way these layouts are interacted with by users. You will be asked to read a short document with a particular layout, and then fill in a questionnaire about your reading experience. Don't worry, this is not a comprehension exercise! You may use any device with a modern web browser (eg desktop, laptop, tablet, mobile phone) \emph{though it is preferable that you use a mobile phone or tablet, since this is primarily aimed at portable devices with small screens}. For this reason, if you're using a laptop or desktop, you may find it helpful if your web browser window is not maximised.
-
-Very shortly, you'll be given some text to read (taken from the Wikipedia article on The Great Fire of London) that will be customised to fit the screen you're reading it on. Feel free to try changing your browser window size (or screen orientation if you're using a phone or tablet). If you don't want to read the whole document, it's fine to stop once you feel you have looked through it enough to be able to answer some questions on the document's layout.
-
-Before you begin, here are some quick instructions:
-
-If you're using a laptop/desktop computer with a keyboard:
-\begin{itemize}
-\item Use the up/down arrow keys to increase/decrease the font size
-\item Use the right/left arrow keys to turn to the next/previous page
-\end{itemize}
-
-If you're using a device with a touchscreen (phone/tablet etc)
-\begin{itemize}
-\item Swipe up/down on the screen to decrease/increase the font size
-\item Swipe left/right turn to the next/previous page
-\end{itemize}
-}
-\end{quote}
+Document A was deliberately designed to provide a poor user experience. It had only three galleys, and only one of these was within the range specified above. Documents B and D both contained galleys up to 56 characters in width, and documents C, E and F contained galleys up to 84 characters in width. Documents B and C contained a coarser range of galleys (and hence fewer) than documents D and E. Document F contained the coarsest range of galleys. These ranges and coarsenesses were chosen in order to assess how their changes affect perceived user experience.
 
 
-* state rationale, number of respondents etc (overview)
+\subsection{Preamble}
+At the start of the study, each user was presented with the following:
+\begin{verbatim}
+ This study is designed to evaluate a variety of document
+ layouts, and the way these layouts are interacted with by
+ users. You will be asked to read a short document with a
+ particular layout, and then fill in a questionnaire about
+ your reading experience. Don't worry, this is not a
+ comprehension exercise! You may use any device with a
+ modern web browser (eg desktop, laptop, tablet, mobile
+ phone) though it is preferable that you use a mobile phone
+ or tablet, since this is primarily aimed at portable
+ devices with small screens. For this reason, if you're
+ using a laptop or desktop, you may find it helpful if your
+ web browser window is not maximised.
 
-* state questions \& intentions from them
+ Very shortly, you'll be given some text to read (taken from
+ the Wikipedia article on The Great Fire of London) that
+ will be customised to fit the screen you're reading it on.
+ Feel free to try changing your browser window size (or
+ screen orientation if you're using a phone or tablet). If
+ you don't want to read the whole document, it's fine to
+ stop once you feel you have looked through it enough to be
+ able to answer some questions on the document's layout.
 
-* state method of comparing different variants
+ Before you begin, here are some quick instructions:
 
-* state reasoning behind choice of renderings (cite chapter 2)
+ If you're using a laptop/desktop computer with a keyboard:
+  *  Use the up/down arrow keys to increase/decrease
+     the font size
+  *  Use the right/left arrow keys to turn to the
+     next/previous page
 
-* Mention extra data recorded
+ If you're using a device with a touchscreen (phone/tablet
+ etc):
+  *  Swipe up/down on the screen to decrease/increase the
+     font size
+  *  Swipe left/right turn to the next/previous page
+\end{verbatim}
 
-* Pick some decent comments
 
-* Pick some interesting stats from tScreenSize
 
-Please rate the following statements based on how closely you agree or disagree with them.
+\subsection{Questions}
+\label{sec:surveyqs}
+Once each user had read the preamble, and had had enough of reading about The Great Fire of London, they were asked for their feedback in the following manner:
 
-For each, choose a number from 0 to 10, where 0 is "I strongly disagree", 5 is neutral, and 10 is "I strongly agree".
+\begin{verbatim}
+ Please rate the following statements based on how closely
+ you agree or disagree with them. For each, choose a number
+ from 0 to 10, where 0 is "I strongly disagree", 5 is
+ neutral, and 10 is "I strongly agree".
 
-The document layouts produced were well-adapted to fit my screen.\\
-I could adequately customise the document layout to suit my personal reading preferences.\\
-I would preferentially choose a document layout system like this to read long text-based web pages.\\
-I would preferentially choose a document layout system like this to read PDFs.\\
-I would preferentially choose a document layout system like this to read ebooks.\\
+ Q1. The document layouts produced were well-adapted to fit
+     my screen.
+
+ Q2. I could adequately customise the document layout to
+     suit my personal reading preferences.
+
+ Q3. I would preferentially choose a document layout system
+     like this to read long text-based web pages.
+
+ Q4. I would preferentially choose a document layout system
+     like this to read PDFs.
+
+ Q5. I would preferentially choose a document layout system
+     like this to read ebooks.
+\end{verbatim}
+
+Questions 1 and 2 were designed to assess overall impressions of the system, and questions 3--5 to ascertain whether users would feel comfortable using a similar system to read documents in different contexts.
+Participants were also given the opportunity to provide written feedback.
+
+\subsection{Discussion of Results}
+Table~\ref{tab:sampledocs} and Figure~\ref{fig:surveygraph} show the aggregated response data for each group. It is clear that, especially for questions 1 and 2, renderings D and E are by far and away the most consistently highly rated. These were the two documents that had the least coarse range of galley renderings, which suggests that, as seems intuitive, the inclusion of a greater number of galley renderings within a given range provides a better user experience. It is also clear that the smaller maximum galley width used in rendering D has not adversely affected its user rating.
+
+As shown in Table~\ref{tab:galleypool}, rendering D's filesize is approximately 65\% of that of rendering E\ed since there must be some tradeoff between 
 
 
 \begin{table}
   \footnotesize
   \myfloatalign
-  \begin{tabular}{ccccccccccc}
+  \begin{tabular}{cccrcccccc}
     \toprule
-    rendering id & range & step & n & respondents & q1 & q2 & q3 & q4 & q5 \\
+    group & range & step & n & respondents & q1 & q2 & q3 & q4 & q5 \\
+	& (inches) & (inches) \\
     \midrule
-    A & $1.5$, $2-3$ & $1$   & $3$  & $9$ & $6.8$ & $6.3$ & $5.7$ & $7.1$ & $6.8$ \\
-    B & $1.5$, $2-4$ & $1$   & $4$  & $6$ & $7.7$ & $6.7$ & $6.0$ & $6.3$ & $5.8$ \\
-    C & $1.5$, $2-6$ & $1$   & $6$  & $8$ & $7.1$ & $6.6$ & $4.5$ & $6.0$ & $5.8$ \\
-    D & $1.5$, $2-4$ & $0.5$ & $6$  & $7$ & $8.1$ & $7.7$ & $5.9$ & $5.9$ & $7.4$ \\
-    E & $1.5$, $2-6$ & $0.5$ & $10$ & $5$ & $8.6$ & $8.0$ & $8.6$ & $8.0$ & $8.4$ \\
-    F & $1.5$, $2-6$ & $2$   & $4$  & $6$ & $6.5$ & $7.2$ & $5.3$ & $7.0$ & $8.0$ \\
+    A & $1.5$,~~$2-3$ & $1.0$ & $3$  & $9$ & $6.8$ & $6.3$ & $5.7$ & $7.1$ & $6.8$ \\
+    B & $1.5$,~~$2-4$ & $1.0$ & $4$  & $6$ & $7.7$ & $6.7$ & $6.0$ & $6.3$ & $5.8$ \\
+    C & $1.5$,~~$2-6$ & $1.0$ & $6$  & $8$ & $7.1$ & $6.6$ & $4.5$ & $6.0$ & $5.8$ \\
+    D & $1.5$,~~$2-4$ & $0.5$ & $6$  & $7$ & $8.1$ & $7.7$ & $5.9$ & $5.9$ & $7.4$ \\
+    E & $1.5$,~~$2-6$ & $0.5$ & $10$ & $5$ & $8.6$ & $8.0$ & $8.6$ & $8.0$ & $8.4$ \\
+    F & $1.5$,~~$2-6$ & $2.0$ & $4$  & $6$ & $6.5$ & $7.2$ & $5.3$ & $7.0$ & $8.0$ \\
     \bottomrule
 \end{tabular}
-  \caption[Short Caption]{Long Caption}
+  \caption[User study results summary]{A summary of the data obtained from the user study. For each group A--F, the included renderings are shown (columns \emph{range}, \emph{step} and \emph{n}, respectively the narrowest and widest galleys, the size of steps between them, and the total number of included galleys). The mean value of the responses for questions 1--5 (detailed in Section~\ref{sec:surveyqs}) is shown for each group. Figure~\ref{fig:surveygraph} shows a plot of this data in greater detail.}
   \label{tab:sampledocs}
 \end{table}
 
@@ -256,11 +287,28 @@ I would preferentially choose a document layout system like this to read ebooks.
   \begin{center}
   \includegraphics[height=0.5\textheight]{gnuplot/survey.pdf}
   \end{center}
-  \caption[Short Caption]{Loooooooong caption}
-  \label{fig:survey}
+  \caption[Plot showing user study results]{This plot shows the distributions of responses to each survey question for each group of respondents. The boxes mark the interquartile ranges, and the whiskers show the full range. The mean and median values are also shown (as indicated in the key). Questions 1 and 2 are of the most import: respectively, these assess whether the user thought the layouts fitted well to their screen, and whether the user though they could customise the layout to suit their reading preferences.}
+  \label{fig:surveygraph}
 \end{sidewaysfigure}
 
+\subsection{User Comments}
+Some comments from users follow:
 
+\begin{quote}
+``Initially the unconventional method of adjusting the type size by swiping vertically seemed out of place and a little jarring when it is standard practice to swipe vertically to scroll webpages etc on an iPhone - swiping to turn pages, typically reserved for ebooks does work well in this application of the gesture. However, without the instructional prompt before reading the article I would have probably taken some extra attempts to realise swiping ebook-style would progress through the article. The way the text flowed into columns etc while adjusting the size was fluid and ensured any preference could easily be achieved. Overall I liked the way it worked.''
+\end{quote}
+
+\begin{quote}
+``The thing that put me off the viewer most was the fact that it enforced a page model on a continuous flow document and in so doing broke the browser's native scroll ability. This meant that I couldn't use the mouse wheel to scroll, and I couldn't jump to arbitrary points in the document using the scrollbar. I would have much preferred a single continuous column that my browser could scroll through normally, and this is also true if I were browsing on a mobile device.''
+\end{quote}
+
+\begin{quote}
+``In general it seems to be working fine. My main issue is that on each change (orientation/font size/etc...) it changes amount of content being displayed. Which means that if I switch devices or orientation on device or even resize my browser - it will be really hard to find place where to continue reading.''
+\end{quote}
+
+
+% * Mention extra data recorded
+% * Pick some interesting stats from tScreenSize
 
 
 \section{Summary}
