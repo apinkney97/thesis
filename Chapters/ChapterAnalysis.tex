@@ -258,9 +258,11 @@ Questions 1 and 2 were designed to assess overall impressions of the system, and
 Participants were also given the opportunity to provide written feedback.
 
 \subsection{Discussion of Results}
-Table~\ref{tab:sampledocs} and Figure~\ref{fig:surveygraph} show the aggregated response data for each group. It is clear that, especially for questions 1 and 2, renderings D and E are by far and away the most consistently highly rated. These were the two documents that had the least coarse range of galley renderings, which suggests that, as seems intuitive, the inclusion of a greater number of galley renderings within a given range provides a better user experience. It is also clear that the smaller maximum galley width used in rendering D has not adversely affected its user rating.
+Table~\ref{tab:sampledocs} and Figure~\ref{fig:surveygraph} show the aggregated response data for each group. It is clear that, especially for questions 1 and 2, renderings D and E are by far and away the most consistently highly rated. These were the two documents that had the least coarse range of galley renderings, which suggests that, as seems intuitive, the inclusion of a greater number of galley renderings within a given range provides a better user experience. It is also clear that the smaller maximum galley width used in rendering D has not had a vast adverse affect on its user rating.
 
-As shown in Table~\ref{tab:galleypool}, rendering D's filesize is approximately 65\% of that of rendering E\ed since there must be some tradeoff between 
+As shown in Table~\ref{tab:galleypool}, rendering D's filesize is approximately 65\% of that of rendering E. Figure~\ref{fig:fsgraph} shows the filesizes of each rendering plotted against their mean scores for questions 1 and 2. This quite neatly illustrates each rendering's tradeoff between filesize and perceived quality, and it is easy to identify that rendering D here makes the tradeoff work best.
+
+As to questions 4, 5, and 6 (``\emph{I would use this for \emph{\{}web pages, PDFs, \ebook s\emph{\}}}'') there does not seem to be much consensus between any of the renderings. Averaging over all responses, the results are web pages:~5.8, \glspl{pdf}:~6.7, and \ebook s:~6.9. This does show a weak preference for the malleable document system for all three, with a stronger preference for \glspl{pdf} and \ebook s.
 
 
 \begin{table}
@@ -289,6 +291,14 @@ As shown in Table~\ref{tab:galleypool}, rendering D's filesize is approximately 
   \end{center}
   \caption[Plot showing user study results]{This plot shows the distributions of responses to each survey question for each group of respondents. The boxes mark the interquartile ranges, and the whiskers show the full range. The mean and median values are also shown (as indicated in the key). Questions 1 and 2 are of the most import: respectively, these assess whether the user thought the layouts fitted well to their screen, and whether the user though they could customise the layout to suit their reading preferences.}
   \label{fig:surveygraph}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}
+  \begin{center}
+  \includegraphics[height=0.5\textheight]{gnuplot/fsizes.pdf}
+  \end{center}
+  \caption[Plot of user rating against filesize]{This plot shows the mean of each group's responses to questions 1 and 2 against the filesize of that group's document. Although group E scored highest, group D's scores are not far behind, and its filesize is some 65\% of group E's.}
+  \label{fig:fsgraph}
 \end{sidewaysfigure}
 
 \subsection{User Comments}
