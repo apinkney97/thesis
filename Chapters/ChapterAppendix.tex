@@ -18,37 +18,17 @@
 \chapter{A Sample Malleable Document}
 \label{app:sampledoc}
 
-This is the full rendering of a reasonably short document (the Wikipedia entry for The Butterley Company: see \url{http://en.wikipedia.org/wiki/Butterley_Company}). It contains three galley renderings, and has ordered dictionaries both for words, and for position deltas.
+The following pages contain the full layout data of a reasonably short ($\sim$1200 word) document (the Wikipedia entry for The Butterley Company: see \url{http://en.wikipedia.org/wiki/Butterley_Company}). It contains three galley renderings, and has ordered dictionaries both for words, and for position deltas.
 
-\section{butterley.html}
-\emph{the \textsc{html} page within which the document is displayed}
-%\lstinputlisting[nolol,language=html,tabsize=4,stringstyle=\color{blue},basicstyle=\ttfamily\scriptsize]{../JSReflow/butterley.html}
-
-\section{style.css}
-\emph{generic formatting instructions for the document}
-%\lstinputlisting[nolol,tabsize=4,stringstyle=\color{blue},basicstyle=\ttfamily\scriptsize]{../JSReflow/styles.css}
-\newpage
-
-\section{script-json-rel.js}
-\emph{the script used to perform the layout at view-time}
-\includepdf[pages=-,scale=.8,pagecommand={}]{script-json-rel.pdf}
-%\lstinputlisting[nolol,language=c,tabsize=4,stringstyle=\color{blue},basicstyle=\ttfamily\scriptsize]{../JSReflow/script-json-rel.js}
-
-\newpage
-
-\section{butterley.js}
-\emph{the layout data of the document itself}
 \includepdf[pages=-,scale=.8,pagecommand={}]{butterley.pdf}
-%\lstinputlisting[nolol,language=c,tabsize=4,stringstyle=\color{blue},basicstyle=\ttfamily\tiny]{..//JSReflow/butterley.js}
-
-
-
 
 
 
 \cleardoublepage
 \chapter{Sample Layouts}
 \label{app:layouts}
+
+All the layouts in this section are of the author's 2011 paper, \emph{Reflowable Documents Composed from Prerendered Atomic Components}.\cite{Pinkney2011}
 
 \section{Layout by the Malleable Document System}
 
@@ -156,12 +136,36 @@ This is the full rendering of a reasonably short document (the Wikipedia entry f
 
 \subsection{Safari on an iPad}
 \label{app:layout-ipad}
-\todo{screenshots here}
 
+In portrait:
+\begin{center}
+\setlength{\imgwid}{0.47\textwidth}
+\fbox{\includegraphics[width=\imgwid]{gfx/ipad-p1}}
+\fbox{\includegraphics[width=\imgwid]{gfx/ipad-p2}}
+
+\vspace{0.3em}
+
+\fbox{\includegraphics[width=\imgwid]{gfx/ipad-p3}}
+\fbox{\includegraphics[width=\imgwid]{gfx/ipad-p4}}
+
+\end{center}
 
 \clearpage
+In landscape:
+\begin{center}
+\setlength{\imgwid}{0.8\textwidth}
+\fbox{\includegraphics[width=\imgwid]{gfx/ipad-l1}}
 
+\vspace{0.3em}
 
+\fbox{\includegraphics[width=\imgwid]{gfx/ipad-l2}}
+
+\vspace{0.3em}
+
+\fbox{\includegraphics[width=\imgwid]{gfx/ipad-l3}}
+
+\end{center}
+\clearpage
 \section{Other systems}
 \label{app:layout-other}
 
