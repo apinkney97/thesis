@@ -15,7 +15,7 @@ The tradeoff between filesize and required computation has previously been justi
 
 Despite this, it seems perverse to make no attempt at all to keep filesizes as small as possible, as long as there are no (or limited) impacts upon the required computation at view-time.
 
-Much like typesetting algorithms, few compression algorithms are designed with the minimisation of computation in mind. Consequently, the result of compressing the data using some generic algorithm is likely to require significantly more computation to decompress than a carefully designed bespoke algorithm. The following section describes work towards such an algorithm.
+Much like typesetting algorithms, few compression algorithms are designed with the minimisation of computation in mind. As a consequence of this, the result of compressing the data using some generic algorithm is likely to require significantly more computation to decompress than that of a carefully designed bespoke algorithm. The following section describes work towards such an algorithm.
 
 
 \section{Implementation}
@@ -140,13 +140,24 @@ Even without making further compression attempts beyond the encoding system show
 
 \clearpage
 \subsection{A Toy Example}
-Here we see a very short document represented using each of the aforementioned compression schemes. Each of the following examples produces the dsame output document, which contains two galley renderings of one paragraph: ``This is a short sentence''.
+Here we see a very short document represented using each of the aforementioned compression schemes. Each of the following examples produces the same output document, which contains two galley renderings of one paragraph: ``This is a short sentence''.
+
+These will be rendered looking something like
+
+{\singlespacing
+\framebox(60,45){
+    \parbox{60\unitlength}{\mbox{~}This~~~is~~~a\\\mbox{~}short~~~~sen-\\\mbox{~}tence.}
+}}
+
+and
+
+\fbox{This is a short sentence.}
 
 \vspace{0.5in}
-This is the original encoding, which uses absolute positioning and no dictionary:
+The following is the original encoding, which uses absolute positioning and no dictionary:
 
 \vspace{0.5in}
-\begin{lstlisting}[language=c,stringstyle=\color{blue},basicstyle=\ttfamily\footnotesize]
+\begin{lstlisting}[language=c,stringstyle=\color{blue},basicstyle=\ttfamily\footnotesize\singlespacing]
 {
    "galley_widths" : [72, 360],
 
@@ -175,10 +186,10 @@ This is the original encoding, which uses absolute positioning and no dictionary
 
 \clearpage
 
-This encoding uses a dictionary, which reduces redundancy by avoiding repetition of words. Since this document is so short, all its dictionary keys are the same length. For this reason, its corresponding version using an ordered dictionary (the next level of encoding devised) would be identical and is therefore omitted from this example.
+The following encoding uses a dictionary, which reduces redundancy by avoiding repetition of words. Since this document is so short, all its dictionary keys are the same length. For this reason, its corresponding version using an ordered dictionary (the next level of encoding devised) would be identical and is therefore omitted from this example.
 
 \vspace{0.5in}
-\begin{lstlisting}[language=c,stringstyle=\color{blue},basicstyle=\ttfamily\footnotesize]
+\begin{lstlisting}[language=c,stringstyle=\color{blue},basicstyle=\ttfamily\footnotesize\singlespacing]
 {
    "galley_widths" : [72, 360],
 
@@ -208,10 +219,10 @@ This encoding uses a dictionary, which reduces redundancy by avoiding repetition
 
 \clearpage
 
-This encoding uses a dictionary that also contains the widths of words, so each word in the paragraph tree needs to store only its offset from the end of the preceding word.
+This final encoding uses a dictionary that also contains the widths of words, so each word in the paragraph tree needs to store only its offset from the end of the preceding word.
 
 \vspace{0.5in}
-\begin{lstlisting}[language=c,stringstyle=\color{blue},basicstyle=\ttfamily\footnotesize]
+\begin{lstlisting}[language=c,stringstyle=\color{blue},basicstyle=\ttfamily\footnotesize\singlespacing]
 //Ordered dictionary with position deltas
 {
    "galley_widths" : [72, 360],

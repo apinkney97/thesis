@@ -4,9 +4,9 @@
 In this chapter we look in depth at the status quo of the electronic document world: we examine the hardware used to display documents, we examine the paradigms used to represent documents, we examine what is considered to be good typesetting, and then in the context of this information, we examine the limitations currently enforced upon us.
 }
 
-In the past five years, the surge in popularity of tablets and dedicated \ebook{} readers has vastly increased the sale and distribution of \ebook{}s. In August 2012, it was widely reported in the media\hspace{0pt}\cite{hexus.net2012} that Amazon's Kindle Store sales were outstripping print book sales by 114 to 100. This figure does not include free \ebook{}s ``sold'' through the Kindle Store, which would skew the figures significantly further.
+In the past five years, the surge in popularity of tablets and dedicated \ebook{} readers has vastly increased the sale and distribution of \ebook{}s. In August 2012, it was widely reported in the media\hspace{0pt}\cite{hexus.net2012} that Amazon's Kindle Store sales were outstripping print book sales by 114 to 100. This figure did not include free \ebook{}s ``sold'' through the Kindle Store, which would skew the figures significantly further.
 
-Project Gutenberg, a digital online library that (as of January 2015) hosts over 46,000 freely downloadable \ebook{}s, regularly exceeds 150,000 downloads \emph{per day}.\footnote{See \url{http://www.gutenberg.org/browse/scores/pretty-pictures} for up-to-date statistics.}
+Project Gutenberg, a digital online library that (as of January 2015) hosts over 46,000 freely downloadable out-of-copyright \ebook{}s, regularly exceeds 150,000 downloads \emph{per day}.\footnote{See \url{http://www.gutenberg.org/browse/scores/pretty-pictures} for up-to-date statistics.}
 
 \Ebook{} readers have now become a commodity item, and although their displays are becoming increasingly print-like, the typography and formatting that they offer does not meet the high standards of traditionally typeset documents.
 
@@ -14,7 +14,7 @@ Whilst at first glance this may not seem like a difficult problem to solve, the 
 
 \section{Devices}\marginpar{Amazon distributes software that allows Kindle format books to be read on Android and iOS tablets and smartphones, and on Windows and OS~X, in addition to its own range of Kindle hardware}
 
-In addition to dedicated \ebook{} readers, such as the Amazon Kindle and the Kobo eReader, many other devices\ed such as tablets, mobile phones, laptops, and desktop PCs\ed can be equipped to read \ebook{} files. Indeed, virtually every modern device with a screen can be equipped to read \ebook{}s.
+In addition to dedicated \ebook{} readers, such as the Amazon Kindle and the Kobo eReader, many other devices (such as tablets, mobile phones, laptops, and desktop PCs) can be equipped to read \ebook{} files. Indeed, virtually every modern device with a screen can be equipped to read \ebook{}s.
 
 The screen technologies used in these devices have vastly improved over the past decade or so, from the introduction of electronic paper displays that provide a reading experience very similar to that of real paper, to the enormous advances in \textsc{lcd} and \textsc{oled} screens, which now often have resolutions high enough that it is difficult to resolve individual pixels with the naked eye. Figure~\ref{fig:screens} shows some examples of document display technologies\ed note the visual similarity of the ``real'' print (Figure \ref{fig:scr:print} and~\ref{fig:scr:laser}) to the electronic paper displays (Figure \ref{fig:scr:kobo} and~\ref{fig:scr:kindle}).
 
@@ -38,7 +38,7 @@ As a consequence of this, \ebook{} file formats must be flexible enough that the
 
     \end{centering}
 
-    \caption[Examples of document display technologies]{Examples of some document display technologies, magnified about 25 times (top halves of images) and 350 times (bottom halves). These images were all captured with a £25 \textsc{usb} microscope purchased from Amazon. Note that the resolutions of the screens in (f) and (g) are close to that of the microscope used to capture the image, hence the aliasing effect.}
+    \caption[Examples of document display technologies]{Examples of some document display technologies, magnified about 25 times (top halves of images) and 350 times (bottom halves). These images were all captured with a \pounds 25 \textsc{usb} microscope purchased from Amazon. Note that the resolutions of the screens in (f) and (g) are close to that of the microscope used to capture the image, hence the aliasing effect.}
     \label{fig:screens}
 \end{figure}
 
@@ -72,7 +72,7 @@ Donald E. Knuth and Michael F. Plass\hspace{0pt}\cite{Knuth1981} developed a mor
 \label{fig:greek}
 \end{figure}
 
-Knuth and Plass's line breaking algorithm, in conjunction with Liang's hyphenation algorithm, breaks paragraphs into lines of text to fit a page, resulting in what can be considered an aesthetically optimal configuration. \TeX 's default behaviour is then to alter the spacing between words in order to justify the line to fit the measure of the page. This algorithm nominally runs in $O(n^2)$ time (compared with $O(n)$ for a greedy first-fit approach), although with some pruning, the effective complexity can be reduced to nearer $O(n)$.\hspace{0pt}\cite{Hirschberg1987,Eppstein1992,Hurst2009} In practice though, large constant factors still make the algorithm slow. In any case, the Knuth-Plass algorithm is certainly not the last word in line-breaking algorithms: for example, it has no mechanism to avoid (nor indeed any knowledge of) vertical rivers of whitespace.\hspace{0pt}\cite{Mittelbach1992} Inevitably, adding support to avoid rivers, and for any of the other nuances used by hand compositors, would add further complexity.
+Knuth and Plass's line breaking algorithm, in conjunction with Liang's hyphenation algorithm, breaks paragraphs into lines of text to fit a page, resulting in what can be considered an aesthetically optimal configuration. \TeX 's default behaviour is then to alter the spacing between words in order to justify the line to fit the measure of the page. The Knuth-Plass algorithm nominally runs in $O(n^2)$ time (compared with $O(n)$ for a greedy first-fit approach), although with some pruning, the effective complexity can be reduced to nearer $O(n)$.\hspace{0pt}\cite{Hirschberg1987,Eppstein1992,Hurst2009} In practice though, large constant factors still make the algorithm slow. In any case, the Knuth-Plass algorithm is certainly not the last word in line-breaking algorithms: for example, it has no mechanism to avoid (nor indeed any knowledge of) vertical rivers of whitespace.\hspace{0pt}\cite{Mittelbach1992} Inevitably, adding support to avoid rivers, and for any of the other nuances used by hand compositors, would add further complexity.
 
 
 
@@ -159,7 +159,7 @@ Since a document stored in a flowable format does not have any concrete presenta
 
 The design paradigm of \pdf{}, conceived in the early 1990s,\hspace{0pt}\cite{Warnock1991} was to form a perfect analogue of the printed page, which would be exactly reproducible regardless of the system on which the file was rendered. For this reason, it is possible to embed fonts within \pdf{} files, to ensure faithful reproduction on any system, regardless of which fonts are actually installed. In general, a well typeset \pdf{} file looks good wherever it is displayed, but, stemming from the ``digital sheet of paper'' paradigm, page sizes in a \pdf{} document are necessarily fixed at creation-time. An overwhelming majority of \pdf{} documents are rendered for  \textsc{us} letter or \textsc{a}4 size paper. This is fine if the document is to be printed and read. On a reasonably large screen, the document remains perfectly readable, and on a 10'' netbook or tablet screen it may provide an acceptable reading experience. Anything much smaller (notably mobile phones, and \ebook{} readers) requires a combination of zooming and panning  in order to read the document.
 
-Documents may, of course, be rendered to a smaller page size, but the problem still remains\ed it is unlikely that any one page size will be suited to \emph{all} reading platforms. Most \ebook{} readers, using their native (i.e.\ non-\pdf{}) formats, allow text to be resized according to user preference. Indeed, it seems unnecessarily restrictive to force one size of type upon the user. Of course, while physical books suffer from this affliction, \ebook{}s need not. Selling \ebook{}s separately in standard and large-print versions seems perverse when, for virtually no difference in cost to the publisher/distributor, both can be included in one file.
+Documents may, of course, be rendered to a smaller page size, but the problem still remains\ed it is unlikely that any one page size will be suited to \emph{all} reading platforms. Most \ebook{} readers, using their native (i.e.\ non-\pdf{}) formats, allow text to be resized according to user preference. Indeed, it seems unnecessarily restrictive to force one size of type upon the user. While physical books suffer from this affliction, \ebook{}s need not. Selling \ebook{}s separately in standard and large-print versions seems perverse when, for virtually no difference in cost to the publisher/distributor, both can be included in one file.
 
 Systems to reflow the content of PDF documents have been devised,\hspace{0pt}\cite{Lovegrove1995,Marinai2013} but as noted in Section~\ref{sec:fixedformats}, this is often extremely difficult to accomplish satisfactorily. Even when the logical order of page components can be identified correctly, the benefit of any precomputed high-quality typesetting is lost if the text itself must be re-typeset.
 
@@ -200,7 +200,7 @@ We have so far seen that electronic representations of documents have layouts th
 \label{fig:alices2}
 \end{figure}
 
-We have seen that screen technologies for \ebook{} readers have been evolving to become better and better, allowing documents to be displayed in a quality that rivals physical, printed pages. Document representation paradigms have not caught up. They are based on technologies that have been repurposed to be used in ways they were never designed. Fixed layout representations were designed for display on paper. Flowable layout representations were designed for display on such low-resolution screens (\eg{} that in Figure~\ref{fig:scr:calculator}) and underpowered devices that quality typography would have been nothing but a pipe dream.
+We have seen that screen technologies for \ebook{} readers have been evolving to become better and better, allowing documents to be displayed in a quality that rivals physical, printed pages. Document representation paradigms have not caught up. They are based on technologies that have been repurposed to be used in ways they were never designed. Fixed layout representations were designed for display on paper. Flowable layout representations were designed for display on such low-resolution screens and underpowered devices that quality typography would have been nothing but a pipe dream.
 
 
 \section{Contributions of this Thesis}
@@ -218,7 +218,7 @@ It is clearly time for a new document representation paradigm to be devised, in 
 
 In this thesis, such a novel document representation paradigm, geared towards use on portable devices, is proposed and implemented. The desired malleability is afforded to documents by precomputing key parts of the typesetting process, which allows their content to be gently coaxed to fit any page size, without needing to make any compromises in the quality of their typography.
 
-It is shown how the system can be extended from supporting straightforward sequential content to allowing ``floating'' blocks of varying sizes whose absolute placement is unimportant. With this addition, the system becomes capable of rendering its documents into layouts reminiscent of those of newspapers, magazines, and academic journals.
+It is shown how this system can be extended from supporting straightforward sequential content to allowing ``floating'' blocks of varying sizes whose absolute placement is unimportant. With this addition, the system becomes capable of rendering its documents into layouts reminiscent of those of newspapers, magazines, and academic journals.
 
 Despite focusing mainly on reducing computational complexity at view-time, attention also must be paid to the filesize of the resultant documents, to ensure that storage space is not being wasted unnecessarily. To address this issue, a computationally-light compression scheme is developed.
 

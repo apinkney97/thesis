@@ -124,9 +124,9 @@ In essence, the assumption that Plass's float placement algorithm produces the m
 
 The float placement algorithm that has been developed for use with the malleable document system also aims to minimise the distance between the actual and intended positioning of floats: if a float can be placed directly at its intended position, then it will be, otherwise it will be placed in the next available space. (Figure~\ref{fig:floatlayout} on page~\pageref{fig:floatlayout} demonstrates this process.)
 
-Whilst this algorithm does not perform any lookahead or backtracking in order to place floats optimally, anecdotal evidence gained from using the system in practice has shown that in most cases, floats are placed directly in their intended positions or at the top of adjacent columns, and are rarely moved across page boundaries. Appendix~\ref{app:layouts} showcases some examples of layouts produced using this algorithm, alongside some comparative renderings of the same document, rendered in \LaTeX{} and \html{}. The output of the malleable document system looks very similar to that of \LaTeX, and very different from that of the web browser.
+Whilst this algorithm does not perform any lookahead or backtracking in order to place floats optimally, anecdotal evidence gained from using the system has shown that in most cases floats are placed directly in their intended position, or at the top of an adjacent column, and are rarely moved across page boundaries. Appendix~\ref{app:layouts} showcases some examples of layouts produced using this algorithm, alongside some comparative renderings of the same document, rendered in \LaTeX{} and \html{}. The output of the malleable document system looks very similar to that of \LaTeX, and very different from that of the web browser.
 
-As it stands, the algorithm does not avoid widowed or orphaned lines, nor single lines directly before or after floats. This can be seen clearly in the example in Appendix~\ref{app:layout-ff} on the e-reader example (page~\pageref{app:p:layout-ff-ereader}) at the top of the fourth page, where the float has spanned both columns and taken up all the space on the page, with the exception of one line at the top of each column. It would be simple to add a constraint that states that single lines of text at the top or bottom of the page must never be allowed, which could be enforced by leaving extra lines blank, pushing the text forward, though it is possible that this may harm the balance of the page if it causes columns to have uneven lengths.
+As it stands, the algorithm does not avoid widowed or orphaned lines, nor single lines directly before or after floats. This can be seen clearly in the example in Appendix~\ref{app:layout-ff} on the e-reader example (page~\pageref{app:p:layout-ff-ereader}) at the top of the fourth page, where the float has spanned both columns and taken up all the space on the page, with the exception of one line at the top of each column. It would be simple to add a constraint that states that single lines of text at the top or bottom of the page must never be allowed, which could be enforced by leaving extra lines blank and pushing the text forward, though it is possible that this may harm the balance of the page if it causes columns to have uneven lengths.
 
 
 \subsection{Measures of Aesthetic Quality}
@@ -137,14 +137,14 @@ In their 2004 paper, Harrington et al.\hspace{0pt}\cite{Harrington2004} identifi
 
 \paragraph{Regularity} This property states that alignment positions must be regularly spaced\ed an inherent property of a grid.
 
-\paragraph{Balance} This property states that a page's visual weighting should ideally be around the centre of the page, and also that the page must be well balanced between left and right. Since the malleable document system produces pages with uniform density\ed there are no gaps left until the content has all been laid out\ed this property is satisfied.
+\paragraph{Balance} This property states that a page's visual weighting should ideally be around the centre of the page, and also that the page must be well balanced between left and right. Since the malleable document system produces pages with uniform density\ed there are no gaps left until the content has all been laid out\ed this property is well satisfied.
 
 \paragraph{Whitespace Free-flow} This property states that whitespace should always be connected to the margins, and that there should never be islands of whitespace. The grid-based columnar layouts produced by the malleable document system ensure that any non-margin whitespace (for example the gaps between paragraphs or before and after floats) is always directly connected to the margin whitespace.
 
 \paragraph{Uniformity} This property states that the visual density of the page should be consistent, \ie{} that content objects should be distributed uniformly. The combination of the above measures (alignment, regularity, balance, and whitespace free-flow) mean that the page's visual density is inherently uniform.
 
 \vspace{2em}
-Examining the grid layout float placement algorithm specified in Section~\ref{sec:gridlayout} (in conjunction with the sample layouts shown in Appendix~\ref{app:layouts}) it can clearly be observed that all these properties are satisfied by the malleable document system.
+Examining the grid layout float placement algorithm specified in Section~\ref{sec:gridlayout} (in conjunction with the sample layouts shown in Appendix~\ref{app:layouts}) it can clearly be observed that all these characteristic properties are fulfilled by the malleable document system.
 
 \newpage
 \section{User Study}
@@ -155,11 +155,11 @@ In order to establish the most appropriate range of galleys to include in a mall
 The study was carried out entirely online. Participants were recruited via email circulated around the researchers mailing list at the School of Computer Science, and via a number of posts on the web. No personal data was collected from any participants, though due to the recruitment method, it is a reasonable assumption to make that the majority of the participants had prior experience in reading electronic documents on a screen. In all, the study had 41 participants.
 
 \subsection{Methodology}
-Obtaining data that can be interpreted quantitatively from a process that is inherently qualitative can be a challenge. It can be difficult to turn \emph{how good did you think this was?} and \emph{which one of these is better?} into something from which statistical significance can be taken, though with enough respondents and the use of some cunning, this can certainly be achieved.
+Obtaining data that can be interpreted quantitatively from a process that is inherently qualitative can be a challenge. It can be difficult to turn \emph{How good did you think this was?} and \emph{Which one of these is better?} into something from which statistical significance can be taken. With enough respondents and the use of some cunning, this can certainly be achieved.
 
 In this user study, each participant was given a malleable document to read, and then asked for their feedback. Each participant was randomly assigned into one of six groups, labelled from A to F. Participants were not made aware that they had been assigned to a group. Each group was presented with a separate instance of a malleable document. These all had the same textual and graphical content, but contained different ranges of galley renderings.
 
-As mentioned in Section~\ref{sec:inc-renderings}, according to professional typographers, lines of text should not normally be less than 30 characters wide, nor wider than 75, and that 40--50 characters is reasonable for multi-column work. The pool of galley widths from which each malleable document instance's included renderings were chosen is shown in Table~\ref{tab:galleypool}. These were chosen to extend slightly beyond this range, whilst providing good coverage across it. The table also shows which of these renderings was included in each group's document.
+As mentioned in Section~\ref{sec:inc-renderings}, according a consensus among professional typographers is that lines of text should not normally be less than 30 characters wide, nor wider than 75, and that 40--50 characters is reasonable for multi-column work. The pool of galley widths from which each malleable document instance's included renderings were chosen is shown in Table~\ref{tab:galleypool}. These were chosen to extend slightly beyond this range, whilst providing good coverage across it. The table also shows which of these renderings was included in each group's document.
 
 \begin{table}
 \begin{center}
@@ -262,7 +262,7 @@ Table~\ref{tab:sampledocs} and Figure~\ref{fig:surveygraph} show the aggregated 
 
 As shown in Table~\ref{tab:galleypool}, rendering D's filesize is approximately 65\% of that of rendering E. Figure~\ref{fig:fsgraph} shows the filesizes of each rendering plotted against their mean scores for questions 1 and 2. This quite neatly illustrates each rendering's tradeoff between filesize and perceived quality, and it is easy to identify that rendering D here makes the tradeoff work best.
 
-As to questions 4, 5, and 6 (``\emph{I would use this for \emph{\{}web pages, PDFs, \ebook s\emph{\}}}'') there does not seem to be much consensus between any of the renderings. Averaging over all responses, the results are web pages:~5.8, \glspl{pdf}:~6.7, and \ebook s:~6.9. This does show a weak preference for the malleable document system for all three, with a stronger preference for \glspl{pdf} and \ebook s.
+As to questions 3, 4, and 5 (``\emph{I would use this for \emph{\{}web pages, PDFs, \ebook s\emph{\}}}'') there does not seem to be much consensus between any of the renderings. Averaging over all responses, the results are web pages:~5.8, \glspl{pdf}:~6.7, and \ebook s:~6.9. This does show a weak preference for the malleable document system for all three, with a stronger preference for \glspl{pdf} and \ebook s.
 
 
 \begin{table}
@@ -281,7 +281,7 @@ As to questions 4, 5, and 6 (``\emph{I would use this for \emph{\{}web pages, PD
     F & $1.5$,~~$2-6$ & $2.0$ & $4$  & $6$ & $6.5$ & $7.2$ & $5.3$ & $7.0$ & $8.0$ \\
     \bottomrule
 \end{tabular}
-  \caption[User study results summary]{A summary of the data obtained from the user study. For each group A--F, the included renderings are shown (columns \emph{range}, \emph{step} and \emph{n}, respectively the narrowest and widest galleys, the size of steps between them, and the total number of included galleys). The mean value of the responses for questions 1--5 (detailed in Section~\ref{sec:surveyqs}) is shown for each group. Figure~\ref{fig:surveygraph} shows a plot of this data in greater detail.}
+  \caption[Summary of user study results]{A summary of the data obtained from the user study. For each group A--F, the included renderings are shown (columns \emph{range}, \emph{step} and \emph{n}, respectively the narrowest and widest galleys, the size of steps between them, and the total number of included galleys). The mean value of the responses for questions 1--5 (detailed in Section~\ref{sec:surveyqs}) is shown for each group. Figure~\ref{fig:surveygraph} shows a plot of this data in greater detail.}
   \label{tab:sampledocs}
 \end{table}
 
@@ -289,7 +289,7 @@ As to questions 4, 5, and 6 (``\emph{I would use this for \emph{\{}web pages, PD
   \begin{center}
   \includegraphics[height=0.5\textheight]{gnuplot/survey.pdf}
   \end{center}
-  \caption[Plot showing user study results]{This plot shows the distributions of responses to each survey question for each group of respondents. The boxes mark the interquartile ranges, and the whiskers show the full range. The mean and median values are also shown (as indicated in the key). Questions 1 and 2 are of the most import: respectively, these assess whether the user thought the layouts fitted well to their screen, and whether the user though they could customise the layout to suit their reading preferences.}
+  \caption[Plot showing user study results]{This plot shows the distributions of responses to each survey question for each group of respondents. The boxes mark the interquartile ranges, and the whiskers show the full range. The mean and median values are also shown (as indicated in the key). Questions 1 and 2 are of the most import: respectively, these assess whether the user thought the layouts fitted well to their screen, and whether the user thought they could customise the layout to suit their reading preferences.}
   \label{fig:surveygraph}
 \end{sidewaysfigure}
 
@@ -304,6 +304,7 @@ As to questions 4, 5, and 6 (``\emph{I would use this for \emph{\{}web pages, PD
 \subsection{User Comments}
 Some comments from users follow:
 
+{\raggedright
 \begin{quote}
 ``Initially the unconventional method of adjusting the type size by swiping vertically seemed out of place and a little jarring when it is standard practice to swipe vertically to scroll webpages etc on an iPhone - swiping to turn pages, typically reserved for ebooks does work well in this application of the gesture. However, without the instructional prompt before reading the article I would have probably taken some extra attempts to realise swiping ebook-style would progress through the article. The way the text flowed into columns etc while adjusting the size was fluid and ensured any preference could easily be achieved. Overall I liked the way it worked.''
 \end{quote}
@@ -315,7 +316,7 @@ Some comments from users follow:
 \begin{quote}
 ``In general it seems to be working fine. My main issue is that on each change (orientation/font size/etc...) it changes amount of content being displayed. Which means that if I switch devices or orientation on device or even resize my browser - it will be really hard to find place where to continue reading.''
 \end{quote}
-
+}
 
 % * Mention extra data recorded
 % * Pick some interesting stats from tScreenSize

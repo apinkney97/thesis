@@ -1,7 +1,7 @@
 \chapter{Final Thoughts}\label{ch:conclusions}
 
 
-The intention at the outset of this project was to devise an efficient method to provide flowability to documents whilst maintaining typographic quality\ed to investigate the middle ground between fixed formats and flowable formats. This area, as far as the author is aware, has previously been left unexplored.
+The intention at the outset of this project was to devise an efficient method to provide flowability to documents whilst maintaining their typographic quality\ed to investigate the middle ground between fixed formats and flowable formats. This area, as far as the author is aware, has previously been left unexplored.
 
 Much research into automated layouts\hspace{0pt}\cite{Johari1996,Goldenberg2002,Purvis2003,Balinsky2009} has been geared towards static page sizes, and does not provide support for reflow at view-time. Other research into automated layouts that is designed with view-time reflow in mind\hspace{0pt}\cite{Jacobs2003,Schrier2008} does so at the expense of typesetting: generally, the text must be considered completely flowable in order to fit into the layouts devised by the systems.
 
@@ -10,9 +10,9 @@ When text is to be typeset, the choice must be made between \emph{computationall
 \section{Contribution}
 The system devised in this thesis, whereby line breaking is precomputed but the final binding of layout is delayed until view-time, removes the need to make any compromises on typographical quality. Precomputing multiple variants of line breaking, at differing widths, allows the text to fit to a multitude of screen sizes, by displaying one or more columns of whichever galley width best fits the page.
 
-Consideration has been given to compression of the resultant documents: `pre-compression' provided by squeezing as much redundancy out of the data as possible whilst still in its uncompressed format that allows constant-time data access, and for `post-compression', by making the uncompressed form as amenable as possible to packing by some generic compression algorithm, which can be used during file transfers or long-term storage.
+Consideration has been given to compression of the resultant documents: `pre-compression' provided by squeezing as much redundancy out of the data as possible whilst still in its uncompressed form that allows constant-time data access, and for `post-compression', by making the uncompressed form as amenable as possible to packing by some generic compression algorithm, which can be used during file transfers or long-term storage.
 
-Since the line breaking is precomputed, the display device does not need any knowledge of the algorithm: the only guarantee that is needed is that the device must be able to correctly interpret the rendering instructions. Because of this, each individual malleable document can use any text rendering algorithm\ed the system was deliberately designed to be modular, so that the text rendering algorithm could easily be changed.
+Since the line breaking is precomputed, the display device does not need any knowledge of the algorithm: the only guarantee that is needed is that the device must be able to correctly interpret the rendering instructions. Because of this, each individual malleable document can use any text rendering algorithm\ed the system was deliberately designed to be modular, so that the text rendering algorithm can easily be changed.
 
 The Malleable Document system shows real promise. It can represent documents whose text has been typeset by any manner of exotic line breaker. It can produce layouts that are essentially indistinguishable from those produced by professional typesetting systems. It can adapt its output to a vast range of screen sizes, with minimal computation. This is the beginning of an exciting new era for electronic document representation.
 
@@ -32,16 +32,16 @@ As mentioned in Chapter~\ref{ch:analysis}, a na\"ive algorithm is used for verti
 \label{sec:postponing}
 Precisely when the precomputed aspects of layout should be precomputed is an interesting question. There are three key points where this could be performed: at the time when the document is created; directly before the document is transferred to an \ebook{} reader device; and directly after the document has been transferred to an \ebook{} reader device. Each offers its own advantages.
 
-If the precomputation is performed at creation time, the publisher and author have full control over all renderings, which may be beneficial from the point of view of quality control. 
+If the precomputation is performed at creation time, the publisher and author have full control over all renderings, which is certainly beneficial from the point of view of quality control. 
 
-The second juncture at which the the precomputation could be performed is directly before the document is transferred to the reader device. This would allow knowledge of the reader device to be taken into account, allowing the output to be more closely tailored to the device. It is envisaged that such a system would utilise an intermediary program to transparently perform the text layout as the document is transferred to the device, using a similar model to that of Calibre or iTunes, or the model Amazon uses, whereby users can email documents to their Kindle, which then arrive in Kindle format.
+The second juncture at which the the precomputation can be performed is directly before the document is transferred to the reader device. This would allow knowledge of the reader device to be taken into account, allowing the output to be more closely tailored to the device. It is envisaged that such a system would utilise an intermediary program to transparently perform the text layout as the document is transferred to the device, using a similar model to that of Calibre or iTunes, or the model Amazon uses, whereby users can email documents to their Kindle, which then arrive in Kindle format.
 
 The last point at which the precomputation can be performed is on the device itself. At first glance this approach might seem counterproductive, and in conflict with the underlying philosophy of this thesis. Instead of precomputing several variants all at once, the system can be redesigned so that it only computes text layouts when necessary, but, crucially, caches the layout to disk for later reuse. Though the layout would be performed by the \ebook{} reader device itself, it would only ever be calculated once for each rendering of the document, and not each time the document is displayed.
 
 \subsection{Moving Nearer to the Metal}
-The two implementations of the malleable document system developed in this thesis in Chapters \ref{ch:malleable} and~\ref{ch:floats} were built upon \gls{pdf} and \gls{html} respectively. Both of these require the layout instructions to be parsed and interpreted, and rely upon third-party systems (\eg{} Acrobat and WebKit/Gecko) to display their content.
+The two implementations of the malleable document system that were developed in this thesis in Chapters \ref{ch:malleable} and~\ref{ch:floats} were built upon \gls{pdf} and \gls{html} respectively. Both of these require the layout instructions to be parsed and interpreted, and rely upon third-party systems (\eg{} Acrobat and WebKit/Gecko) to display their content.
 
-It has been shown previously\hspace{0pt}\cite{Bagley2010} that it is possible to compile \gls{pdf} to machine code, which can then be run natively on the processor of the display device. Using a method such as this would dispense with all the unneeded overhead associated with using an off-the-shelf system for display, and in general would be likely to run faster. Clearly this would require the output to be tailored to each device (or class of comparable devices), but as is discussed in Section~\ref{sec:postponing}, this is perfectly feasible.
+It has been shown previously\hspace{0pt}\cite{Bagley2010} that it is possible to compile \gls{pdf} to machine code, which can then be run natively on the processor of the display device. Using a method such as this would dispense with all the unneeded overhead associated with using an off-the-shelf system for display, and in general would be likely to run faster. Clearly this would require the output to be tailored to each device (or class of comparable devices), but as is discussed in the previous section, this is perfectly feasible.
 
 
 
@@ -60,7 +60,7 @@ More generally, the development of the malleable document system has highlighted
 
 \item Many documents\ed particularly academic work\ed contain cross-references and footnotes. What is the best way to handle these?% \cite{Thimbleby2011}
 
-\item Would use of Just In Time compilation on display devices (\ie computing but then caching layouts) positively or negatively affect user experience?
+\item Would use of Just In Time compilation on display devices (\ie{} computing but then caching layouts) positively or negatively affect user experience?
 
 \end{itemize}
 
@@ -72,6 +72,7 @@ Linear, primarily text-based documents, such as novels, newspaper articles, and 
 
 \vspace{0.4in}
 
+\noindent
 It is the documents that fall into this category, in their uncountable millions, that benefit most from the system described in this thesis.
 
 \vspace{0.4in}

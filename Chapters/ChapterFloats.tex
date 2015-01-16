@@ -184,7 +184,7 @@ In order to circumvent the web browser's default text-layout algorithm, and to e
 
 When the viewer is launched, it decides which is the most appropriate galley rendering to display, based on a metric of which rendering will be most aesthetically pleasing. Since it works well, the metric defined in Chapter~\ref{ch:malleable} is used, which balances a penalty for excessive inter-column whitespace against a penalty for too many columns.
 
-Although every galley is rendered in the same point size, this can be scaled up or down at view-time, based on the preference of the user, to simulate point-size changes. All dimensions other than the page size, such as the gaps between words, are scaled proportionally, to allow the text to remain correctly justified.
+Although every galley is rendered in the same point size, this can be scaled up or down at view-time based on the preference of the user, to simulate point-size changes. All dimensions other than the page size, such as the gaps between words, are scaled proportionally, to allow the text to remain correctly justified.
 
 
 
@@ -194,7 +194,7 @@ Although every galley is rendered in the same point size, this can be scaled up 
 The first approach taken towards supporting floats took inspiration from \TeX, which places floats into a queue until it finds somewhere it deems appropriate to place the first float.\hspace{0pt}\cite{Plass1981, Knuth1984} In order to emulate this, two queues were defined: the \emph{float queue}, and the \emph{line queue}.
 
 
-If both queues are empty, as they will be at the start of the layout process, the Galley Structure Tree is traversed, and when the first paragraph-level item (see figure~\ref{fig:tree}) is encountered, its subcomponents (of the chosen galley rendering) are added to the requisite queue: lines to the line queue, and floats to the float queue.
+If both queues are empty, as they will be at the start of the layout process, the Galley Structure Tree is traversed, and when the first paragraph-level item (see Figure~\ref{fig:tree} on page~\pageref{fig:tree}) is encountered, its subcomponents (of the chosen galley rendering) are added to the requisite queue: lines to the line queue, and floats to the float queue.
 
 When at least one of the queues is not empty, document layout begins. If the float queue is non-empty, and the first float in the queue will fit below the last typeset item, it is placed on the page. If not, items from the line queue are placed one by one, until no more will fit in the current column. When this happens, a new column is started, and the first float in the float queue is output. Whenever the line queue is depleted, and no floats in the float queue will fit at the current point on the page, all subcomponents of the next paragraph-level item from the Galley Structure Tree are queued. This process is illustrated in Figure~\ref{fig:float-flowchart}.
 
@@ -222,7 +222,7 @@ Pagination is reasonably simple with this queueing system: as soon as a page is 
     \label{fig:gridlayout}
 \end{figure}
 
-One method for allowing parts of a page to be reserved is to break it up into a grid. Grid-based layouts are useful in many situations;\hspace{0pt}\cite{Collier1991,Bringhurst2008} one example of particular note is that of modern-day newspapers (see figure~\ref{fig:gridlayout}). Following the example set by these newspapers, the grid used in this system is defined to have a row height of the \gls{leading} of the document's body text, and a column width of the \gls{measure} of one text column plus the required gutter space.
+One method for allowing regions of a page to be reserved is to break up the page into a grid. Grid-based layouts are useful in many situations;\hspace{0pt}\cite{Collier1991,Bringhurst2008} one example of particular note is that of modern-day newspapers (see figure~\ref{fig:gridlayout}). Following the example set by these newspapers, the grid used in this system is defined to have a row height of the \gls{leading} of the document's body text, and a column width of the \gls{measure} of one text column plus the required gutter space.
 
 
 
@@ -254,7 +254,7 @@ An advantage of this grid-based approach is that it no longer requires the use o
 \end{figure}
 
 
-Pagination becomes a little trickier when floats are allowed to span multiple columns. For example, if a float whose natural size would lead it to span $n$ columns is encountered in the Galley Structure Tree when there are $(n-1)$ or fewer columns remaining to be typeset on the page, it must be decided how best to handle the situation. Three obvious options present themselves: alter the float to span fewer columns; delay the placement of the float until the start of the next page; or backtrack and check whether there is room to move the float back one or more columns, by shunting non-floatable text lines forwards.
+Pagination becomes a little trickier when floats are allowed to span multiple columns. For example, if a float whose natural size would lead it to span $n$ columns is encountered in the Galley Structure Tree when there are fewer than $n$ columns remaining to be typeset on the page, it must be decided how best to handle the situation. Three obvious options present themselves: alter the float to span fewer columns; delay the placement of the float until the start of the next page; or backtrack and check whether there is room to move the float back one or more columns, by shunting non-floatable text lines forwards.
 
 The first option is clearly not ideal behaviour, given that shrinking a float may well reduce its legibility. Additionally, if this becomes a common problem, it is likely to be noticeable that floats spanning into the rightmost column of the page appear shrunken.
 
@@ -277,9 +277,9 @@ The layouts produced by this system will only retain their quality if they are l
     \label{fig:craprenderer}
 \end{figure}
 
-This is less of a problem on mobile devices: although in general their web browsers use the WebKit engine, their pixel-densities are much higher\ed many mobile phones have higher resolution screens than many laptops\ed their display is vastly scaled up, and fewer bad spacing issues such as those shown in Figure~\ref{fig:craprenderer} occur.
+This is less of a problem on mobile devices: although in general their web browsers use the WebKit engine, their pixel-densities are much higher (many mobile phones have higher resolution screens than many laptops) so their displays are vastly scaled up, and fewer bad spacing issues such as those shown in Figure~\ref{fig:craprenderer} occur.
 
-In general, however, as a document layout engine, the system produces professional-looking layouts that scale to fit on many different screen sizes, and the reimplementation in \textsc{xhtml}, \textsc{css}, and JavaScript makes the system much more portable. One stand-out problem remains: that of bloated filesizes. The next chapter suggests various methods to keep file sizes to a minimum.
+In general, however, as a document layout engine, the system produces professional-looking layouts that scale to fit on many different screen sizes, and the reimplementation in \textsc{xhtml}, \textsc{css}, and JavaScript makes the system much more portable. One stand-out problem remains: that of bloated filesizes. The next chapter proposes several methods to keep file sizes to a minimum.
 
 
 
