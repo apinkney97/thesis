@@ -1,10 +1,21 @@
-\documentclass[ oneside,openright,titlepage,numbers=noenddot,headinclude,%1headlines,% letterpaper
-                a4paper,
-                footinclude=true,cleardoublepage=empty,abstractoff, % <--- obsolete, remove (todo)
-                BCOR=5mm,paper=a4,fontsize=11pt,%11pt,a4paper,%
-                british,%
-                %draft,
-                ]{scrreprt}
+\documentclass[
+	twoside,
+	openright,
+	titlepage,
+	numbers=noenddot,
+	headinclude,
+    a4paper,
+    footinclude=true,
+	cleardoublepage=empty,
+	abstractoff, % <--- obsolete, remove (todo)
+    BCOR=5mm,
+	paper=a4,
+	fontsize=11pt,
+    british,
+	%1headlines,
+	% letterpaper
+    %draft,
+]{scrreprt}
 
 %********************************************************************
 % Note: Make all your adjustments in here
@@ -118,7 +129,7 @@
 
 \cleardoublepage
 %\singlespacing
-\doublespacing
+%\doublespacing
 \setcounter{chapter}{-1}
 \include{FrontBackmatter/Foreword}
 
@@ -135,7 +146,7 @@
 \cleardoublepage \include{Chapters/ChapterEvaluation}
 
 \cleardoublepage
-\onehalfspacing
+%\onehalfspacing
 \include{FrontBackmatter/Bibliography}
 
 \cleardoublepage

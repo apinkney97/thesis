@@ -191,7 +191,7 @@ Although every galley is rendered in the same point size, this can be scaled up 
 
 \subsection{Floats with a Queue}
 \label{sec:floatqueue}
-The first approach taken towards supporting floats took inspiration from \TeX, which places floats into a queue until it finds somewhere it deems appropriate to place the first float.\hspace{0pt}\cite{Plass1981, Knuth1984} In order to emulate this, two queues were defined: the \emph{float queue}, and the \emph{line queue}.
+The first approach taken towards supporting floats took inspiration from \TeX, which places floats into a queue until it finds somewhere it deems appropriate to place the first float \cite{Plass1981, Knuth1984}. In order to emulate this, two queues were defined: the \emph{float queue}, and the \emph{line queue}.
 
 
 If both queues are empty, as they will be at the start of the layout process, the Galley Structure Tree is traversed, and when the first paragraph-level item (see Figure~\ref{fig:tree} on page~\pageref{fig:tree}) is encountered, its subcomponents (of the chosen galley rendering) are added to the requisite queue: lines to the line queue, and floats to the float queue.
