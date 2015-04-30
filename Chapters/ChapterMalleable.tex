@@ -40,17 +40,10 @@ When the galleys are later fitted to a physical page, there is no requirement to
 
 As mentioned in the previous section, setting the text of a document into a galley provides it with some limited flowability. Specifically, the document can be paginated to fit pages of any size at least as wide as the galley, and of arbitrary height. Wider pages may be able to accommodate multiple columns, though if care is not taken when choosing the page size, the likelihood of noticeable extra horizontal whitespace is increased.
 
-
-\begin{sidewaysfigure}
- \includegraphics[height=0.5\textheight]{gnuplot/1col} % Not sure why 0.5\textheight works, but sod it, it does
- \caption[Extra whitespace in a single-galley document]{As more columns fit on a page, the extra whitespace required per column (shown in blue on the graph) decreases. The peaks occur just before the point where an extra column can be added, and the amount of extra whitespace that is required drops to a minimum.}
- \label{fig:sawtooth}
-\end{sidewaysfigure}
-
-
 Figure~\ref{fig:sawtooth} shows how the extra horizontal whitespace on a page varies with page width. The peaks occur just before the point where an extra column can be added, and the amount of extra whitespace that is required drops to a minimum. The blue line shows the extra whitespace divided by the number of columns that fit on the page, which gives a more useful metric to work with: if we physically divide the extra whitespace and insert it between the columns to increase their spacing (as opposed to leaving it on the right- or left-hand margins) then the wider the page, the less detriment is caused by the extra fraction of galley width.
 
 This process of setting text into galleys and reflowing can easily be simulated programatically, and as such is a promising way to precompute many of the more complex parts of the typesetting process, without sacrificing flowability.
+
 
 \section{Multiple Galley Renderings}
 \label{sec:multigalleymetric}
@@ -60,14 +53,15 @@ A second way in which columns can be better fitted to the page width is to types
 
 By overlaying the Figure \mbox{\ref{fig:sawtooth}-like} graphs for each galley, we are able to obtain a graph like Figure~\ref{fig:overlay}, which features all available galleys. If we use our simple metric of minimum whitespace, we can simply select whichever galley requires the smallest amount of extra whitespace for a given page width. Further consideration is given to this process in Section~\ref{sec:layout}.
 
-\begin{sidewaysfigure}
- \includegraphics[height=0.5\textheight]{gnuplot/overlay}
- \caption[Extra whitespace in a multi-galley document]{Overlaying the sawtooth graphs for several galleys of differing widths allows us to easily identify the galley that minimises extra added whitespace: at any point on the x-axis, the line with the smallest value on the y-axis corresponds to the galley that will most tightly fit the space. The choice of galley widths used here is essentially arbitrary, to demonstrate the effect of overlaying these graphs. Section~\ref{sec:inc-renderings} goes into detail about how to choose the widths of the included renderings.}
- \label{fig:overlay}
-\end{sidewaysfigure}
-
 \section{A Simple Implementation}
 The algorithm described above was prototyped using existing tools from the University of Nottingham Document Engineering Laboratory: specifically, the \gls{cog} model\hspace{0pt}\cite{Bagley2003} for creating and managing modularised \gls{pdf} documents. This was chosen specifically to avoid the need to write a typesetter or layout engine from scratch; typesetting is performed by the \troff{} suite, and the display of the final layout by Adobe Acrobat.  % though there is no reason why this algorithm could not be implemented with any other system capable of tightly specifying page imaging operations. Indeed, for this to be implemented in any non-prototypal form, \ie{} to be used on any portable device, it is likely that a specific, new rendering engine will need to be written for each device (or class of device).
+
+\begin{sidewaysfigure}
+ \includegraphics[height=0.5\textheight]{gnuplot/1col} % Not sure why 0.5\textheight works, but sod it, it does
+ \caption[Extra whitespace in a single-galley document]{As more columns fit on a page, the extra whitespace required per column (shown in blue on the graph) decreases. The peaks occur just before the point where an extra column can be added, and the amount of extra whitespace that is required drops to a minimum.}
+ \label{fig:sawtooth}
+\end{sidewaysfigure}
+
 
 \subsection{The \textsc{cog} Model}
 %summary of cogs, what I've changed, ie line-level rather than default paragraph level. Put in tree to retain par details
@@ -81,6 +75,13 @@ Since the \pdf{} specification allows essentially arbitrary \marginpar{According
 
 An example of a simple Galley Structure Tree is shown in Figure~\ref{fig:tree}. At the level of its leaves, this tree contains pointers to the \glspl{cog} which make up the content of the document. In the simplest case, where the document contains only one rendering (and thus the pa\-ra\-graph-level items have only one child) the \glspl{cog} pointed at by the leaves can simply be rendered in order, adding vertical space as appropriate.
 
+\begin{sidewaysfigure}
+ \includegraphics[height=0.5\textheight]{gnuplot/overlay}
+ \caption[Extra whitespace in a multi-galley document]{Overlaying the sawtooth graphs for several galleys of differing widths allows us to easily identify the galley that minimises extra added whitespace: at any point on the x-axis, the line with the smallest value on the y-axis corresponds to the galley that will most tightly fit the space. The choice of galley widths used here is essentially arbitrary, to demonstrate the effect of overlaying these graphs. Section~\ref{sec:inc-renderings} goes into detail about how to choose the widths of the included renderings.}
+ \label{fig:overlay}
+\end{sidewaysfigure}
+
+
 \begin{figure}
  \includegraphics[width=\textwidth]{gfx/tree}
  \caption[A simple Galley Structure Tree]{A simple Galley Structure Tree. The first level below the root represents all paragraph-level items: headings, paragraphs, figures etc. These items have one child for each galley rendering of the document. These in turn have one child for each \gls{cog} comprising their content\ed{}in the case of a paragraph or heading its lines; in the case of a figure, the figure itself and any associated caption.}
@@ -88,8 +89,7 @@ An example of a simple Galley Structure Tree is shown in Figure~\ref{fig:tree}. 
 \end{figure}
 
 \subsection{The Source Document}\label{sec:srcdoc}
-Since the majority of available tools for producing \gls{cog}ged \glspl{pdf} rely on the typesetting package \ditroff{},\hspace{0pt}\cite{Kernighan1982} it was decided to use this as the basis for the source document. \Ditroff{} is particularly amenable to many of the features required here\ed{}it is quite happy to have its page size set to large values\ed{}one sample document used a page length of 2000 inches (approximately 50 metres) with no complaints from \ditroff{}. (This is important because it avoids \emph{ditroff} performing any pagination, which would otherwise cause \COG{} resources to be spread across multiple pages in the resultant \pdf{} file, which in turn would cause difficulties accessing these resources from other pages.) An example of a source document is shown in Listings \ref{lst:troffsourcedoc1}~and~\ref{lst:troffsourcedoc2}.
-
+Since the majority of available tools for producing \gls{cog}ged \glspl{pdf} rely on the typesetting package \ditroff{},\hspace{0pt}\cite{Kernighan1982} it was decided to use this as the basis for the source document. \Ditroff{} is particularly amenable to many of the features required here\ed{}it is quite happy to have its page size set to large values\ed{}one sample document used a page length of 2000 inches (approximately 50 metres) with no complaints from \ditroff{}. (This is important because it avoids \emph{ditroff} performing any pagination, which would otherwise cause \COG{} resources to be spread across multiple pages in the resultant \pdf{} file, which in turn would cause difficulties accessing these resources from other pages.) An example of a source document is shown in Listings \ref{lst:troffsourcedoc1}~and~\ref{lst:troffsourcedoc2} overleaf.
 
 
 \begin{lstlisting}[label=lst:troffsourcedoc1,captionpos=b,float,basicstyle=\ttfamily\footnotesize,caption={[A sample troff source document, part 1]A sample troff source document. The actual document text is in a file named \texttt{contents.inc} , and is imported multiple times with the \texttt{.so} macro. After each import, the current line length is changed (using, for example, \texttt{.nr LL 1.5i} to set the Line Length register to 1.5 inches). The \texttt{\textbackslash X} commands are used to pass arbitrary data through the typesetter, and into the resultant ditroff intermediate code for later use. In this case, it is used to pass the column width (hence \texttt{cWidth}) in points, so that this data can later be embedded within the final \pdf{} file.}]
@@ -185,7 +185,7 @@ lorem. Quisque iaculis justo nec nibh interdum vuPPutate.
 The output from \ditroff{}, Ditroff Intermediate Code, is very expressive, and, unlike \TeX's equivalent \textsc{dvi}, contains enough information that post-processors are easily able to locate the start and end of lines and paragraphs within the document. This meant that only minimal changes were needed to the \emph{pdfdit} package,\hspace{0pt}\cite{Bagley2003} which was developed to produce \gls{cog}-\pdf{} from \troff{} documents.
 
 The first modification necessary was to alter the granularity of the output \gls{cog}s, to produce them at line level, rather than at paragraph level. Secondly, some method of generating the requisite tree representing the document structure was required. Fortunately, since \emph{pdfdit} could already detect paragraphs, this code was adapted to create a new node in the Galley Structure Tree. Each subsequent line-level \gls{cog} produced can then be added as a child of this node.
-
+\newpage
 The general algorithm for the processes alluded to in Sections \ref{sec:srcdoc} and~\ref{sec:pdfdit} is detailed below:
 \begin{enumerate}
 \item The \troff{} document's line length is set to a small value (2 inches or less) in order to produce a narrow column of text, and its page length to a very large value, to prevent pagination.

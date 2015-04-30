@@ -17,7 +17,7 @@ Despite this, it seems perverse to make no attempt at all to keep filesizes as s
 
 Much like typesetting algorithms, few compression algorithms are designed with the minimisation of computation in mind. As a consequence of this, the result of compressing the data using some generic algorithm is likely to require significantly more computation to decompress than that of a carefully designed bespoke algorithm. The following section describes work towards such an algorithm.
 
-
+\newpage
 \section{Implementation}
 The most obvious saving that can be made is with the duplication of a document's textual content. The systems described in Chapters \ref{ch:malleable}~and~\ref{ch:floats} both contain as many copies of the document text as there are pre-rendered galleys. In practice, there is no real need for more than one copy to be present in the file. Two approaches to this problem were considered.
 
@@ -71,32 +71,21 @@ Table~\ref{tab:wordfreq} shows the ten most frequent words in four separate docu
 
 This inherent redundancy in natural language can be exploited to produce a simple compression scheme through use of a dictionary. If, for example, the word ``shall'' appears multiple times in a document (in the King James Version of the Bible it appears 9760 times, and in the complete works of Shakespeare 3016 times) it is only stored once in the dictionary. As long as on average (\ie{} over every occurrence of every word) each word's key is lexicographically shorter than the word itself, it can be guaranteed that some redundancy has been removed from the data.
 
-The \gls{html} and JavaScript system described in Chapter~\ref{ch:floats} can be altered to use a dictionary-based lookup table with fairly few modifications. Firstly, since the data for the malleable document must be represented in \gls{json},\footnote{see \url{http://www.json.org/} for full details} some means of including the dictionary must be devised. \gls{json} supports two types of collection. The first is the \emph{object}, which is defined formally as \emph{an \mbox{unordered} set of name/value pairs}. This acts much like an associative array, though it does not guarantee the order of its elements. The second collection type supported by \gls{json} is the \emph{array}, defined as \emph{an ordered collection of values}. Since both must be declared literally (in the forms \texttt{\{\textquotedbl key1\textquotedbl:\textquotedbl word1\textquotedbl,\textquotedbl key2\textquotedbl:\textquotedbl word2\textquotedbl\}} and \texttt{[\textquotedbl word1\textquotedbl,\textquotedbl word2\textquotedbl]} respectively) rather than being populated programatically, using a plain array for the dictionary allows us to omit the keys from the dictionary itself, as they are implied by the order of the elements in the array. Additionally, since this forces the use of integers as keys, the Galley Structure Tree will not require the use of quote marks when the dictionary keys are referenced. If the keys were string values, each use of each key in the Galley Structure Tree would therefore necessitate two extra characters (\eg{} \texttt{\textquotedbl key\textquotedbl} versus \texttt{401}).
-
-It should also be noted that using integers as keys in \gls{json} has different implications to using integers as keys in some more compact binary format. \gls{json} is always stored in some textual encoding (perhaps \textsc{ascii}, perhaps \textsc{utf-8}), and there is no support for numeric representation in any base other than decimal. What might take up one 32 bit integer (\ie{} 4 bytes) in a compiled language such as C might take as many as ten textual characters (10 bytes, assuming that whichever character encoding system is used represents low-\textsc{ascii} characters with only one byte). Conversely, textual representation of integers can be more compact under certain conditions: namely, for values that use three or fewer characters, \ie{} the numbers 0--999.
-
 \begin{figure}
   \begin{center}
   \includegraphics[width=\textwidth]{gnuplot/cumulative-raster}
   \end{center}
-  \caption[Cumulative distribution of word frequencies]{Cumulative distribution of word frequencies in various documents. }
+  \caption[Cumulative distribution of word frequencies]{\raggedright Cumulative distribution of word frequencies in various documents. }
   \label{fig:cumulative}
 \end{figure}
+
+The \gls{html} and JavaScript system described in Chapter~\ref{ch:floats} can be altered to use a dictionary-based lookup table with fairly few modifications. Firstly, since the data for the malleable document must be represented in \gls{json},\footnote{see \url{http://www.json.org/} for full details} some means of including the dictionary must be devised. \gls{json} supports two types of collection. The first is the \emph{object}, which is defined formally as \emph{an \mbox{unordered} set of name/value pairs}. This acts much like an associative array, though it does not guarantee the order of its elements. The second collection type supported by \gls{json} is the \emph{array}, defined as \emph{an ordered collection of values}. Since both must be declared literally (in the forms \texttt{\{\textquotedbl key1\textquotedbl:\textquotedbl word1\textquotedbl,\textquotedbl key2\textquotedbl:\textquotedbl word2\textquotedbl\}} and \texttt{[\textquotedbl word1\textquotedbl,\textquotedbl word2\textquotedbl]} respectively) rather than being populated programatically, using a plain array for the dictionary allows us to omit the keys from the dictionary itself, as they are implied by the order of the elements in the array. Additionally, since this forces the use of integers as keys, the Galley Structure Tree will not require the use of quote marks when the dictionary keys are referenced. If the keys were string values, each use of each key in the Galley Structure Tree would therefore necessitate two extra characters (\eg{} \texttt{\textquotedbl key\textquotedbl} versus \texttt{401}).
+
+It should also be noted that using integers as keys in \gls{json} has different implications to using integers as keys in some more compact binary format. \gls{json} is always stored in some textual encoding (perhaps \textsc{ascii}, perhaps \textsc{utf-8}), and there is no support for numeric representation in any base other than decimal. What might take up one 32 bit integer (\ie{} 4 bytes) in a compiled language such as C might take as many as ten textual characters (10 bytes, assuming that whichever character encoding system is used represents low-\textsc{ascii} characters with only one byte). Conversely, textual representation of integers can be more compact under certain conditions: namely, for values that use three or fewer characters, \ie{} the numbers 0--999.
 
 Referring back to Figure \ref{fig:wordfreq}, to Figure~\ref{fig:cumulative}, and to Zipf's law, it can be seen that even for extremely long documents, the number of words that are ranked in the top 1000 exceeds 60\%, and so as long as the order of words in the dictionary is chosen carefully, using a textual representation of integers can be more compact than a na\"ive binary representation.
 
 It was therefore decided to store the dictionary as an array, ordered such that the most frequently occurring words have the shortest keys.
-
-\subsection{Further Compression Possibilities}
-\label{sec:deltas}
-
-The techniques discussed thus far have focused mostly upon exploiting the inherent redundancy in natural language. A fairly large part of the data contained within the Galley Structure Tree has been overlooked: the typesetting data itself.
-
-All of the aforementioned encoding systems have used an absolute value for the x position of each word on each line; that is, each occurrence of each word has an associated value representing the required distance of its placement, in \glspl{point}, from the start of the line. An example of this can be seen in Listing~\ref{lst:datajs} on page~\pageref{lst:datajs}.
-
-With a view to producing data that would be more easily compressible by a generic compression algorithm (that would perhaps be useful if \textsc{HTTP} compression or similar is used to transfer the document data to a device) it was decided to investigate a different approach to storing this data.
-
-In any typeset document, most (if not all) occurrences of the same word will typeset identically upon the page. In particular, the amount of horizontal space reserved for a word will be the same for each occurrence of the word. Similarly, if a document's text is fully justified, the space between words on each individual line will be identical. If the document is left-justified, then each space between each pair of words on \emph{every} line will be identical. This redundancy is present within all the previous encodings, but cannot be picked up by a generic compression algorithm, since it requires knowledge of the typesetting process. By separating the word widths from the spacing, this redundancy can be made more explicit, and therefore easier for a generic compression algorithm to take advantage of.
 
 \begin{lstlisting}[label=lst:deltasdata,captionpos=b,float,language=c,stringstyle=\color{blue},basicstyle=\ttfamily\footnotesize,caption={[Excerpt from a paragraph tree using deltas]Excerpt from a JavaScript data file that uses position deltas in the Galley Structure Tree, representing one galley rendering of one paragraph. The first value in each pair is the position delta (in points) and the second is the dictionary key of the associated word.}]
 [
@@ -128,15 +117,27 @@ In any typeset document, most (if not all) occurrences of the same word will typ
 ],
 \end{lstlisting}
 
+\subsection{Further Compression Possibilities}
+\label{sec:deltas}
+
 \begin{lstlisting}[label=lst:deltasdict,captionpos=b,float,language=c,stringstyle=\color{blue},basicstyle=\ttfamily\footnotesize,caption={[Excerpt from a dictionary storing word widths]Excerpt from the dictionary from a JavaScript data file that uses position deltas, where the width of each word is stored alongside the word itself. This is the dictionary from a rendering of \cite{Pinkney2011}: compare its ordering to that shown in Table~\ref{tab:wordfreq} on page~\pageref{tab:wordfreq}.}]
  [["the",14.664],["of",9.996],["to",9.336],["and",17.328],["a",5.328],["is",8.004],["be",11.328],["in",9.336],["as",9.996],["document",47.328],["that",18],["it",6.672],["page",22.656],["for",13.992],["are",14.652],["by",12],["on",12],["will",18.672],["which",29.328],["with",21.336],["this",17.34],["The",18.66],["can",16.656],["an",11.328],["or",9.996],["-",3.996],["eBook",31.332],["used",21.996],["PDF",22.008],["In",9.996],["layout",30],["have",22.656],["from",23.328],["not",15.336],["at",8.664],["width",27.336],["This",21.336],["has",15.996],["then",20.664],["each",21.984],["was",18.66],["typesetting",52.668],["columns",40.668],["simply",32.676],["these",24.66],["text",18],["into",18.672],["hyphenation",59.328],["content",35.328],["quality",33.336],["column",36],["lines",22.668],["only",21.336],["line",18],["ACM",27.336],["our",15.996],["its",11.34],["structure",41.988],["Document",49.992],["penalty",35.328],["between",39.984],["galley",29.328],["order",25.32],["more",24.66],["COGs",30],["out",15.336],["end",17.328],["one",17.328],["use",15.996],["algorithm",46.668],["producing",48.66],["columns.",43.668],["galleys",33.996],["figure",28.656],["simple",32.004],["would",30],
 \end{lstlisting}
+
+The techniques discussed thus far have focused mostly upon exploiting the inherent redundancy in natural language. A fairly large part of the data contained within the Galley Structure Tree has been overlooked: the typesetting data itself.
+
+All of the aforementioned encoding systems have used an absolute value for the x position of each word on each line; that is, each occurrence of each word has an associated value representing the required distance of its placement, in \glspl{point}, from the start of the line. An example of this can be seen in Listing~\ref{lst:datajs} on page~\pageref{lst:datajs}.
+
+With a view to producing data that would be more easily compressible by a generic compression algorithm (that would perhaps be useful if \textsc{HTTP} compression or similar is used to transfer the document data to a device) it was decided to investigate a different approach to storing this data.
+
+In any typeset document, most (if not all) occurrences of the same word will typeset identically upon the page. In particular, the amount of horizontal space reserved for a word will be the same for each occurrence of the word. Similarly, if a document's text is fully justified, the space between words on each individual line will be identical. If the document is left-justified, then each space between each pair of words on \emph{every} line will be identical. This redundancy is present within all the previous encodings, but cannot be picked up by a generic compression algorithm, since it requires knowledge of the typesetting process. By separating the word widths from the spacing, this redundancy can be made more explicit, and therefore easier for a generic compression algorithm to take advantage of.
 
 On the basis of the above observations, the decision was taken that the dictionary should be modified to store the width of each word alongside itself, and that the Galley Structure Tree should be modified so that each word to be typeset is now accompanied by the offset required from the end of the previous word (which will henceforth be referred to as \emph{position deltas}) rather than the absolute offset required from the start of the line. This does of course necessitate two array lookups in the dictionary where previously there would have been one, but since array accesses run in constant time, this does not present a problem. Excerpts from a Galley Structure Tree and dictionary that use this encoding system are shown in Listings \ref{lst:deltasdata}~and~\ref{lst:deltasdict} respectively.
 
 Further redundancy could be removed by exploiting the fact that words tend to be regularly spaced on each line. Whilst the encoding could be modified to allow only regular spacing of words, it was felt that this might be somewhat restrictive, and would detract from the appeal of the system as something that supports complex, arbitrary layouts.
 
 Even without making further compression attempts beyond the encoding system shown in Listings \ref{lst:deltasdata}~and~\ref{lst:deltasdict}\ed the motivation for which, we must remember, was to produce an encoding that was more \emph{compressible}, rather than more \emph{compressed}\ed by pure chance, it turns out that even in its full form, this is the most compact representation yet devised!
+
 
 \clearpage
 \subsection{A Toy Example}
@@ -213,7 +214,7 @@ The following encoding uses a dictionary, which reduces redundancy by avoiding r
          ]
       ]
    ],
-   "dictionary": ["This", "is", "a", "short", "sen-", "tence.", "sentence."]
+   "dict": ["This", "is", "a", "short", "sen-", "tence.", "sentence."]
 }
 \end{lstlisting}
 
@@ -248,7 +249,7 @@ This final encoding uses a dictionary that also contains the widths of words, so
       ]
    ],
 
-   "dictionary": [
+   "dict": [
       ["short",     24.456],
       ["This",      19.404],
       ["is",         7.656],

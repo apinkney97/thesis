@@ -6,41 +6,42 @@ In this chapter we look in depth at the status quo of the electronic document wo
 
 In the past five years, the surge in popularity of tablets and dedicated \ebook{} readers has vastly increased the sale and distribution of \ebook{}s. In August 2012, it was widely reported in the media\hspace{0pt}\cite{hexus.net2012} that Amazon's Kindle Store sales were outstripping print book sales by 114 to 100. This figure did not include free \ebook{}s ``sold'' through the Kindle Store, which would skew the figures significantly further.
 
-Project Gutenberg, a digital online library that (as of January 2015) hosts over 46,000 freely downloadable out-of-copyright \ebook{}s, regularly exceeds 150,000 downloads \emph{per day}.\footnote{See \url{http://www.gutenberg.org/browse/scores/pretty-pictures} for up-to-date statistics.}
+Project Gutenberg, a digital online library that (as of January 2015) hosts over 46,000 freely downloadable out-of-copyright \ebook{}s, regularly exceeds 150,000 downloads \emph{per day}.\footnote{\raggedright See \url{http://www.gutenberg.org/browse/scores/pretty-pictures} for up-to-date statistics.}
 
 \Ebook{} readers have now become a commodity item, and although their displays are becoming increasingly print-like, the typography and formatting that they offer does not meet the high standards of traditionally typeset documents.
 
 Whilst at first glance this may not seem like a difficult problem to solve, the expectation that \ebook{}s should scale to fit many devices and adapt to the reading preferences of many different users makes it far from trivial, as we shall see further on in this chapter.
 
-\section{Devices}\marginpar{Amazon distributes software that allows Kindle format books to be read on Android and iOS tablets and smartphones, and on Windows and OS~X, in addition to its own range of Kindle hardware}
+\section{Devices}
 
-In addition to dedicated \ebook{} readers, such as the Amazon Kindle and the Kobo eReader, many other devices (such as tablets, mobile phones, laptops, and desktop PCs) can be equipped to read \ebook{} files. Indeed, virtually every modern device with a screen can be equipped to read \ebook{}s.
+In addition to dedicated \ebook{} readers, such as the Amazon Kindle and the Kobo eReader,\marginpar{Amazon distributes software that allows Kindle format books to be read on Android and iOS tablets and smartphones, and on Windows and OS~X, in addition to its own range of Kindle hardware} many other devices (such as tablets, mobile phones, laptops, and desktop PCs) can be equipped to read \ebook{} files. Indeed, virtually every modern device with a screen can be equipped to read \ebook{}s.
+
+\begin{figure}
+	\captionsetup[subfigure]{justification=raggedright}
+	\begin{centering}
+
+		\subfloat[][A commercially printed book]{\includegraphics[width=0.31\textwidth]{gfx/sc-book}\label{fig:scr:print}} \hspace{1mm} 
+		\subfloat[][A laser-printed webpage]{\includegraphics[width=0.31\textwidth]{gfx/sc-laser}\label{fig:scr:laser}} \hspace{1mm} 
+		\subfloat[][A dot-matrix \textsc{lcd} screen]{\includegraphics[width=0.31\textwidth]{gfx/sc-lcd}\label{fig:scr:calculator}} 
+
+		\subfloat[][A \textsc{tft} \textsc{lcd} monitor]{\includegraphics[width=0.31\textwidth]{gfx/sc-tft1}} \hspace{1mm} 
+		\subfloat[][Another \textsc{tft} \textsc{lcd} monitor]{\includegraphics[width=0.31\textwidth]{gfx/sc-tft2}} \hspace{1mm} 
+		\subfloat[][A \textsc{tft} \textsc{lcd} on a Kindle Fire HD tablet]{\includegraphics[width=0.31\textwidth]{gfx/sc-fire}} 
+
+		\subfloat[][A Super \textsc{amoled} display on a Galaxy Nexus smartphone]{\includegraphics[width=0.31\textwidth]{gfx/sc-gnex}} \hspace{1mm} 
+		\subfloat[][An electronic paper display on a Kobo eReader]{\includegraphics[width=0.31\textwidth]{gfx/sc-kobo}\label{fig:scr:kobo}} \hspace{1mm} 
+		\subfloat[][An electronic paper display on a Kindle Touch]{\includegraphics[width=0.31\textwidth]{gfx/sc-kindle}\label{fig:scr:kindle}} 
+
+	\end{centering}
+
+	\caption[Examples of document display technologies]{Examples of some document display technologies, magnified about 25 times (top halves of images) and 350 times (bottom halves). These images were all captured with a \pounds 25 \textsc{usb} microscope purchased from Amazon. Note that the resolutions of the screens in (f) and (g) are close to that of the microscope used to capture the image, hence the aliasing effect.}
+	\label{fig:screens}
+\end{figure}
+
 
 The screen technologies used in these devices have vastly improved over the past decade or so, from the introduction of electronic paper displays that provide a reading experience very similar to that of real paper, to the enormous advances in \textsc{lcd} and \textsc{oled} screens, which now often have resolutions high enough that it is difficult to resolve individual pixels with the naked eye. Figure~\ref{fig:screens} shows some examples of document display technologies\ed note the visual similarity of the ``real'' print (Figure \ref{fig:scr:print} and~\ref{fig:scr:laser}) to the electronic paper displays (Figure \ref{fig:scr:kobo} and~\ref{fig:scr:kindle}).
 
 As a consequence of this, \ebook{} file formats must be flexible enough that their content can be displayed and read on a vast range of devices with differing screen sizes and types.
-
-\begin{figure}
-    \captionsetup[subfigure]{justification=raggedright}
-    \begin{centering}
-
-        \subfloat[][A commercially printed book]{\includegraphics[width=0.31\textwidth]{gfx/sc-book}\label{fig:scr:print}} \hspace{1mm} 
-        \subfloat[][A laser-printed webpage]{\includegraphics[width=0.31\textwidth]{gfx/sc-laser}\label{fig:scr:laser}} \hspace{1mm} 
-        \subfloat[][A dot-matrix \textsc{lcd} screen]{\includegraphics[width=0.31\textwidth]{gfx/sc-lcd}\label{fig:scr:calculator}} 
-
-        \subfloat[][A \textsc{tft} \textsc{lcd} monitor]{\includegraphics[width=0.31\textwidth]{gfx/sc-tft1}} \hspace{1mm} 
-        \subfloat[][Another \textsc{tft} \textsc{lcd} monitor]{\includegraphics[width=0.31\textwidth]{gfx/sc-tft2}} \hspace{1mm} 
-        \subfloat[][A \textsc{tft} \textsc{lcd} on a Kindle Fire HD tablet]{\includegraphics[width=0.31\textwidth]{gfx/sc-fire}} 
-
-        \subfloat[][A Super \textsc{amoled} display on a Galaxy Nexus smartphone]{\includegraphics[width=0.31\textwidth]{gfx/sc-gnex}} \hspace{1mm} 
-        \subfloat[][An electronic paper display on a Kobo eReader]{\includegraphics[width=0.31\textwidth]{gfx/sc-kobo}\label{fig:scr:kobo}} \hspace{1mm} 
-        \subfloat[][An electronic paper display on a Kindle Touch]{\includegraphics[width=0.31\textwidth]{gfx/sc-kindle}\label{fig:scr:kindle}} 
-
-    \end{centering}
-
-    \caption[Examples of document display technologies]{Examples of some document display technologies, magnified about 25 times (top halves of images) and 350 times (bottom halves). These images were all captured with a \pounds 25 \textsc{usb} microscope purchased from Amazon. Note that the resolutions of the screens in (f) and (g) are close to that of the microscope used to capture the image, hence the aliasing effect.}
-    \label{fig:screens}
-\end{figure}
 
 
 \section{``Good'' typesetting}
@@ -54,6 +55,10 @@ Many studies\hspace{0pt}\cite{Mittelbach1992,Hill1999,Bringhurst2008,Voorhees201
 \subsection{Hyphenation and Line-Breaking}
 \Ebook{} readers typically use a ``greedy'' algorithm to lay out their text\ed that is, they place as many words as will fit onto the current line without exceeding it, then start a new line and continue. Although this algorithm is optimal in that it will always fit text onto the fewest possible lines, it often causes consecutive lines to have wildly varying lengths, accentuating either the ``ragged-right'' effect of the text, or, in the case of fully-justified text, the inter-word spacing. In general, \ebook{} readers will only hyphenate in extreme cases\ed indeed the Kindle seems not to do so at all, to the detriment of its typography (see Figure~\ref{fig:crapkindle}).
 
+Donald E. Knuth and Michael F. Plass\hspace{0pt}\cite{Knuth1981} developed a more advanced line-breaking algorithm (now used by \TeX{}) that attempts to minimise large discrepancies between consecutive lines by considering each paragraph as a whole. \TeX{} also uses the hyphenation algorithm designed by Franklin Liang\hspace{0pt}\cite{Liang1983} (another of Knuth's grad students) which has been ported to many other applications. Figure~\ref{fig:greek} compares the Knuth-Plass algorithm against the default layout of a web browser (a first fit, greedy approach).
+
+Knuth and Plass's line breaking algorithm, in conjunction with Liang's hyphenation algorithm, breaks paragraphs into lines of text to fit a page, resulting in what can be considered an aesthetically optimal configuration. \TeX 's default behaviour is then to alter the spacing between words in order to justify the line to fit the measure of the page. The Knuth-Plass algorithm nominally runs in $O(n^2)$ time (compared with $O(n)$ for a greedy first-fit approach), although with some pruning, the effective complexity can be reduced to nearer $O(n)$ \cite{Hirschberg1987,Eppstein1992,Hurst2009}. In practice though, large constant factors still make the algorithm slow. In any case, the Knuth-Plass algorithm is certainly not the last word in line-breaking algorithms: for example, it has no mechanism to avoid (nor indeed any knowledge of) vertical rivers of whitespace \cite{Mittelbach1992}. Inevitably, adding support to avoid rivers, and for any of the other nuances used by hand compositors, would add further complexity.
+
 \begin{figure}
     \centering
     \fbox{\includegraphics[width=0.98\textwidth]{gfx/screen_shot-42583}}
@@ -61,7 +66,6 @@ Many studies\hspace{0pt}\cite{Mittelbach1992,Hill1999,Bringhurst2008,Voorhees201
     \label{fig:crapkindle}
 \end{figure}
 
-Donald E. Knuth and Michael F. Plass\hspace{0pt}\cite{Knuth1981} developed a more advanced line-breaking algorithm (now used by \TeX{}) that attempts to minimise large discrepancies between consecutive lines by considering each paragraph as a whole. \TeX{} also uses the hyphenation algorithm designed by Franklin Liang\hspace{0pt}\cite{Liang1983} (another of Knuth's grad students) which has been ported to many other applications. Figure~\ref{fig:greek} compares the Knuth-Plass algorithm against the default layout of a web browser (a first fit, greedy approach).
 
 
 \begin{figure}
@@ -71,9 +75,6 @@ Donald E. Knuth and Michael F. Plass\hspace{0pt}\cite{Knuth1981} developed a mor
 \caption[Knuth-Plass layout versus a first-fit algorithm]{Knuth-Plass layout (left) versus a first-fit algorithm (right). The text has been greeked to draw attention to layout rather than content. Note that Knuth-Plass results in looser spacing of certain lines where it helps avoid extremely loosely-set lines ahead. Even without using hyphenation (this implementation of Knuth-Plass does not include a hyphenation algorithm) the differences are pronounced. }
 \label{fig:greek}
 \end{figure}
-
-Knuth and Plass's line breaking algorithm, in conjunction with Liang's hyphenation algorithm, breaks paragraphs into lines of text to fit a page, resulting in what can be considered an aesthetically optimal configuration. \TeX 's default behaviour is then to alter the spacing between words in order to justify the line to fit the measure of the page. The Knuth-Plass algorithm nominally runs in $O(n^2)$ time (compared with $O(n)$ for a greedy first-fit approach), although with some pruning, the effective complexity can be reduced to nearer $O(n)$ \cite{Hirschberg1987,Eppstein1992,Hurst2009}. In practice though, large constant factors still make the algorithm slow. In any case, the Knuth-Plass algorithm is certainly not the last word in line-breaking algorithms: for example, it has no mechanism to avoid (nor indeed any knowledge of) vertical rivers of whitespace \cite{Mittelbach1992}. Inevitably, adding support to avoid rivers, and for any of the other nuances used by hand compositors, would add further complexity.
-
 
 
 \begin{figure}
@@ -148,7 +149,7 @@ It would be inaccurate to state that \pdf{} files \emph{cannot} represent the se
 \subsection{Flowable Formats}
 \label{sec:flowableformats}
 
-The\marginpar{Amazon's proprietary Kindle format is derived from Mobipocket; \pdf{} and \epub{} are open standards} two most common flowable \ebook{} formats are \epub{} and Mobipocket, both of which are largely based on \html{} \cite{IDPF2011}. \html{} was chosen not only because of its inherent support for reflow, but also because it allows document content to be semantically marked up into paragraphs, various levels of headers, and so on. At the time, this was an enormous improvement over \ebook{}s stored as plain text, which consequently had neither formatting nor semantic structure. 
+The two most common flowable \ebook{} formats are \epub{} and Mobipocket, both of which are largely based on \html{} \cite{IDPF2011}.\marginpar{Amazon's proprietary Kindle format is derived from Mobipocket; \pdf{} and \epub{} are open standards} \html{} was chosen not only because of its inherent support for reflow, but also because it allows document content to be semantically marked up into paragraphs, various levels of headers, and so on. At the time, this was an enormous improvement over \ebook{}s stored as plain text, which consequently had neither formatting nor semantic structure. 
 
 Whilst the use of these \html{}-like formats allows the semantic structure of documents to be very well defined, in general their presentation can only be specified in a very loose manner. On an \ebook{} reader (or in \ebook{} reading software) the user is often presented with a choice of typefaces and point sizes, which gives the e-reader software some scope for rendering the document in arbitrary ways.
 
@@ -163,24 +164,14 @@ Documents may, of course, be rendered to a smaller page size, but the problem st
 
 Systems to reflow the content of PDF documents have been devised,\hspace{0pt}\cite{Lovegrove1995,Marinai2013} but as noted in Section~\ref{sec:fixedformats}, this is often extremely difficult to accomplish satisfactorily. Even when the logical order of page components can be identified correctly, the benefit of any precomputed high-quality typesetting is lost if the text itself must be re-typeset.
 
-
-
 \epub{} and Mobipocket, both based on \html{}, provide a higher level of abstraction for documents, whereby the logical structure of their content is still present. They allow many rendering decisions to be made at view-time, such as choice of typeface and font size. Line breaks and page breaks are then calculated and inserted as necessary, in order to wrap the text to fit the screen, and to paginate the content.
 
 The rendering engines of \ebook{} readers use simplistic reflow algorithms\ed but necessarily so. One of the major bottlenecks in today's portable electronic devices is their battery life: battery capacity has not improved at anywhere near the same rate as other facets of mobile computing. Manufacturers of \ebook{} readers may claim their products have batteries that can last for weeks, but this is principally due to the many typographical corners that they cut when laying out flowable content. As noted in Section~\ref{sec:flowableformats}, were these devices to use more complex layout algorithms, which can produce far higher quality typeset output, any savings made by using a low-power electronic paper screen would quickly be lost. Furthermore, the more time that is spent formatting the output, the longer the delay between page turns on the device, given that each subsequent page is only rendered when a page turn is requested. This time delay could be shortened by precomputing the layout of subsequent pages between page turns, but this would not solve the battery-drain problem.
 
-
-\epub{} allows fonts to be embedded, but Mobipocket does not. Mobipocket files (and by extension, Kindle files)\marginpar{Amazon has begun to address this issue by developing a new format, \textsc{kf8}, still Mobipocket-based, that allows more complex styling,\\ in a manner comparable to \textsc{epub}} are therefore restricted to be rendered in a typeface local to (and often chosen by) the reader software. The Kindle, as an example, provides the user with a choice of ``regular'', ``condensed'', or ``sans-serif'' for the main body text of its documents. There are bold and italic variants of these, which are applied according to formatting instructions within the documents themselves. Additionally, there is a typewriter-style font which document authors may choose to use in the same manner.
-
-\begin{figure}
-\includegraphics[width=\textwidth]{gfx/alices1}
-\caption[Document displayed in Calibre]{On the left is an \epub{} version of Alice in Wonderland, displayed in Calibre (an open source desktop \ebook{} viewer). On the right is the same file, converted to Mobipocket, also displayed in Calibre. Note that in addition to the indentation being lost, the (embedded) font from the \epub{} is no longer present in the Mobipocket file.}
-\label{fig:alices1}
-\end{figure}
+\epub{} allows fonts to be embedded, but Mobipocket does not. Mobipocket files (and by extension, Kindle files) are therefore restricted to be rendered in a typeface local to (and often chosen by) the reader software.\marginpar{Amazon has begun to address this issue by developing a new format, \textsc{kf8}, still Mobipocket-based, that allows more complex styling,\\ in a manner comparable to \textsc{epub}} The Kindle, as an example, provides the user with a choice of ``regular'', ``condensed'', or ``sans-serif'' for the main body text of its documents. There are bold and italic variants of these, which are applied according to formatting instructions within the documents themselves. Additionally, there is a typewriter-style font which document authors may choose to use in the same manner.
 
 
-
-The Mobipocket specification supports a very limited subset of \html{} and \css{}, which makes it virtually impossible to achieve complex layouts such as those involving arbitrary indentation or font size changes. Figures \ref{fig:alices1} and~\ref{fig:alices2} demonstrate the well known ``Mouse's Tale'' from Lewis Carroll's \emph{Alice in Wonderland}, and the limitations of various formats.
+The Mobipocket specification supports a very limited subset of \html{} and \css{}, which makes it virtually impossible to achieve complex layouts such as those involving arbitrary indentation or font size changes. Figures \ref{fig:alices1} and~\ref{fig:alices2} overleaf demonstrate the well known ``Mouse's Tale'' from Lewis Carroll's \emph{Alice in Wonderland}, and the limitations of various formats.
 
 
 \epub{} is a little more flexible, since it supports a more comprehensive range of \xhtml{} and \css{}, has support for \textsc{svg}, and allows for arbitrarily complex styling. \epub{} files are still entirely reliant on the rendering engine of the display device correctly displaying their content, as they have no concrete layout associated with them.
@@ -193,14 +184,16 @@ The Mobipocket specification supports a very limited subset of \html{} and \css{
 
 We have so far seen that electronic representations of documents have layouts that are either fully fixed, or fully flowable. Currently there is no middle ground. Documents with fixed layouts may be of arbitrarily high typographic quality, since their layout is fully computed when they are created. Documents with flowable layouts are not provided with any guarantee that their content will be laid out with any semblance of typographic quality. In any case, to compute a high-quality layout in real-time is difficult, especially on a low-powered portable device such as an \ebook{} reader.
 
+We have seen that screen technologies for \ebook{} readers have been evolving to become better and better, allowing documents to be displayed in a quality that rivals physical, printed pages. Document representation paradigms have not caught up. They are based on technologies that have been repurposed to be used in ways they were never designed. Fixed layout representations were designed for display on paper. Flowable layout representations were designed for display on such low-resolution screens and underpowered devices that quality typography would have been nothing but a pipe dream.
+
+
 \begin{figure}
-\includegraphics[width=\textwidth]{gfx/alices2}
-\vspace{-0.2in}
-\caption[Same document displayed on the Kindle]{On the left is the Mobipocket version of Alice in Wonderland (from Figure~\ref{fig:alices1}) displayed on the Kindle. Note that the sizing instructions appear to have been ignored. On the right is the free version of Alice in Wonderland from the Kindle store, displayed on the Kindle. Note that no attempt has been made to render the poem in a ``tail'' shape.}
-\label{fig:alices2}
+\includegraphics[width=\textwidth]{gfx/alices1}
+\caption[Document displayed in Calibre]{On the left is an \epub{} version of Alice in Wonderland, displayed in Calibre (an open source desktop \ebook{} viewer). On the right is the same file, converted to Mobipocket, also displayed in Calibre. Note that in addition to the indentation being lost, the (embedded) font from the \epub{} is no longer present in the Mobipocket file.}
+\label{fig:alices1}
 \end{figure}
 
-We have seen that screen technologies for \ebook{} readers have been evolving to become better and better, allowing documents to be displayed in a quality that rivals physical, printed pages. Document representation paradigms have not caught up. They are based on technologies that have been repurposed to be used in ways they were never designed. Fixed layout representations were designed for display on paper. Flowable layout representations were designed for display on such low-resolution screens and underpowered devices that quality typography would have been nothing but a pipe dream.
+
 
 
 \section{Contributions of this Thesis}
@@ -221,6 +214,14 @@ In this thesis, such a novel document representation paradigm, geared towards us
 It is shown how this system can be extended from supporting straightforward sequential content to allowing ``floating'' blocks of varying sizes whose absolute placement is unimportant. With this addition, the system becomes capable of rendering its documents into layouts reminiscent of those of newspapers, magazines, and academic journals.
 
 Despite focusing mainly on reducing computational complexity at view-time, attention also must be paid to the filesize of the resultant documents, to ensure that storage space is not being wasted unnecessarily. To address this issue, a computationally-light compression scheme is developed.
+
+
+\begin{figure}
+\includegraphics[width=\textwidth]{gfx/alices2}
+\vspace{-0.2in}
+\caption[Same document displayed on the Kindle]{On the left is the Mobipocket version of Alice in Wonderland (from Figure~\ref{fig:alices1}) displayed on the Kindle. Note that the sizing instructions appear to have been ignored. On the right is the free version of Alice in Wonderland from the Kindle store, displayed on the Kindle. Note that no attempt has been made to render the poem in a ``tail'' shape.}
+\label{fig:alices2}
+\end{figure}
 
 
 
