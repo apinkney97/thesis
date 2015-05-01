@@ -23,7 +23,6 @@ paint the results to the screen;
 }
 With the notable exception of PostScript, which is Turing complete, the majority of fixed document formats have only declarative layout instructions, and do not permit computation. This helps ensure that the document is always rendered identically \cite{Bagley2007}.
 
-\newpage
 \subsection{Flowable Document Formats}
 
 When a document in a flowable format is to be laid out, the process is as follows:
@@ -56,7 +55,6 @@ while (non-breakable items remain to be laid out) {
 
 As is noted in Section~\ref{sec:goodtypesetting}, first-fit algorithms do not generally result in well-typeset output. The simplest of these algorithms will not attempt to identify potential hyphenation points. More complex layout algorithms that search for ``optimal'' layouts usually require a considerable amount of backtracking and are thus more computationally demanding.
 
-\newpage
 \subsection{Malleable Documents}
 
 The layout algorithm for a malleable document is as follows. First, the penalties are calculated:
@@ -108,8 +106,6 @@ In the worst case, this algorithm does have a greater-than-linear time complexit
 The placement of floats is subject to certain constraints: they must span integer multiples of columns, and can only be placed aligned to grid cells. This is very different to the model used for floats in \gls{html}, whereby floats may be positioned arbitrarily, and text flowed around them. The result of this imposed ``restrictiveness'' on float placement (in comparison with that of \gls{html}) is that the produced layouts are more regular. Each produced document as a whole fits together much better, as we shall see in Section~\ref{sec:aesthetic-quality}.
 
 
-\newpage
-
 \section{Qualitative}
 \label{sec:aesthetics}
 
@@ -146,7 +142,6 @@ In their 2004 paper, Harrington et al.\hspace{0pt}\cite{Harrington2004} identifi
 \vspace{2em}
 Examining the grid layout float placement algorithm specified in Section~\ref{sec:gridlayout} (in conjunction with the sample layouts shown in Appendix~\ref{app:layouts}) it can clearly be observed that all these characteristic properties are fulfilled by the malleable document system.
 
-\newpage
 \section{User Study}
 \label{sec:survey}
 In order to establish the most appropriate range of galleys to include in a malleable document, as discussed in Section~\ref{sec:inc-renderings}, a user study was conducted. This was also used as a chance to get some general feedback about the malleable document system from a large pool of real-world users.
