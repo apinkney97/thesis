@@ -8,7 +8,7 @@ Much research into automated layouts\hspace{0pt}\cite{Johari1996,Goldenberg2002,
 When text is to be typeset, the choice must be made between \emph{computationally cheap} and \emph{typographically good}. The fact that both computational cheapness and typographical quality are desirable characteristics for \ebook{} readers suggests that \ebook{} readers are not the correct place to compute text layout.
 
 \section{Contribution}
-The system devised in this thesis, whereby line breaking is precomputed but the final binding of layout is delayed until view-time, removes the need to make any compromises on typographical quality. Precomputing multiple variants of line breaking, at differing widths, allows the text to fit to a multitude of screen sizes, by displaying one or more columns of whichever galley width best fits the page.
+The system devised in this thesis, whereby line breaking is precomputed but the final binding of layout is delayed until view-time, removes the need to make any compromises on typographical quality. Precomputing multiple variants of line breaking, at differing widths, allows the text to fit to a multitude of screen sizes, by displaying one or more columns of whichever \gls{galley} width best fits the page.
 
 Consideration has been given to compression of the resultant documents: `pre-compression' provided by squeezing as much redundancy out of the data as possible whilst still in its uncompressed form that allows constant-time data access, and for `post-compression', by making the uncompressed form as amenable as possible to packing by some generic compression algorithm, which can be used during file transfers or long-term storage.
 
@@ -52,11 +52,11 @@ More generally, the development of the malleable document system has highlighted
 \begin{itemize}
  \item Pre-rendering text layout necessitates that the typeface is chosen ahead of time. Should each document be rendered in a certain set of typefaces, for example for accessibility purposes? Is there a particular subset of typefaces or classes of typeface that provides maximum flexibility, both in terms of user preference and accessibility?
 
-\item In a similar vein, what should be the sampling frequency within the range of included galley renderings? Should this be linear, or would some other sampling frequency that attempts to avoid simple multiples result in a smoother ``sawtooth'' penalty graph (such as that in Figure~\ref{fig:sawtooth} on page~\pageref{fig:sawtooth})?
+\item In a similar vein, what should be the sampling frequency within the range of included \gls{galley} renderings? Should this be linear, or would some other sampling frequency that attempts to avoid simple multiples result in a smoother ``sawtooth'' penalty graph (such as that in Figure~\ref{fig:sawtooth} on page~\pageref{fig:sawtooth})?
 
-\item Is there any benefit in attempting to coordinate breakpoints between different galley renderings, to allow switching between different width galley renderings, for example to support floats that span half-columns? Would this cause the typography to suffer, or would it provide more benefits by giving more flexibility to its layouts?
+\item Is there any benefit in attempting to coordinate breakpoints between different \gls{galley} renderings, to allow switching between different width \gls{galley} renderings, for example to support floats that span half-columns? Would this cause the typography to suffer, or would it provide more benefits by giving more flexibility to its layouts?
 
-\item Should some limited computation be allowed at view-time, for example to adjust letter-spacing or glyph widths in order to provide a better fit for a galley? How much should be allowed before the benefits are outweighed by the computation itself?
+\item Should some limited computation be allowed at view-time, for example to adjust letter-spacing or \gls{glyph} widths in order to provide a better fit for a \gls{galley}? How much should be allowed before the benefits are outweighed by the computation itself?
 
 \item Many documents\ed particularly academic work\ed contain cross-references and footnotes. What is the best way to handle these?% \cite{Thimbleby2011}
 

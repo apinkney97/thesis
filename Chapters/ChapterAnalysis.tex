@@ -69,7 +69,7 @@ select the rendering with the minimum penalty;
 }
 
 
-Then, using the galley rendering that has the lowest penalty, the content is laid out onto the screen:
+Then, using the \gls{galley} rendering that has the lowest penalty, the content is laid out onto the screen:
 
 {\singlespacing
 \begin{lstlisting}
@@ -83,14 +83,14 @@ paint the results to the screen;
 }
 Crucially, a number of complex steps have been moved from view-time to compile-time (as they are for fixed-format documents) but without flowability being sacrificed:
 \begin{itemize}
- \item The source is already parsed into a form optimised for layout
- \item The line-breaking has been entirely precomputed
+ \item The source is already parsed into a form optimised for layout.
+ \item The line-breaking has been entirely precomputed.
 \end{itemize}
-One step has been added: each included galley rendering must be examined once before layout, in order to ascertain its ``penalty'' for use. The penalty is based entirely on the width of the page, and the \gls{measure} (width) of the galley rendering.%, and is described in more detail in Section~\ref{sec:layout}.
+One step has been added: each included \gls{galley} rendering must be examined once before layout, in order to ascertain its ``penalty'' for use. The penalty is based entirely on the width of the page, and the \gls{measure} (width) of the \gls{galley} rendering.%, and is described in more detail in Section~\ref{sec:layout}.
 
 This penalty is calculated by taking the extra required horizontal whitespace (which can be envisaged as slack between columns) and weighting this to further penalise large numbers of columns. This weighting is achieved by multiplying by a smaller-than-linear function of the number of columns, such as a square root or logarithm.
 
-Many low-power processors do not come with floating-point hardware as standard (for example the \textsc{arm} range of processors) which might suggest that these are poor choices of functions since they must be emulated using integer and bitwise operations only. This is not particularly important, for a number of reasons. Firstly, it has been shown previously\hspace{0pt}\cite{Lomont2003} that it is often possible to use mathematical analysis to find extremely good approximations for such functions. Secondly, the range of inputs to such a function would be limited to integers ranging from 1 to (in an extreme case) about 20, so the values could be pre-computed and stored in a lookup table. Thirdly, the penalty (and hence the root or logarithm) is calculated precisely once for each included galley rendering: in Sections \ref{sec:inc-renderings}~and~\ref{sec:survey} it is suggested that between three and ten galley renderings should be included in any one document. Given these facts, it is clear that there will be little impact from using such a function in the penalty calculation. In any case, as Don Knuth famously (and perhaps a little overdramatically) stated: ``\emph{premature optimization is the root of all evil}'' \cite{Knuth1974}.
+Many low-power processors do not come with floating-point hardware as standard (for example the \textsc{arm} range of processors) which might suggest that these are poor choices of functions since they must be emulated using integer and bitwise operations only. This is not particularly important, for a number of reasons. Firstly, it has been shown previously\hspace{0pt}\cite{Lomont2003} that it is often possible to use mathematical analysis to find extremely good approximations for such functions. Secondly, the range of inputs to such a function would be limited to integers ranging from 1 to (in an extreme case) about 20, so the values could be pre-computed and stored in a lookup table. Thirdly, the penalty (and hence the root or logarithm) is calculated precisely once for each included \gls{galley} rendering: in Sections \ref{sec:inc-renderings}~and~\ref{sec:survey} it is suggested that between three and ten \gls{galley} renderings should be included in any one document. Given these facts, it is clear that there will be little impact from using such a function in the penalty calculation. In any case, as Don Knuth famously (and perhaps a little overdramatically) stated: ``\emph{premature optimization is the root of all evil}'' \cite{Knuth1974}.
 
 
 Most importantly, since the line-breaking algorithm has been moved to compile-time, there is no longer any requirement to limit its complexity. In fact, should the need (or desire) arise, the text layout can be hand-tuned, or \emph{entirely hand-typeset}, with no consequences at view-time.
@@ -99,7 +99,7 @@ Most importantly, since the line-breaking algorithm has been moved to compile-ti
 \subsection{Handling of Floats}
 \label{sec:quant-floats}
 
-The grid-based layout system devised in Section~\ref{sec:gridlayout} works in a similar manner to a first-fit line-breaking algorithm, in that it places elements on the page in order, in the first place they will fit. In the case of this system, each element is a floatable figure or line of text. Elements that are the same size as a single grid cell, such as lines of text set in the main point size, can simply be placed in the first empty slot in the current column, or the first empty slot in the next column, should there be no empty spaces.  For the placement of elements that are larger than a single grid cell, there is some overhead required to step through the grid until a suitable position can be found. Once a position has been found, each grid cell that it overlaps must be marked as being reserved.
+The grid-based layout system devised in Section~\ref{sec:gridlayout} works in a similar manner to a first-fit line-breaking algorithm, in that it places elements on the page in order, in the first place they will fit. In the case of this system, each element is a floatable figure or line of text. Elements that are the same size as a single grid cell, such as lines of text set in the main \gls{point} size, can simply be placed in the first empty slot in the current column, or the first empty slot in the next column, should there be no empty spaces.  For the placement of elements that are larger than a single grid cell, there is some overhead required to step through the grid until a suitable position can be found. Once a position has been found, each grid cell that it overlaps must be marked as being reserved.
 
 In the worst case, this algorithm does have a greater-than-linear time complexity. In practice, so long as the number of floats does not become excessive (which would cause the grid to be walked many times to search for suitably large gaps) the algorithm runs in linear time.
 
@@ -144,7 +144,7 @@ Examining the grid layout float placement algorithm specified in Section~\ref{se
 
 \section{User Study}
 \label{sec:survey}
-In order to establish the most appropriate range of galleys to include in a malleable document, as discussed in Section~\ref{sec:inc-renderings}, a user study was conducted. This was also used as a chance to get some general feedback about the malleable document system from a large pool of real-world users.
+In order to establish the most appropriate range of \glspl{galley} to include in a malleable document, as discussed in Section~\ref{sec:inc-renderings}, a user study was conducted. This was also used as a chance to get some general feedback about the malleable document system from a large pool of real-world users.
 
 \subsection{Participants}
 The study was carried out entirely online. Participants were recruited via email circulated around the researchers mailing list at the School of Computer Science, and via a number of posts on the web. No personal data was collected from any participants, though due to the recruitment method, it is a reasonable assumption to make that the majority of the participants had prior experience in reading electronic documents on a screen. In all, the study had 41 participants.
@@ -152,23 +152,23 @@ The study was carried out entirely online. Participants were recruited via email
 \subsection{Methodology}
 Obtaining data that can be interpreted quantitatively from a process that is inherently qualitative can be a challenge. It can be difficult to turn \emph{How good did you think this was?} and \emph{Which one of these is better?} into something from which statistical significance can be taken. With enough respondents and the use of some cunning, this can certainly be achieved.
 
-In this user study, each participant was given a malleable document to read, and then asked for their feedback. Each participant was randomly assigned into one of six groups, labelled from A to F. Participants were not made aware that they had been assigned to a group. Each group was presented with a separate instance of a malleable document. These all had the same textual and graphical content, but contained different ranges of galley renderings.
+In this user study, each participant was given a malleable document to read, and then asked for their feedback. Each participant was randomly assigned into one of six groups, labelled from A to F. Participants were not made aware that they had been assigned to a group. Each group was presented with a separate instance of a malleable document. These all had the same textual and graphical content, but contained different ranges of \gls{galley} renderings.
 
-As mentioned in Section~\ref{sec:inc-renderings}, according a consensus among professional typographers is that lines of text should not normally be less than 30 characters wide, nor wider than 75, and that 40--50 characters is reasonable for multi-column work. The pool of galley widths from which each malleable document instance's included renderings were chosen is shown in Table~\ref{tab:galleypool}. These were chosen to extend slightly beyond this range, whilst providing good coverage across it. The table also shows which of these renderings was included in each group's document.
+As mentioned in Section~\ref{sec:inc-renderings}, according a consensus among professional typographers is that lines of text should not normally be less than 30 characters wide, nor wider than 75, and that 40--50 characters is reasonable for multi-column work. The pool of \gls{galley} widths from which each malleable document instance's included renderings were chosen is shown in Table~\ref{tab:galleypool}. These were chosen to extend slightly beyond this range, whilst providing good coverage across it. The table also shows which of these renderings was included in each group's document.
 
 \begin{table}
 \begin{center}
-\begin{tabular}{rcccccccccc}
+\begin{tabular}{crcccccccccc}
 \toprule
-inches&1.5&2.0&2.5&3.0&3.5&4.0&4.5&5.0&5.5&6.0 \\
-characters&22&28&35&42&49&56&63&70&77&84\\
+\multicolumn{2}{r}{inches}&1.5&2.0&2.5&3.0&3.5&4.0&4.5&5.0&5.5&6.0 \\
+\multicolumn{2}{r}{characters}&22&28&35&42&49&56&63&70&77&84\\
 \midrule
-A\hspace{1em}$315$~\textsc{kb}& \checkmark & \checkmark & & \checkmark \\
-B\hspace{1em}$392$~\textsc{kb}& \checkmark & \checkmark & & \checkmark & & \checkmark \\
-C\hspace{1em}$538$~\textsc{kb}& \checkmark & \checkmark & & \checkmark & & \checkmark & & \checkmark & & \checkmark \\
-D\hspace{1em}$549$~\textsc{kb}& \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
-E\hspace{1em}$839$~\textsc{kb}& \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
-F\hspace{1em}$386$~\textsc{kb}& \checkmark & \checkmark & & & & \checkmark & & & & \checkmark \\
+A & $315$~\textsc{kb}& \checkmark & \checkmark & & \checkmark \\
+B & $392$~\textsc{kb}& \checkmark & \checkmark & & \checkmark & & \checkmark \\
+C & $538$~\textsc{kb}& \checkmark & \checkmark & & \checkmark & & \checkmark & & \checkmark & & \checkmark \\
+D & $549$~\textsc{kb}& \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+E & $839$~\textsc{kb}& \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+F & $386$~\textsc{kb}& \checkmark & \checkmark & & & & \checkmark & & & & \checkmark \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -176,9 +176,9 @@ F\hspace{1em}$386$~\textsc{kb}& \checkmark & \checkmark & & & & \checkmark & & &
 \label{tab:galleypool}
 \end{table}
 
-All documents contained the narrowest two galley renderings. This was to ensure that it would be possible to display the document on an extremely narrow screen and/or with a high scaling factor.
+All documents contained the narrowest two \gls{galley} renderings. This was to ensure that it would be possible to display the document on an extremely narrow screen and/or with a high scaling factor.
 
-Document A was deliberately designed to provide a poor user experience. It had only three galleys, and only one of these was within the range specified above. Documents B and D both contained galleys up to 56 characters in width, and documents C, E and F contained galleys up to 84 characters in width. Documents B and C contained a coarser range of galleys (and hence fewer) than documents D and E. Document F contained the coarsest range of galleys. These ranges and coarsenesses were chosen in order to assess how their changes affect perceived user experience.
+Document A was deliberately designed to provide a poor user experience. It had only three \glspl{galley}, and only one of these was within the range specified above. Documents B and D both contained \glspl{galley} up to 56 characters in width, and documents C, E and F contained \glspl{galley} up to 84 characters in width. Documents B and C contained a coarser range of \glspl{galley} (and hence fewer) than documents D and E. Document F contained the coarsest range of \glspl{galley}. These ranges and coarsenesses were chosen in order to assess how their changes affect perceived user experience.
 
 
 \subsection{Preamble}
@@ -253,7 +253,7 @@ Questions 1 and 2 were designed to assess overall impressions of the system, and
 Participants were also given the opportunity to provide written feedback.
 
 \subsection{Discussion of Results}
-Table~\ref{tab:sampledocs} and Figure~\ref{fig:surveygraph} show the aggregated response data for each group. It is clear that, especially for questions 1 and 2, renderings D and E are by far and away the most consistently highly rated. These were the two documents that had the least coarse range of galley renderings, which suggests that, as seems intuitive, the inclusion of a greater number of galley renderings within a given range provides a better user experience. It is also clear that the smaller maximum galley width used in rendering D has not had a vast adverse affect on its user rating.
+Table~\ref{tab:sampledocs} and Figure~\ref{fig:surveygraph} show the aggregated response data for each group. It is clear that, especially for questions 1 and 2, renderings D and E are by far and away the most consistently highly rated. These were the two documents that had the least coarse range of \gls{galley} renderings, which suggests that, as seems intuitive, the inclusion of a greater number of \gls{galley} renderings within a given range provides a better user experience. It is also clear that the smaller maximum \gls{galley} width used in rendering D has not had a vast adverse affect on its user rating.
 
 As shown in Table~\ref{tab:galleypool}, rendering D's filesize is approximately 65\% of that of rendering E. Figure~\ref{fig:fsgraph} shows the filesizes of each rendering plotted against their mean scores for questions 1 and 2. This quite neatly illustrates each rendering's tradeoff between filesize and perceived quality, and it is easy to identify that rendering D here makes the tradeoff work best.
 

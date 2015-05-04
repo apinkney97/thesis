@@ -19,12 +19,12 @@ Much like typesetting algorithms, few compression algorithms are designed with t
 
 \newpage
 \section{Implementation}
-The most obvious saving that can be made is with the duplication of a document's textual content. The systems described in Chapters \ref{ch:malleable}~and~\ref{ch:floats} both contain as many copies of the document text as there are pre-rendered galleys. In practice, there is no real need for more than one copy to be present in the file. Two approaches to this problem were considered.
+The most obvious saving that can be made is with the duplication of a document's textual content. The systems described in Chapters \ref{ch:malleable}~and~\ref{ch:floats} both contain as many copies of the document text as there are pre-rendered \glspl{galley}. In practice, there is no real need for more than one copy to be present in the file. Two approaches to this problem were considered.
 
 \subsection{Pointers into the Source Text}
 The first approach to be considered was to include the plaintext source of the document in its entirety, and for each rendering to contain only pointers to the relevant sections of text, instead of the words themselves. These pointers can either be absolute (in the form of a character offset from the start of the text) or logical (in the form \emph{paragraph m, word n}). If the document text is to be included as a plaintext string, absolute pointers are easier to use than logical: logical pointers require either an auxiliary data structure to map the logical pointers to absolute ones, or for the document text to be stored in a format reflecting the logical structure, \ie{} not in plain text.
 
-The principal drawback of using this approach is that on occasion, the output of the linebreaking process does not precisely match the input: for example in the case where words are hyphenated (requiring one word to be broken into two parts, and the addition of a hyphen) or where certain glyphs may be substituted for others (such as with the use of ligatures, where a glyph pair or triplet may be replaced with a single glyph). For this reason, this approach was not considered further.
+The principal drawback of using this approach is that on occasion, the output of the linebreaking process does not precisely match the input: for example in the case where words are hyphenated (requiring one word to be broken into two parts, and the addition of a hyphen) or where certain \glspl{glyph} may be substituted for others (such as with the use of ligatures, where a \gls{glyph} pair or triplet may be replaced with a single \gls{glyph}). For this reason, this approach was not considered further.
 
 
 \subsection{Use of a Dictionary}
@@ -141,7 +141,7 @@ Even without making further compression attempts beyond the encoding system show
 
 \clearpage
 \subsection{A Toy Example}
-Here we see a very short document represented using each of the aforementioned compression schemes. Each of the following examples produces the same output document, which contains two galley renderings of one paragraph: ``This is a short sentence''.
+Here we see a very short document represented using each of the aforementioned compression schemes. Each of the following examples produces the same output document, which contains two \gls{galley} renderings of one paragraph: ``This is a short sentence''.
 
 These will be rendered looking something like
 
@@ -265,7 +265,7 @@ This final encoding uses a dictionary that also contains the widths of words, so
 \clearpage
 \section{Results}
 
-The following pages show the evolution of the encoding system, and how the filesizes vary according to the number of included galley renderings, for the same sample documents that are used for Figures \ref{fig:wordfreq}~and~\ref{fig:cumulative}:
+The following pages show the evolution of the encoding system, and how the filesizes vary according to the number of included \gls{galley} renderings, for the same sample documents that are used for Figures \ref{fig:wordfreq}~and~\ref{fig:cumulative}:
 
 \begin{itemize}
 
@@ -373,6 +373,6 @@ A further manner in which the data could be compressed is to take advantage of t
 
 \section{Summary}
 
-The result of the work in this chapter is a reasonably compact version of the document representation model developed in Chapter~\ref{ch:floats}. As an example, a 7-galley malleable version of the King James Bible in the original representation was around 150~\textsc{mb}, and in the most compact representation around 57~\textsc{mb}. This is still considerably larger than the source document (around 4.3~\textsc{mb} as plain text) but does contain data that allows the content to be typeset to seven different widths. The graphs in Figure~\ref{fig:size-deltas} show that each included rendering contributes approximately twice the size of the original plaintext source.
+The result of the work in this chapter is a reasonably compact version of the document representation model developed in Chapter~\ref{ch:floats}. As an example, a 7-\gls{galley} malleable version of the King James Bible in the original representation was around 150~\textsc{mb}, and in the most compact representation around 57~\textsc{mb}. This is still considerably larger than the source document (around 4.3~\textsc{mb} as plain text) but does contain data that allows the content to be typeset to seven different widths. The graphs in Figure~\ref{fig:size-deltas} show that each included rendering contributes approximately twice the size of the original plaintext source.
 
 Since the compression used relies entirely on array lookups, the computational overhead for decompression is kept to a minimum. Dealing with moderately larger file sizes seems a reasonable price to pay.
